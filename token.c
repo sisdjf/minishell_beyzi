@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/06 21:41:42 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/21 23:48:41 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ void	skip_space(char *str, int *i)
 	}
 }
 
+// void	chr_op_space(char *str, int *i)
+// {
+// 	while(str[(*i)])
+// 	{
+		
+// 		if(ft_strncmp(str + (*i), ">", 1) == 0)
+			
+// 		(*i)++;
+// 	}
+	
+// }
 // creer struct token, chercher les operators dedans
 void	chr_operator(char *input, t_token *token, int *i)
 {
@@ -28,8 +39,6 @@ void	chr_operator(char *input, t_token *token, int *i)
 	int		index_str;
 	int		j;
 
-	// if (input[(*i)] == D_REDIR_R || input[(*i)] == HERDOC || input[(*i)] == REDIR_L || input[(*i)] == REDIR_R)
-	// {
 		if (ft_strncmp(input + (*i), ">>", 2) == 0)
 		{
 			token->name = ft_strdup(">>");
@@ -78,7 +87,7 @@ void	chr_operator(char *input, t_token *token, int *i)
 		j = (*i);
 		cmpt = 0;
 		index_str = 0;
-		while (input[j] && input[j] != ' ')
+		while (input[j] && (input[j] != ' ' && input[j] != '|' && input[j] != '>' && input[j] != '<'))
 		{
 			j++;
 			cmpt++;
@@ -115,6 +124,7 @@ int	ft_token(t_stock *stock, char *input)
 		chr_operator(input, new_token, &i);
 		ft_lstadd_back(&stock->token, new_token);
 		printf("token = %s\n", new_token->name);
+		// chr_word(stock->token); //A REVOIRRRRRRRRRR
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/04 21:52:24 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/21 23:43:08 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 // 	// WORD,
 // }					t_sign;
 
-typedef enum				s_sign
+typedef enum s_sign
 {
 	D_REDIR_R,
 	HERDOC,
@@ -100,6 +100,8 @@ char				*ft_double_greats_left(char *input);
 char				*ft_chr_pipe(char *input);
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
+//EXPAND
+void				chr_word(t_token *token);
 
 #endif
 
