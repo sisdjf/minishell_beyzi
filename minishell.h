@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/21 23:43:08 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/25 01:41:37 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int					ft_strcmp(char *s1, char *s2);
 //EXPAND
 void				chr_word(t_token *token);
 
+//BUILTINS
+int					check_n_option(char **cmd);
+int 				echo(char **cmd);
+int 				print_echo(char **cmd, int start);
+int 				strlen_echo(char **array);
 #endif
 
 // #define RESET "\033[0m"
