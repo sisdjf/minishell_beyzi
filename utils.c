@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/02 20:07:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:56:44 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	ft_prompt(t_stock *stock, char *input)
 			return (1);
 		}
 		ft_token(stock, input);
+		chr_word(stock->token); //A REVOIRRRRRRRRRR
 		//peut etre faire un tmp de l input et peut etre que l input je dois le mettre dans token->cmd
 		printf("tt est ok\n");
 		free(input);

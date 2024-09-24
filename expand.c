@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/21 23:49:18 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:06:53 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,31 @@
 
 void	chr_word(t_token *token)
 {
-	int i = 0;
-	while (token && token->type == WORD) //->type : cd 
+	int	i;
+
+	i = 0;
+	while (token) //->type : cd
 	{
-		while (token->name[i])
-        {
-            printf("Je suis la : %s\n", token->name);
-            i++;
-        }
-            
-        token->type = WORD;
-        printf("L expand : %d\n", token->type);
-        i++;
-		break;
+		// if (token->type == WORD)
+		// {
+		// 	while (token->name[i])
+		// 	{
+		// 		printf("Je suis la : %s\n", token->name);
+		// 		i++;
+		// 	}
+		// }
+		if (ft_strchr(token->name,'$'))
+		{
+			printf("LE DOLLAR: %s\n", token->name);
+		}
+		token = token->next;
 	}
 }
 
 // void    ft_expand(char **env)
 // {
-    
+
 // }
-
-
-
-
-
 
 // ls $OUI | wc
 
@@ -58,7 +58,6 @@ void	chr_word(t_token *token)
 // WORD
 
 // ls -R | wc
-
 
 // str = echo
 // WORD

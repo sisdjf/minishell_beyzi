@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/21 23:48:41 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:56:34 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ int	ft_token(t_stock *stock, char *input)
 		chr_operator(input, new_token, &i);
 		ft_lstadd_back(&stock->token, new_token);
 		printf("token = %s\n", new_token->name);
-		// chr_word(stock->token); //A REVOIRRRRRRRRRR
 		i++;
 	}
 	return (0);
