@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/06 21:41:42 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:19:17 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	chr_operator(char *input, t_token *token, int *i)
 		j = (*i);
 		cmpt = 0;
 		index_str = 0;
-		while (input[j] && input[j] != ' ')
+		while (input[j] && input[j] != ' ' && input[j] != '|' && input[j] != '>' && input[j] != '<')
 		{
 			j++;
 			cmpt++;
