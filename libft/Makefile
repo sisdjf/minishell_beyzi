@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hauerbac <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: lybey <lybey@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 13:47:01 by hauerbac          #+#    #+#              #
-#    Updated: 2023/05/10 19:01:41 by hauerbac         ###   ########.fr        #
+#    Updated: 2024/09/24 18:04:21 by lybey            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,21 +66,21 @@ NAME = libft.a
 NAMESO = libft.so
 
 %.o : %.c
-	cc ${CFLAGS} -c $< -o ${<:.c=.o}
+	@cc ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}: ${OBJS}
-	ar rc ${NAME} ${OBJS}
-	ranlib ${NAME}
+	@ar rc ${NAME} ${OBJS}
+	@ranlib ${NAME}
 
 all : ${NAME}
 
 clean:
-	rm -f ${OBJS} ${OBJS_BONUS}
+	@rm -f ${OBJS} ${OBJS_BONUS}
 
 fclean: clean
-	rm -f ${NAME}
-	rm -f ${NAMESO}
-	rm -f a.out
+	@rm -f ${NAME}
+	@rm -f ${NAMESO}
+	@rm -f a.out
 
 re: fclean all
 

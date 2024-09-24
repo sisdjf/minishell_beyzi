@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/24 17:59:21 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/24 18:01:45 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ void	skip_space(char *str, int *i)
 	}
 }
 
+// void	chr_op_space(char *str, int *i)
+// {
+// 	while(str[(*i)])
+// 	{
+		
+// 		if(ft_strncmp(str + (*i), ">", 1) == 0)
+			
+// 		(*i)++;
+// 	}
+	
+// }
 // creer struct token, chercher les operators dedans
 void	chr_operator(char *input, t_token *token, int *i)
 {
@@ -28,8 +39,6 @@ void	chr_operator(char *input, t_token *token, int *i)
 	int		index_str;
 	int		j;
 
-	// if (input[(*i)] == D_REDIR_R || input[(*i)] == HERDOC || input[(*i)] == REDIR_L || input[(*i)] == REDIR_R)
-	// {
 		if (ft_strncmp(input + (*i), ">>", 2) == 0)
 		{
 			token->name = ft_strdup(">>");
@@ -78,7 +87,7 @@ void	chr_operator(char *input, t_token *token, int *i)
 		j = (*i);
 		cmpt = 0;
 		index_str = 0;
-		while (input[j] && input[j] != ' ' && input[j] != '|' && input[j] != '>' && input[j] != '<')
+		while (input[j] && (input[j] != ' ' && input[j] != '|' && input[j] != '>' && input[j] != '<'))
 		{
 			j++;
 			cmpt++;
