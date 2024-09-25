@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/21 23:43:08 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:11:01 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ typedef struct s_token
 	struct s_token	*next;
 	enum s_sign		type;
 }					t_token;
+
+typedef struct s_envp
+{
+	char **env; //variable d env
+	struct s_envp	*next;
+}					t_envp;
 
 typedef struct s_list
 {
@@ -101,7 +107,9 @@ char				*ft_chr_pipe(char *input);
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
 //EXPAND
-void				chr_word(t_token *token);
+void				chr_dollar(t_token *token);
+//ENVP
+void				ft_envp(char **str);
 
 #endif
 

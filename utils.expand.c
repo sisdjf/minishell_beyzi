@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   utils.expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/25 16:40:47 by sizitout         ###   ########.fr       */
+/*   Created: 2024/09/25 17:00:11 by sizitout          #+#    #+#             */
+/*   Updated: 2024/09/25 17:12:31 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void ft_envp(char **str)
 {
-	t_token			*token;
-	static t_stock	stock = {0, 0};
+    t_envp *list_env;
 
-	// t_stock			*stock;
-	token = NULL;
-	// ft_bzero(&token, sizeof(token));
-	if (argc == 1)
-		(void)envp;
-	// (void)argv;
-	// (void)argc;
-	while (1)
-	{
-		ft_prompt(&stock, *argv);
-	}
-	ft_path();
-	return (0);
+    list_env == NULL;
+    while(*str)
+    {
+        ft_lstadd_back(&list_env, *str);
+        str++;
+    }
+    while()
+    {
+        
+    }
 }

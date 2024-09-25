@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/24 20:50:57 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:11:10 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_path(void)
 {
 	char	*path;
 
-	path = getenv("PATH");
+	path = getenv("env");
 	if (path != NULL)
 	{
 		printf("LE PATH : %s\n", path);
@@ -28,7 +28,7 @@ void	ft_path(void)
 		printf("NULL\n");
 	}
 }
-void	chr_word(t_token *token)
+void	chr_dollar(t_token *token)
 {
 	int		i;
 
