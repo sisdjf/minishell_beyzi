@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/25 01:41:37 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/26 00:03:49 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct s_envp
+{
+	char		**env;
+	struct s_envp	*next;
+}					t_envp;
+
 typedef struct s_stock
 {
 	char			**tab;
@@ -107,7 +113,8 @@ void				chr_word(t_token *token);
 int					check_n_option(char **cmd);
 int 				echo(char **cmd);
 int 				print_echo(char **cmd, int start);
-int 				strlen_echo(char **array);
+int 				arg_len(char **array);
+int					pwd(char **cmd);
 #endif
 
 // #define RESET "\033[0m"

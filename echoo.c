@@ -6,14 +6,13 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 01:45:04 by lybey             #+#    #+#             */
-/*   Updated: 2024/09/25 01:46:20 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/25 22:44:14 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
 
-int strlen_echo(char **array)
+int arg_len(char **array)//nb_arg_echo
 {
     int i;
 
@@ -29,6 +28,7 @@ int print_echo(char **cmd, int start)
 {
     int i;
     
+    printf("start = %d\n", start);
     i = start;
     while(cmd[i])
     {
@@ -48,32 +48,37 @@ int    check_n_option(char **cmd)
     int j;
     
     i = 1;
-    while(cmd[i])
+    while(cmd[i])//echo -n hello
     {
-        if(cmd[i][0] != '-')
+        if(cmd[i][0] == '-')
         {
-            j++;
+            printf("cmd = %s\n", cmd[i]);
+            j = 1;
             while(cmd[i][j])
             {
                 if(cmd[i][j] != 'n' && cmd[i][j] != '\0')
-                    return(i);
+                {
+                    return(i);//
+                }
                 j++;
             }
         }
         else
-            return(i);
+            return(i);//
         j = 0;
         i++;
     }
     return(i);
 }
+
 int echo(char **cmd)
 {
     int i;
     int nb_arg;
 
     i = 0;
-    nb_arg = strlen_echo(cmd);
+    // printf("HERE\n");
+    nb_arg = arg_len(cmd);//-n hello // echo helloo hfgjkdfd 
     if(nb_arg == 1)
         printf("\n");
     else if(i < nb_arg)

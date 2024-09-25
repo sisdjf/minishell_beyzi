@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/24 13:56:44 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/25 19:35:39 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_strcmp(char *s1, char *s2)
 
 int	ft_prompt(t_stock *stock, char *input)
 {
-	// (void)stock;
+	(void)stock;
 	while (1)
 	{
 		input = readline("minishell ");
@@ -39,8 +39,8 @@ int	ft_prompt(t_stock *stock, char *input)
 			free(input);
 			return (1);
 		}
-		ft_token(stock, input);
-		chr_word(stock->token); //A REVOIRRRRRRRRRR
+		// ft_token(stock, input);
+		// chr_word(stock->token); //A REVOIRRRRRRRRRR
 		//peut etre faire un tmp de l input et peut etre que l input je dois le mettre dans token->cmd
 		printf("tt est ok\n");
 		free(input);
