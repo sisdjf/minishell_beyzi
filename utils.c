@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/24 13:56:44 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/24 20:49:11 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,7 @@ int	ft_prompt(t_stock *stock, char *input)
 	}
 	return (0);
 }
-void	ft_path(void)
-{
-	char	*path;
 
-	path = getenv("PATH");
-	if (path != NULL)
-		printf("path=%s\n", path);
-}
 
 // int	interpret(char *str, char *ptr)
 // {

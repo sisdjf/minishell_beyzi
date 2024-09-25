@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/24 14:06:53 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/24 20:50:57 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,23 @@
 
 //FONCTION FAITE LE 21 SEPT A REVOIR
 
+void	ft_path(void)
+{
+	char	*path;
+
+	path = getenv("PATH");
+	if (path != NULL)
+	{
+		printf("LE PATH : %s\n", path);
+	}
+	else
+	{
+		printf("NULL\n");
+	}
+}
 void	chr_word(t_token *token)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (token) //->type : cd
@@ -29,9 +43,10 @@ void	chr_word(t_token *token)
 		// 		i++;
 		// 	}
 		// }
-		if (ft_strchr(token->name,'$'))
+		if (ft_strchr(token->name, '$'))
 		{
 			printf("LE DOLLAR: %s\n", token->name);
+			ft_path();
 		}
 		token = token->next;
 	}
