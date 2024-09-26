@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/24 13:56:34 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/26 23:57:59 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,7 @@ void	skip_space(char *str, int *i)
 	}
 }
 
-// void	chr_op_space(char *str, int *i)
-// {
-// 	while(str[(*i)])
-// 	{
-		
-// 		if(ft_strncmp(str + (*i), ">", 1) == 0)
-			
-// 		(*i)++;
-// 	}
-	
-// }
-// creer struct token, chercher les operators dedans
+
 void	chr_operator(char *input, t_token *token, int *i)
 {
 	char	*str;
@@ -81,7 +70,6 @@ void	chr_operator(char *input, t_token *token, int *i)
 			token->next = NULL;
 			return ;
 		}
-	// }
 	else
 	{
 		j = (*i);
@@ -128,6 +116,18 @@ int	ft_token(t_stock *stock, char *input)
 	}
 	return (0);
 }
+void free_tokens(t_token *token)
+{
+	t_token *next;
+    while (token)
+    {
+        next = token->next;
+        free(token->name); 
+        free(token); 
+        token = next; 
+    }
+}
+
 
 // redirection
 // <

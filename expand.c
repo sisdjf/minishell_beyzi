@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/25 20:49:39 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:10:05 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 
 //FONCTION FAITE LE 21 SEPT A REVOIR
 
+//A REVOIR LA FONCTION
 
-//A REVOIR LA FONCTION 
+// void	ft_path(void)
+// {
+// 	char	*path;
 
-void	ft_path(void)
+// 	path = getenv("PATH");
+// 	if (path != NULL)
+// 	{
+// 		printf("LE PATH : %s\n", path);
+// 	}
+// 	else
+// 	{
+// 		printf("NULL\n");
+// 	}
+// }
+
+void	chr_dollar(t_stock *stock, t_token *token)
 {
-	char	*path;
-
-	path = getenv("PATH");
-	if (path != NULL)
-	{
-		printf("LE PATH : %s\n", path);
-	}
-	else
-	{
-		printf("NULL\n");
-	}
-}
-
-void	chr_dollar(t_token *token)
-{
-	int		i;
+	int	i;
 
 	i = 0;
 	while (token) //->type : cd
@@ -49,8 +48,14 @@ void	chr_dollar(t_token *token)
 		// }
 		if (ft_strchr(token->name, '$'))
 		{
+			print_envp(stock->env);
 			printf("LE DOLLAR: %s\n", token->name);
-			ft_path();
+		}
+
+		if (ft_strncmp(token->name, "env", 3) == 0)
+		{
+			print_envp(stock->env);
+			printf("OKIJFHUE %s\n", token->name);
 		}
 		token = token->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/26 18:58:45 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:13:29 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ typedef struct s_token
 
 typedef struct s_envp
 {
-	char **env; //variable d env
+	char **env;   //variable d env
+	char *before; // avanr le =
+	char *after;  // apres le =
 	struct s_envp	*next;
 }					t_envp;
 
@@ -67,8 +69,8 @@ typedef struct s_list
 
 typedef struct s_stock
 {
-	char 			*env;
-	char			**tab;
+	char			**env;
+	// char			**tab;
 	t_token			*token;
 }					t_stock;
 
@@ -99,6 +101,7 @@ void				ft_lstadd_back(t_token **token, t_token *new);
 void				skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
 void				chr_operator(char *input, t_token *token, int *i);
+void				free_tokens(t_token *token);
 //CHR_OPERATOR
 char				*ft_greats_right(char *input);
 char				*ft_greats_left(char *input);
@@ -108,9 +111,10 @@ char				*ft_chr_pipe(char *input);
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
 //EXPAND
-void				chr_dollar(t_token *token);
+void				chr_dollar(t_stock *stock, t_token *token);
 //ENVP
-void				ft_envp(t_envp *env);
+void				print_envp(char **env);
+void				ft_envp(t_envp **env);
 
 #endif
 
