@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/25 19:35:39 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/26 21:56:15 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ int	ft_strcmp(char *s1, char *s2)
 
 int	ft_prompt(t_stock *stock, char *input)
 {
+	int	i;
+
 	(void)stock;
 	while (1)
 	{
+		i = 0;
 		input = readline("minishell ");
 		if (!input)
 			return (1);
@@ -39,45 +42,23 @@ int	ft_prompt(t_stock *stock, char *input)
 			free(input);
 			return (1);
 		}
-		// ft_token(stock, input);
-		// chr_word(stock->token); //A REVOIRRRRRRRRRR
-		//peut etre faire un tmp de l input et peut etre que l input je dois le mettre dans token->cmd
+		ft_token(stock, input);
+		if (!stock->tab)
+		{
+			printf("Erreur: stock->tab est NULL\n");
+			free(input);
+			return (1);
+		}
 		printf("tt est ok\n");
 		free(input);
 	}
 	return (0);
 }
-void	ft_path(void)
-{
-	char	*path;
-
-	path = getenv("PATH");
-	if (path != NULL)
-		printf("path=%s\n", path);
-}
-
-// int	interpret(char *str, char *ptr)
+// void	ft_path(void)
 // {
-// 	int		i;
-// 	int		flag;
-// 	char	quote;
+// 	char	*path;
 
-// 	i = 0;
-// 	flag = 1;
-// 	while (str[i] && &str[i] != ptr)
-// 	{
-// 		if (str[i] == '\'' || str[i] == '"')
-// 		{
-// 			flag = -flag;
-// 			quote = str[i++];
-// 			while (str[i] && &str[i] != ptr && str[i] != quote)
-// 				i++;
-// 			if (str[i] && &str[i] != ptr && str[i] == quote)
-// 				flag = -flag;
-// 		}
-// 		i++;
-// 	}
-// 	if (flag < 0)
-// 		return (1);
-// 	return (0);
+// 	path = getenv("PATH");
+// 	if (path != NULL)
+// 		printf("path=%s\n", path);
 // }

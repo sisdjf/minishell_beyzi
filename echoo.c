@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 01:45:04 by lybey             #+#    #+#             */
-/*   Updated: 2024/09/25 22:44:14 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/26 21:55:22 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,23 @@ int echo(char **cmd)
         print_echo(cmd, i);
     }
     return (0);
+}
+
+int test_echo(t_stock *stock)
+{
+    int i = 0;
+        while (stock->tab[i])
+		{
+			if (strcmp(stock->tab[i], "echo") == 0)
+			{
+				printf("argv 2 = %s\n", stock->tab[i]);
+				echo(&stock->tab[i]); //echo -n h
+			}
+			else
+			{
+				printf("another builtin\n");
+			}
+			i++;
+		}
+	return (0);
 }
