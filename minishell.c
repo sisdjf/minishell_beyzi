@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/25 16:40:47 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:59:15 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_token			*token;
-	static t_stock	stock = {0, 0};
+	static t_stock	stock = {0};
 
 	// t_stock			*stock;
 	token = NULL;

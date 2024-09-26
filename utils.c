@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/25 17:11:24 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:58:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	ft_prompt(t_stock *stock, char *input)
 			return (1);
 		}
 		ft_token(stock, input);
-		chr_dollar(stock->token); //A REVOIRRRRRRRRRR
+		// chr_dollar(stock->token); //A REVOIRRRRRRRRRR
+		ft_envp(stock->env);
 		//peut etre faire un tmp de l input et peut etre que l input je dois le mettre dans token->cmd
 		printf("tt est ok\n");
 		free(input);

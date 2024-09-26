@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/25 17:11:01 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:58:45 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_list
 
 typedef struct s_stock
 {
+	char 			*env;
 	char			**tab;
 	t_token			*token;
 }					t_stock;
@@ -109,7 +110,7 @@ int					ft_strcmp(char *s1, char *s2);
 //EXPAND
 void				chr_dollar(t_token *token);
 //ENVP
-void				ft_envp(char **str);
+void				ft_envp(t_envp *env);
 
 #endif
 

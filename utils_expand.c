@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.expand.c                                     :+:      :+:    :+:   */
+/*   utils_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 17:00:11 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/25 17:12:31 by sizitout         ###   ########.fr       */
+/*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
+/*   Updated: 2024/09/26 19:00:40 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_envp(char **str)
+void ft_envp(t_envp *env)
 {
-    t_envp *list_env;
-
-    list_env == NULL;
-    while(*str)
+    while(env != NULL)
     {
-        ft_lstadd_back(&list_env, *str);
-        str++;
-    }
-    while()
-    {
-        
+        env = env->next;
+        printf("%s\n", env);
     }
 }
