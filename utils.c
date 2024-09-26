@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/26 21:56:15 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/26 22:12:04 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	ft_prompt(t_stock *stock, char *input)
 			return (1);
 		}
 		ft_token(stock, input);
+		test_echo(stock);
 		if (!stock->tab)
 		{
 			printf("Erreur: stock->tab est NULL\n");
