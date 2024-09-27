@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 00:47:52 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/28 00:56:44 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,13 @@ int					ft_strcmp(char *s1, char *s2);
 //EXPAND
 void				chr_dollar(t_stock *stock, t_token *token);
 //ENVP
-void				print_envp(char **env);
-void				ft_envp(t_envp **env);
-// int					chr_equal(char *str);
-// t_envp				*ft_lstnew_envp(char *env_str);
-// void				ft_lstadd_back_envp(t_envp **token, t_envp *new);
-// void				stock_env_lst(char **env, t_stock *stock);
-// void				print_lst_envp(t_stock *stock);
+// void				print_envp(char **env);
+// void				ft_envp(t_envp **env);
+int					chr_equal(char *str);
+t_envp				*ft_lstnew_envp(char *env_str);
+void				ft_lstadd_back_envp(t_envp **token, t_envp *new);
+void				stock_env_lst(char **env, t_stock *stock);
+void				print_lst_envp(t_stock *stock);
 
 #endif
 
