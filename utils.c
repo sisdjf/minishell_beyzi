@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/27 00:02:53 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/28 00:48:00 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	ft_prompt(t_stock *stock, char *input)
 	// (void)stock;
 	while ((input = readline("minishell ")) != NULL)
 	{
-		// if (!input)
-		// 	return (1);
+		if (!input)
+			return (1);
 		add_history(input);
 		// printf("%s\n", input);
 		if (syntax_error(input))
@@ -39,12 +39,13 @@ int	ft_prompt(t_stock *stock, char *input)
 			return (1);
 		}
 		free_tokens(stock->token);
-        stock->token = NULL;
-		if(ft_token(stock, input) != 0)
+		stock->token = NULL;
+		if (ft_token(stock, input) != 0)
 		{
 			free(input);
-			return(1);
+			return (1);
 		}
+		// stock_env_lst(stock->env, stock);
 		chr_dollar(stock, stock->token); //A REVOIRRRRRRRRRR
 		//peut etre faire un tmp de l input et peut etre que l input je dois le mettre dans token->cmd
 		printf("tt est ok\n");

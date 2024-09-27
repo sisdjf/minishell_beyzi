@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/27 00:13:29 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/28 00:47:52 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ typedef struct s_token
 
 typedef struct s_envp
 {
-	char **env;   //variable d env
-	char *before; // avanr le =
-	char *after;  // apres le =
+	char *env_str; //variable d env
+	char *before;  // avanr le =
+	char *after;   // apres le =
 	struct s_envp	*next;
 }					t_envp;
 
@@ -72,6 +72,7 @@ typedef struct s_stock
 	char			**env;
 	// char			**tab;
 	t_token			*token;
+	t_envp			*envp;
 }					t_stock;
 
 int					ft_prompt(t_stock *stock, char *input);
@@ -115,6 +116,11 @@ void				chr_dollar(t_stock *stock, t_token *token);
 //ENVP
 void				print_envp(char **env);
 void				ft_envp(t_envp **env);
+// int					chr_equal(char *str);
+// t_envp				*ft_lstnew_envp(char *env_str);
+// void				ft_lstadd_back_envp(t_envp **token, t_envp *new);
+// void				stock_env_lst(char **env, t_stock *stock);
+// void				print_lst_envp(t_stock *stock);
 
 #endif
 
