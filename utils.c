@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/24 13:56:44 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/28 16:21:07 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,19 @@ int	ft_strcmp(char *s1, char *s2)
 
 int	ft_prompt(t_stock *stock, char *input)
 {
-	// (void)stock;
 	while (1)
 	{
 		input = readline("minishell ");
 		if (!input)
 			return (1);
 		add_history(input);
-		// printf("%s\n", input);
 		if (syntax_error(input))
 		{
 			free(input);
 			return (1);
 		}
 		ft_token(stock, input);
-		chr_word(stock->token); //A REVOIRRRRRRRRRR
-		//peut etre faire un tmp de l input et peut etre que l input je dois le mettre dans token->cmd
+		chr_word(stock->token);
 		printf("tt est ok\n");
 		free(input);
 	}
@@ -55,29 +52,3 @@ void	ft_path(void)
 	if (path != NULL)
 		printf("path=%s\n", path);
 }
-
-// int	interpret(char *str, char *ptr)
-// {
-// 	int		i;
-// 	int		flag;
-// 	char	quote;
-
-// 	i = 0;
-// 	flag = 1;
-// 	while (str[i] && &str[i] != ptr)
-// 	{
-// 		if (str[i] == '\'' || str[i] == '"')
-// 		{
-// 			flag = -flag;
-// 			quote = str[i++];
-// 			while (str[i] && &str[i] != ptr && str[i] != quote)
-// 				i++;
-// 			if (str[i] && &str[i] != ptr && str[i] == quote)
-// 				flag = -flag;
-// 		}
-// 		i++;
-// 	}
-// 	if (flag < 0)
-// 		return (1);
-// 	return (0);
-// }

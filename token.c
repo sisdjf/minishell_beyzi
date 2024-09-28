@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/24 13:56:34 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/28 16:26:04 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ void	skip_space(char *str, int *i)
 	}
 }
 
-// void	chr_op_space(char *str, int *i)
-// {
-// 	while(str[(*i)])
-// 	{
-		
-// 		if(ft_strncmp(str + (*i), ">", 1) == 0)
-			
-// 		(*i)++;
-// 	}
-	
-// }
-// creer struct token, chercher les operators dedans
 void	chr_operator(char *input, t_token *token, int *i)
 {
 	char	*str;
@@ -128,39 +116,3 @@ int	ft_token(t_stock *stock, char *input)
 	}
 	return (0);
 }
-
-// redirection
-// <
-// >
-// <<
-// >
-// >
-
-// fichier
-// a
-// b
-// -R
-// ls
-// bonjour
-
-// arguments
-// echo
-// -l
-// hello
-
-// commande
-// hello
-
-// struct token
-// {
-//     char **files = ["ls", "-R", "bonjour", "a", "b"];
-//     char **arg = ["hello", "echo", "-l"];
-//     int *redir = [1, 2, 4, 2, 2];
-//     char *cmd = arg[0];
-// };
-
-// apres un chevron CEST FORCEMENT un fichier
-// tout ce qui est ni un fichier ni une redirection EST un argument
-// le premier argument = la commande
-
-// -R > avion < ls >> bonjour < echo -s
