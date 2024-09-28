@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 01:33:31 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:14:15 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	chr_dollar(t_stock *stock, t_token *token)
 			if (stock->env)
 			{
 				stock_env_lst(stock->env, stock);
+				// print_lst_envp(stock);
 				printf("LE DOLLAR: %s\n", token->name);
 			}
 			// print_envp(stock->env);

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 00:29:49 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 01:32:57 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/09/28 01:36:24 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	stock_env_lst(char **env, t_stock *stock)
 		{
 			ft_lstadd_back_envp(&stock->envp, ft_lstnew_envp(env[i]));
 			printf("%s\n", env[i]);
+            print_lst_envp(stock);
 		}
 		i++;
 	}
