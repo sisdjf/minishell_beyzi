@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 01:26:33 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/01 22:27:25 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	ft_prompt(t_stock *stock, char *input, char **envp)
 		if (!input)
 			return (1);
 		add_history(input);
-		// printf("%s\n", input);
 		if (syntax_error(input))
 		{
 			free(input);
@@ -41,17 +40,44 @@ int	ft_prompt(t_stock *stock, char *input, char **envp)
 		free_tokens(stock->token);
 		stock->token = NULL;
 		ft_token(stock, input);
-		builtins(stock, envp);
+		chr_word(stock->token); //A REVOIRRRRRRRRRR
+		//peut etre faire un tmp de l input et peut etre que l input je dois le mettre dans token->cmd
 		printf("tt est ok\n");
 		free(input);
 	}
 	return (0);
 }
-// void	ft_path(void)
-// {
-// 	char	*path;
+void	ft_path(void)
+{
+	char	*path;
 
-// 	path = getenv("PATH");
-// 	if (path != NULL)
-// 		printf("path=%s\n", path);
+	path = getenv("PATH");
+	if (path != NULL)
+		printf("path=%s\n", path);
+}
+
+// int	interpret(char *str, char *ptr)
+// {
+// 	int		i;
+// 	int		flag;
+// 	char	quote;
+
+// 	i = 0;
+// 	flag = 1;
+// 	while (str[i] && &str[i] != ptr)
+// 	{
+// 		if (str[i] == '\'' || str[i] == '"')
+// 		{
+// 			flag = -flag;
+// 			quote = str[i++];
+// 			while (str[i] && &str[i] != ptr && str[i] != quote)
+// 				i++;
+// 			if (str[i] && &str[i] != ptr && str[i] == quote)
+// 				flag = -flag;
+// 		}
+// 		i++;
+// 	}
+// 	if (flag < 0)
+// 		return (1);
+// 	return (0);
 // }
