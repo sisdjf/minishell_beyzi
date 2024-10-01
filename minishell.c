@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 01:33:47 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/01 23:23:15 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,11 @@
 // 	stock->env[i] = NULL;
 // }
 
-
-
 int	main(int argc, char **argv, char **env)
 {
 	static t_stock	stock = {0};
-	// stock_env_lst(env, &stock);
-	// ft_bzero(&token, sizeof(token));
-	if (argc == 1)
-	{
-		stock.env = env;
-	}
-		(void)env;
+	stock_env_lst(env, &stock);
 	(void)argc;
-	(void)argv;
 	while (1)
 	{
 		ft_prompt(&stock, *argv);

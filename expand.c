@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 21:49:49 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/01 23:23:37 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ void	chr_dollar(t_stock *stock, t_token *token)
 	{
 		if (ft_strchr(token->name, '$'))
 		{
-			if (stock->env)
+			if (stock->envp)
 			{
-				stock_env_lst(stock->env, stock);
-				// print_lst_envp(stock);
-				ft_expand(stock->envp);
+				// ft_expand(stock->envp);
 				printf("LE DOLLAR: %s\n", token->name);
 			}
 			// print_envp(stock->env);
@@ -49,6 +47,10 @@ void	ft_expand(t_envp *env)
 	while(env)
 	{
 		if(ft_strcmp(env->key, env->env_str) == 0)
+		{
+			printf("%s\n", env->env_str);
+			printf("OK OK OK OK OK OK OK OK OK OK\n");
+		}
 			printf(" JUSTE POUR VOIR %s", env->key);
 		env = env->next;	
 	}

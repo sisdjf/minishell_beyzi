@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 21:48:31 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/01 22:56:27 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_list
 
 typedef struct s_stock
 {
-	char			**env;
 	// char			**tab;
 	t_token			*token;
 	t_envp			*envp;
