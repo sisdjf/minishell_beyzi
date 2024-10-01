@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 22:26:19 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/01 23:54:07 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	chr_operator(char *input, t_token *token, int *i)
 		}
 		else if (ft_strncmp(input + (*i), ">", 1) == 0)
 		{
-			token->name = ft_strdup(">");
+			token->name = ft_strdup(">");SRCS = minishell.c utils.c operator.c single_greater.c double_greater.c token.c utils.lst.c expand.c 
+
 			token->type = REDIR_R;
 			printf("type >: %d\n", token->type);
 			token->next = NULL;
@@ -69,7 +70,6 @@ void	chr_operator(char *input, t_token *token, int *i)
 			token->next = NULL;
 			return ;
 		}
-	// }
 	else
 	{
 		j = (*i);
@@ -116,6 +116,18 @@ int	ft_token(t_stock *stock, char *input)
 	}
 	return (0);
 }
+void free_tokens(t_token *token)
+{
+	t_token *next;
+    while (token)
+    {
+        next = token->next;
+        free(token->name); 
+        free(token); 
+        token = next; 
+    }
+}
+
 
 // redirection
 // <

@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 22:29:47 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/01 23:55:28 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,8 @@ int	ft_prompt(t_stock *stock, char *input, char **envp)
 			free(input);
 			return (1);
 		}
-		free_tokens(stock->token);
-		stock->token = NULL;
 		ft_token(stock, input);
-		chr_word(stock->token); //A REVOIRRRRRRRRRR
-		//peut etre faire un tmp de l input et peut etre que l input je dois le mettre dans token->cmd
+		chr_word(stock->token);
 		printf("tt est ok\n");
 		free(input);
 	}
@@ -55,29 +52,3 @@ void	ft_path(void)
 	if (path != NULL)
 		printf("path=%s\n", path);
 }
-
-// int	interpret(char *str, char *ptr)
-// {
-// 	int		i;
-// 	int		flag;
-// 	char	quote;
-
-// 	i = 0;
-// 	flag = 1;
-// 	while (str[i] && &str[i] != ptr)
-// 	{
-// 		if (str[i] == '\'' || str[i] == '"')
-// 		{
-// 			flag = -flag;
-// 			quote = str[i++];
-// 			while (str[i] && &str[i] != ptr && str[i] != quote)
-// 				i++;
-// 			if (str[i] && &str[i] != ptr && str[i] == quote)
-// 				flag = -flag;
-// 		}
-// 		i++;
-// 	}
-// 	if (flag < 0)
-// 		return (1);
-// 	return (0);
-// }

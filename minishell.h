@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 23:31:34 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/01 23:53:22 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ typedef struct s_token
 	enum s_sign		type; 
 }					t_token;
 
+typedef struct s_envp
+{
+	char *env_str; //variable d env
+	char *key;     // avanr le =
+	char *value;   // apres le =
+	struct s_envp	*next;
+}					t_envp;
+
 typedef struct s_list
 {
 	int				sort;
@@ -67,8 +75,9 @@ typedef struct s_envp
 
 typedef struct s_stock
 {
-	char			**tab;
+	// char			**tab;
 	t_token			*token;
+	t_envp			*envp;
 }					t_stock;
 
 int					ft_prompt(t_stock *stock, char *input, char **envp);
@@ -98,7 +107,6 @@ void				ft_lstadd_back(t_token **token, t_token *new);
 void				skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
 void				chr_operator(char *input, t_token *token, int *i);
-void 				free_tokens(t_token *token);
 //CHR_OPERATOR
 char				*ft_greats_right(char *input);
 char				*ft_greats_left(char *input);
@@ -108,7 +116,16 @@ char				*ft_chr_pipe(char *input);
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
 //EXPAND
-void				chr_word(t_token *token);
+void				chr_dollar(t_stock *stock, t_token *token);
+void				ft_expand(t_envp *env);
+//ENVP
+// void				print_envp(char **env);
+// void				ft_envp(t_envp **env);
+int					chr_equal(char *str);
+t_envp				*ft_lstnew_envp(char *env_str);
+void				ft_lstadd_back_envp(t_envp **token, t_envp *new);
+void				stock_env_lst(char **env, t_stock *stock);
+void				print_lst_envp(t_stock *stock);
 
 //BUILTINS
 int					check_n_option(char **cmd);
