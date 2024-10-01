@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/26 22:08:58 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/28 01:26:59 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_token
 {
 	char *name; // ">"
 	struct s_token	*next;
-	enum s_sign		type;
+	enum s_sign		type; 
 }					t_token;
 
 typedef struct s_list
@@ -71,7 +71,7 @@ typedef struct s_stock
 	t_token			*token;
 }					t_stock;
 
-int					ft_prompt(t_stock *stock, char *input);
+int					ft_prompt(t_stock *stock, char *input, char **envp);
 void				ft_path(void);
 //GUILLEMETS
 int					ft_quotes(char *str);
@@ -98,6 +98,7 @@ void				ft_lstadd_back(t_token **token, t_token *new);
 void				skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
 void				chr_operator(char *input, t_token *token, int *i);
+void 				free_tokens(t_token *token);
 //CHR_OPERATOR
 char				*ft_greats_right(char *input);
 char				*ft_greats_left(char *input);
@@ -116,6 +117,7 @@ int 				print_echo(char **cmd, int start);
 int 				arg_len(char **array);
 int					pwd(char **cmd);
 int					test_echo(t_stock *stock);
+int 				builtins(t_stock *stock, char **envp);
 #endif
 
 // #define RESET "\033[0m"

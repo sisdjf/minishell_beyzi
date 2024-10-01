@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/24 18:01:45 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/28 01:24:59 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,19 @@ int	ft_token(t_stock *stock, char *input)
 	}
 	return (0);
 }
+
+void free_tokens(t_token *token)
+{
+	t_token *next;
+    while (token)
+    {
+        next = token->next;
+        free(token->name); 
+        free(token); 
+        token = next; 
+    }
+}
+
 
 // redirection
 // <

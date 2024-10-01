@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/26 22:12:04 by lybey            ###   ########.fr       */
+/*   Updated: 2024/09/28 01:26:33 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,10 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	ft_prompt(t_stock *stock, char *input)
+int	ft_prompt(t_stock *stock, char *input, char **envp)
 {
-	int	i;
-
-	(void)stock;
 	while (1)
 	{
-		i = 0;
 		input = readline("minishell ");
 		if (!input)
 			return (1);
@@ -42,14 +38,10 @@ int	ft_prompt(t_stock *stock, char *input)
 			free(input);
 			return (1);
 		}
+		free_tokens(stock->token);
+		stock->token = NULL;
 		ft_token(stock, input);
-		test_echo(stock);
-		if (!stock->tab)
-		{
-			printf("Erreur: stock->tab est NULL\n");
-			free(input);
-			return (1);
-		}
+		builtins(stock, envp);
 		printf("tt est ok\n");
 		free(input);
 	}
