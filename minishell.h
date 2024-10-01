@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 00:56:44 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:48:31 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ typedef struct s_token
 typedef struct s_envp
 {
 	char *env_str; //variable d env
-	char *before;  // avanr le =
-	char *after;   // apres le =
+	char *key;     // avanr le =
+	char *value;   // apres le =
 	struct s_envp	*next;
 }					t_envp;
 
@@ -113,6 +113,7 @@ char				*ft_chr_pipe(char *input);
 int					ft_strcmp(char *s1, char *s2);
 //EXPAND
 void				chr_dollar(t_stock *stock, t_token *token);
+void				ft_expand(t_envp *env);
 //ENVP
 // void				print_envp(char **env);
 // void				ft_envp(t_envp **env);

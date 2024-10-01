@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 00:29:49 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 01:36:24 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:58:32 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ t_envp	*ft_lstnew_envp(char *env_str)
 		return (NULL);
 	}
 	new->env_str = ft_strdup(env_str);
-	new->before = ft_substr(env_str, 0, chr_equal(env_str));
-	new->after = ft_substr(env_str, (chr_equal(env_str) + 1),
+	new->key = ft_substr(env_str, 0, chr_equal(env_str));
+	new->value = ft_substr(env_str, (chr_equal(env_str) + 1),
 			ft_strlen(env_str));
+	new->next = NULL;
 	return (new);
 }
 
@@ -75,8 +76,8 @@ void	stock_env_lst(char **env, t_stock *stock)
 		if (new_node) // Ne l'ajoute que si non-NULL
 		{
 			ft_lstadd_back_envp(&stock->envp, ft_lstnew_envp(env[i]));
-			printf("%s\n", env[i]);
-            print_lst_envp(stock);
+			print_lst_envp(stock);
+			// printf("%s\n", env[i]); //POUR TT L ENV
 		}
 		i++;
 	}
@@ -86,8 +87,9 @@ void	print_lst_envp(t_stock *stock)
 {
 	while (stock->envp)
 	{
-		printf("Before -> %s\n", stock->envp->before);
-		printf("After -> %s\n", stock->envp->after);
+		printf("KEY -> %s\n", stock->envp->key);
+		printf("VALUE -> %s\n", stock->envp->value);
+		// printf("%p\n", stock->envp);
 		stock->envp = stock->envp->next;
 	}
 }

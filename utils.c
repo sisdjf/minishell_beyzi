@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 01:09:13 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:27:47 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	ft_strcmp(char *s1, char *s2)
 int	ft_prompt(t_stock *stock, char *input)
 {
 	// (void)stock;
-	while ((input = readline("minishell ")) != NULL)
+	while (1)
 	{
+		input = readline("minishell ");
 		if (!input)
 			return (1);
 		add_history(input);
-		// printf("%s\n", input);
 		if (syntax_error(input))
 		{
 			free(input);
@@ -45,7 +45,6 @@ int	ft_prompt(t_stock *stock, char *input)
 			free(input);
 			return (1);
 		}
-		// stock_env_lst(stock->env, stock);
 		chr_dollar(stock, stock->token); //A REVOIRRRRRRRRRR
 		printf("tt est ok\n");
 		free(input);
