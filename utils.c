@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 16:21:07 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/01 23:43:06 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,16 @@ int	ft_prompt(t_stock *stock, char *input)
 			free(input);
 			return (1);
 		}
-		ft_token(stock, input);
-		chr_word(stock->token);
+		free_tokens(stock->token);
+		stock->token = NULL;
+		if (ft_token(stock, input) != 0)
+		{
+			free(input);
+			return (1);
+		}
+		chr_dollar(stock, stock->token); //A REVOIRRRRRRRRRR
 		printf("tt est ok\n");
 		free(input);
 	}
 	return (0);
-}
-void	ft_path(void)
-{
-	char	*path;
-
-	path = getenv("PATH");
-	if (path != NULL)
-		printf("path=%s\n", path);
 }

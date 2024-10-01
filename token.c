@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/28 16:26:04 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/01 23:39:15 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	chr_operator(char *input, t_token *token, int *i)
 			token->next = NULL;
 			return ;
 		}
-	// }
 	else
 	{
 		j = (*i);
@@ -116,3 +115,51 @@ int	ft_token(t_stock *stock, char *input)
 	}
 	return (0);
 }
+void free_tokens(t_token *token)
+{
+	t_token *next;
+    while (token)
+    {
+        next = token->next;
+        free(token->name); 
+        free(token); 
+        token = next; 
+    }
+}
+
+
+// redirection
+// <
+// >
+// <<
+// >
+// >
+
+// fichier
+// a
+// b
+// -R
+// ls
+// bonjour
+
+// arguments
+// echo
+// -l
+// hello
+
+// commande
+// hello
+
+// struct token
+// {
+//     char **files = ["ls", "-R", "bonjour", "a", "b"];
+//     char **arg = ["hello", "echo", "-l"];
+//     int *redir = [1, 2, 4, 2, 2];
+//     char *cmd = arg[0];
+// };
+
+// apres un chevron CEST FORCEMENT un fichier
+// tout ce qui est ni un fichier ni une redirection EST un argument
+// le premier argument = la commande
+
+// -R > avion < ls >> bonjour < echo -s
