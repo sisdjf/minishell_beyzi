@@ -6,31 +6,73 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/09/27 00:24:00 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/01 23:29:57 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_cd(char **cmd, char **env)
+
+int check_args_cd(t_stock *stock, char **cmd)
 {
+    int i;
+
+    i = 0;
+    while(cmd[i])
+        i++;
+    if(i > 2)
+    {
+        printf("cd : too many arguments\n");
+        return (0);
+    }
+    return(1);
+}
+
+char *find_env_var(t_envp *env)
+{
+    t_envp  *tmp;
+    
+    tmp = env;
+    while(tmp)
+    {
+        if(!ft_strcmp(tmp->key, "HOME"))
+            return((tmp->value));
+        tmp = tmp->next;
+    }
+    return (NULL);
+}
+
+
+
+
+
+int ft_cd(char **cmd, t_envp env)
+{
+    int ret;
+    char *path;
+
+    if
+
     
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Fonction pour trouver une variable dans l'environnement
-int find_env_var(char **env, const char *var)
-{
-    int i = 0;
-    int len = ft_strlen(var);
-    
-    while (env[i])
-    {
-        if (ft_strncmp(env[i], var, len) == 0 && env[i][len] == '=')
-            return i;
-        i++;
-    }
-    return -1;  // Variable non trouvée
-}
 
 // Fonction pour mettre à jour ou ajouter une variable d'environnement
 
