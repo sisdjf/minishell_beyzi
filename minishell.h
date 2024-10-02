@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 22:56:27 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/02 01:39:21 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char				*ft_chr_pipe(char *input);
 int					ft_strcmp(char *s1, char *s2);
 //EXPAND
 void				chr_dollar(t_stock *stock, t_token *token);
-void				ft_expand(t_envp *env);
+void				ft_expand(t_envp *env, char *key_start);
 //ENVP
 // void				print_envp(char **env);
 // void				ft_envp(t_envp **env);

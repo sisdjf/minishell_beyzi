@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 23:23:37 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/02 01:59:55 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,52 @@
 
 void	chr_dollar(t_stock *stock, t_token *token)
 {
-	int	i;
+	int		i;
+	char	*pos_dollar;
+	char	*key_start;
+	char	*end;
 
 	i = 0;
 	while (token) //->type : cd
 	{
-		if (ft_strchr(token->name, '$'))
+		pos_dollar = ft_strchr(token->name, '$');
+		if (pos_dollar)
 		{
-			if (stock->envp)
+			key_start = pos_dollar + 1;
+			end = key_start;
+			while (*end && (ft_isalnum(*end) || *end == '_'))
 			{
-				// ft_expand(stock->envp);
-				printf("LE DOLLAR: %s\n", token->name);
+				end++;
 			}
-			// print_envp(stock->env);
+			*end = '\0';
+			ft_expand(stock->envp, key_start);
+			// if (stock->envp)
+			// {
+			// 	ft_expand(stock->envp,);
+			// 	printf("LE DOLLAR: %s\n", token->name);
+			// }
 		}
 		token = token->next;
 	}
 }
-// void	print_envp(char **env)
-// {
-// 	int i = 0;
-// 	while (env[i])
-// 	{
-// 		printf("%s\n", env[i]);
-// 		i++;
-// 	}
-// }
 
-void	ft_expand(t_envp *env)
+void	ft_expand(t_envp *env, char *key_start)
 {
-
-	while(env)
+	while (env)
 	{
-		if(ft_strcmp(env->key, env->env_str) == 0)
+		if (ft_strcmp(env->key, key_start) == 0)
 		{
-			printf("%s\n", env->env_str);
-			printf("OK OK OK OK OK OK OK OK OK OK\n");
+			if (env->value)
+			{
+				printf("%s\n", env->value);
+			}
+			else
+			{
+				printf("La clé $%s existe mais n'a pas de valeur.\n",
+						key_start);
+			}
+			return ;
 		}
-			printf(" JUSTE POUR VOIR %s", env->key);
-		env = env->next;	
+		env = env->next;
 	}
 }
