@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/02 00:41:23 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/02 18:09:19 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ft_strcmp(char *s1, char *s2)
 
 int	ft_prompt(t_stock *stock)
 {
+	// int	i = 0;
 	char *input;
 	while (1)
 	{
@@ -39,6 +40,7 @@ int	ft_prompt(t_stock *stock)
 			return (1);
 		}
 		ft_token(stock, input);
+		cd_test(stock);
 		// chr_word(stock->token);
 		printf("tt est ok\n");
 		free(input);

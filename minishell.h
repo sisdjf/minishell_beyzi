@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/02 00:44:03 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/02 18:11:17 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,10 @@ int 				arg_len(char **array);
 int					pwd(char **cmd);
 int					test_echo(t_stock *stock);
 int 				builtins(t_stock *stock, char **envp);
+int					cd_test(t_stock *stock);
+int					ft_cd(t_stock *stock);
+char 				*find_env_var(t_envp *envp);
+int					check_args_cd(char **cmd);
 #endif
 
 // #define RESET "\033[0m"
