@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/02 01:59:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:22:40 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,15 @@ void	ft_expand(t_envp *env, char *key_start)
 			{
 				printf("%s\n", env->value);
 			}
-			else
-			{
-				printf("La clé $%s existe mais n'a pas de valeur.\n",
-						key_start);
-			}
+			// else
+			// {
+			// 	printf("La clé $%s existe mais n'a pas de valeur.\n",
+			// 			key_start);
+			// }
 			return ;
 		}
 		env = env->next;
 	}
+	printf("\n"); //A GERER DANS LE ECHO
+	
 }

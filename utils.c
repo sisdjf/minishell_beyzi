@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 16:27:47 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:37:26 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	ft_prompt(t_stock *stock, char *input)
 		}
 		chr_dollar(stock, stock->token); //A REVOIRRRRRRRRRR
 		printf("tt est ok\n");
+		printf("%s\n", input);
 		free(input);
 	}
 	return (0);
