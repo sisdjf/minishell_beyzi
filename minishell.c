@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 23:52:14 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/02 00:36:41 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@
 
 int	main(int argc, char **argv, char **env)
 {
+	(void)argv;
 	static t_stock	stock = {0};
 	stock_env_lst(env, &stock);
 	(void)argc;
 	while (1)
 	{
-		ft_prompt(&stock, *argv);
+		ft_prompt(&stock);
 	}
 	return (0);
 }

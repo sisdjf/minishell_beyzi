@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 01:45:04 by lybey             #+#    #+#             */
-/*   Updated: 2024/09/26 21:55:22 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/02 00:44:36 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int arg_len(char **array)//nb_arg_echo
 {

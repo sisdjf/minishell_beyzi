@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/01 23:29:57 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/02 03:10:14 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int check_args_cd(t_stock *stock, char **cmd)
     return(1);
 }
 
-char *find_env_var(t_envp *env)
+char *find_env_var(t_envp *envp)
 {
     t_envp  *tmp;
     
-    tmp = env;
+    tmp = envp;
     while(tmp)
     {
         if(!ft_strcmp(tmp->key, "HOME"))
@@ -45,58 +45,27 @@ char *find_env_var(t_envp *env)
 
 
 
-
-int ft_cd(char **cmd, t_envp env)
+int ft_cd(char **cmd, t_stock *stock)
 {
     int ret;
     char *path;
 
-    if
-
-    
+    if(!check_args_cd(stock, cmd))
+        return (0);
+    if(!cmd[1])
+    {
+        path = find_env_var(stock->envp);
+        if(!path)
+            return (0);
+    }
+    else
+            path = cmd[1];
+    ret = chdir(path);
+    if(ret == -1)
+    {
+        printf("cd : %s: No such file or directory\n", cmd[1]);
+        return (0);
+    }
+    return (1);   
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Fonction pour trouver une variable dans l'environnement
-
-// Fonction pour mettre à jour ou ajouter une variable d'environnement
-
-
-int ft_cd(char **args, char ***env)
-{
-    char *dir;
-    char cwd[1024];  // Buffer pour stocker le répertoire courant
-    
-    // Récupération du répertoire courant
-    if (getcwd(cwd, sizeof(cwd)) == NULL)
-    {
-        perror("getcwd");
-        return 1;
-    }
-
-    // Si aucun argument n'est fourni, aller à HOME
-    if (args[1] == NULL)
-    {
-        dir = getenv("HOME");
-        if (dir == NULL) {
-            printf("minishell: cd: HOME not set\n");
-            return 1;
-        }
-    }
-    return(0); 
-}

@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 23:53:22 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/02 00:44:03 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,14 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-typedef struct s_envp
-{
-	char		**env;
-	struct s_envp	*next;
-}					t_envp;
-
 typedef struct s_stock
 {
-	// char			**tab;
+	char			**tab;
 	t_token			*token;
 	t_envp			*envp;
 }					t_stock;
 
-int					ft_prompt(t_stock *stock, char *input, char **envp);
+int					ft_prompt(t_stock *stock);
 void				ft_path(void);
 //GUILLEMETS
 int					ft_quotes(char *str);
