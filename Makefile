@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 LDFLAGS = -lreadline
 
-SRCS = minishell.c utils.c operator.c single_greater.c double_greater.c token.c utils.lst.c expand.c utils_expand.c utils_env.c echoo.c pwd.c builtins.c cd.c
+SRCS = minishell.c utils.c operator.c single_greater.c double_greater.c token.c utils.lst.c expand.c utils_expand.c utils_env.c echoo.c pwd.c builtins.c cd.c unset.c
 
 OBJS = ${SRCS:.c=.o}
 
@@ -22,7 +22,7 @@ $(NAME): $(OBJS) $(LIBFT)
 $(LIBFT):
 	make -C libft
 
-%.o: %.c minishell.h
+%.o: %.c include/minishell.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:

@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/02 18:17:04 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/03 18:06:21 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "include/minishell.h"
 
 
 int check_args_cd(char **cmd)
@@ -19,10 +19,13 @@ int check_args_cd(char **cmd)
 
     i = 0;
     while(cmd[i])
+    {
+        printf("counting cmd/arg %d: %s\n", i, cmd[i]);
         i++;
+    }
     if(i > 2)
     {
-        printf("cd : too many arguments\n");
+        printf("cd : too many arguments: i = %d\n", i);
         return (0);
     }
     return(1);
@@ -45,45 +48,31 @@ char *find_env_var(t_envp *envp)
 
 
 
-int ft_cd(t_stock *stock)
+int ft_cd(char **cmd, t_envp *envp)
 {
     int ret;
     char *path;
 
-    if(!check_args_cd(stock->tab))
-        return (0);
-    if(!stock->tab[1])
+    if(!check_args_cd(cmd))
+        return (printf("error args cd\n"), 0);
+    if(!cmd[1])
     {
-        path = find_env_var(stock->envp);
+        path = find_env_var(envp);
         if(!path)
             return (0);
+        printf("path = [%s]\n", path);
     }
     else
-            path = stock->tab[1];
+    {
+        path = cmd[1];
+        printf("path = [%s]\n", cmd[1]);
+    }
     ret = chdir(path);
     if(ret == -1)
     {
-        printf("cd : %s: No such file or directory\n", stock->tab[1]);
+        printf("cd : [%s]: No such file or directory\n", cmd[1]);
         return (0);
     }
     return (1);   
 }
 
-int cd_test(t_stock *stock)
-{
-    int i = 0;
-    while(stock->tab[i])
-    {
-        if(strcmp(stock->tab[i], "cd") == 0)
-        {
-            printf("cd  = %s\n", stock->tab[i]);
-            ft_cd(stock);
-        }
-        else
-        {
-            printf("another builtin\n");
-        }
-        i++;
-    }
-    return (0);
-}

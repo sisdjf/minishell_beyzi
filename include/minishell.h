@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/02 18:11:17 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/03 22:49:12 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@
 
 typedef enum s_sign
 {
-	D_REDIR_R,
-	HERDOC,
-	REDIR_R,
-	REDIR_L,
-	PIPE,
-	WORD,
+	D_REDIR_R, // >>
+	HERDOC, // <<
+	REDIR_R, // >
+	REDIR_L, // <
+	PIPE, // |
+	WORD, // mot
 }					t_sign;
 
 typedef struct s_token
@@ -101,6 +101,7 @@ void				ft_lstadd_back(t_token **token, t_token *new);
 void				skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
 void				chr_operator(char *input, t_token *token, int *i);
+void				free_tokens(t_token *token);
 //CHR_OPERATOR
 char				*ft_greats_right(char *input);
 char				*ft_greats_left(char *input);
@@ -128,11 +129,16 @@ int 				print_echo(char **cmd, int start);
 int 				arg_len(char **array);
 int					pwd(char **cmd);
 int					test_echo(t_stock *stock);
-int 				builtins(t_stock *stock, char **envp);
+int 				builtins(char **cmd, t_envp *envp);
 int					cd_test(t_stock *stock);
-int					ft_cd(t_stock *stock);
+int					ft_cd(char **cmd, t_envp *envp);
 char 				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
+int					ft_unset(char **cmd, t_envp *envp);
+t_envp				*search_envp(t_envp *envp, char *key);
+void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
+
+
 #endif
 
 // #define RESET "\033[0m"

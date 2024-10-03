@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:10:31 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/02 19:02:16 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:21:46 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "include/minishell.h"
 
 int	ft_lstsize(t_list *list)
 {
@@ -62,3 +62,4 @@ void	ft_lstadd_back(t_token **token, t_token *new)
 	else
 		*token = new;
 }
+

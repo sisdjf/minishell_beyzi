@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/02 00:31:53 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/03 11:45:56 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "include/minishell.h"
 
 void	skip_space(char *str, int *i)
 {
@@ -116,6 +116,7 @@ int	ft_token(t_stock *stock, char *input)
 	}
 	return (0);
 }
+
 void free_tokens(t_token *token)
 {
 	t_token *next;
