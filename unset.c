@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 22:33:45 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/03 22:51:06 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/04 15:28:37 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_envp  *search_envp(t_envp *envp, char *key)
 {
     t_envp  *tmp;
 
-    tmp = *envp;
+    tmp = envp;
     while(tmp)
     {
         if((ft_strlen(key) == ft_strlen(tmp->key)) && !ft_strncmp(tmp->key, 
@@ -37,13 +37,13 @@ void    unset_loop(char **cmd, t_envp *envp, int nb_cmd)
     i = 1;
     while(i < nb_cmd)
     {
-        tmp = *envp;
+        tmp = envp;
         to_unset = search_envp(envp, cmd[i]);
         i++;
         if(!to_unset)
             continue;
         if (tmp == to_unset)
-           *envp = (*envp)->next;
+           *envp = *envp->next;
         while(tmp && tmp != to_unset)
         {
             if(tmp->next && tmp->next == to_unset)
@@ -54,13 +54,14 @@ void    unset_loop(char **cmd, t_envp *envp, int nb_cmd)
                 free(to_unset);
                 break;
             }
+            printf("to unsetttttttttttttt\n");
             tmp = tmp->next;
         }
         
     }
 }
 
-int ft_unset(char **cmd, t_envp **envp)
+int ft_unset(char **cmd, t_envp *envp)
 {
     int nb_cmd;
     
