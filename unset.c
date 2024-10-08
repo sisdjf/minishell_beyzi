@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 22:33:45 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/04 15:28:37 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/07 19:53:33 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void    unset_loop(char **cmd, t_envp *envp, int nb_cmd)
                 free(to_unset);
                 break;
             }
-            printf("to unsetttttttttttttt\n");
             tmp = tmp->next;
         }
         

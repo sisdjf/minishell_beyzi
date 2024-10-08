@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/04 13:38:54 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/08 15:20:54 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,18 @@
 typedef enum s_sign
 {
 	D_REDIR_R, // >>
-	HERDOC, // <<
-	REDIR_R, // >
-	REDIR_L, // <
-	PIPE, // |
-	WORD, // mot
+	HERDOC,    // <<
+	REDIR_R,   // >
+	REDIR_L,   // <
+	PIPE,      // |
+	WORD,      // mot
 }					t_sign;
 
 typedef struct s_token
 {
 	char *name; // ">"
 	struct s_token	*next;
-	enum s_sign		type; 
+	enum s_sign		type;
 }					t_token;
 
 typedef struct s_envp
@@ -124,20 +124,20 @@ void				print_lst_envp(t_stock *stock);
 
 //BUILTINS
 int					check_n_option(char **cmd);
-int 				echo(char **cmd);
-int 				print_echo(char **cmd, int start);
-int 				arg_len(char **array);
+void				env(t_envp *envp);
+int					echo(char **cmd);
+int					print_echo(char **cmd, int start);
+int					arg_len(char **array);
 int					pwd(char **cmd);
 int					test_echo(t_stock *stock);
-int 				builtins(char **cmd, t_envp *envp);
+int					builtins(char **cmd, t_envp *envp);
 int					cd_test(t_stock *stock);
 int					ft_cd(char **cmd, t_envp *envp);
-char 				*find_env_var(t_envp *envp);
+char				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
 int					ft_unset(char **cmd, t_envp *envp);
 t_envp				*search_envp(t_envp *envp, char *key);
 void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
-
 
 #endif
 
