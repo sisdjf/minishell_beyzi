@@ -6,11 +6,12 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/02 18:37:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:22:15 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -45,9 +46,9 @@ int	ft_prompt(t_stock *stock, char *input)
 			free(input);
 			return (1);
 		}
-		chr_dollar(stock, stock->token); //A REVOIRRRRRRRRRR
+		ft_expand(stock, stock->token);  //A REVOIRRRRRRRRRR
 		printf("tt est ok\n");
-		printf("%s\n", input);
+		// printf("%s\n", input);
 		free(input);
 	}
 	return (0);

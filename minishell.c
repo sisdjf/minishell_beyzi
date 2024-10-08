@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 23:23:15 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:00:58 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		ft_prompt(&stock, *argv);
+		
 	}
 	return (0);
 }

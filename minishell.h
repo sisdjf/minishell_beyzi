@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/02 01:39:21 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:14:11 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,11 @@ typedef struct s_stock
 
 int					ft_prompt(t_stock *stock, char *input);
 void				ft_path(void);
-//GUILLEMETS
+//QUOTES
 int					ft_quotes(char *str);
+char				*delete_quote(char *str);
+
+//GUILLEMETS
 int					ft_double_quotes(char str);
 int					syntax_error(char *input);
 //GREATER
@@ -111,8 +114,15 @@ char				*ft_chr_pipe(char *input);
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
 //EXPAND
-void				chr_dollar(t_stock *stock, t_token *token);
-void				ft_expand(t_envp *env, char *key_start);
+// void				ft_expand(t_envp *env, char *key_start);
+// void				chr_dollar(t_stock *stock, t_token *token);
+void				ft_expand(t_stock *stock, t_token *token);
+char				*ft_joinstr(char *s1, char *s2);
+char				*after_env_str(t_stock *stock, char *str, int *i);
+char				*bool_expand(t_stock *stock, char *str);
+char				*find_value(t_envp *env, char *key_start);
+char				*all_dollar(char *str, int *i);
+
 //ENVP
 // void				print_envp(char **env);
 // void				ft_envp(t_envp **env);
