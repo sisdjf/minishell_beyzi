@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/08 15:20:54 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/08 20:09:41 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ int					check_args_cd(char **cmd);
 int					ft_unset(char **cmd, t_envp *envp);
 t_envp				*search_envp(t_envp *envp, char *key);
 void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
+int					add_to_env(char *key, char *value, t_envp *envp);
+int 				export(char **cmd, t_envp *envp);
 
 #endif
 

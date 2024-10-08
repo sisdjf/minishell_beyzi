@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/08 18:25:34 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/08 20:53:25 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char    *get_value_export(char *str)
     while(str[i])
     {
         if(str[i] == '=')
-            return (ft_strdup);
+            return (ft_strdup(str + i + 1));
         i++;
     }
     return (NULL);
@@ -57,28 +57,36 @@ char    *get_value_export(char *str)
 
 int add_to_env(char *key, char *value, t_envp *envp)
 {
-    int i;
-    t_envp *to_replace;
+    int     i;
+    char    *str;
+    char    *mini;
+    t_envp  *to_replace;
     
     i = 0;
     if (!key[i] || (!ft_isalnum(key[i]) && key[i] != '_'))
         return (printf("bash: export: `%s': not a valid identifier\n",key), 1);
-while(key[i])
-{
-    if (ft_isalnum(key[i]) || key[i] == '_')
-        i++;
-    else
-        return (printf("bash: export:`%s': not a valid idetifier\n", key), 1);
-}
-to_replace = search_envp(envp, key);
-if (to_replace && value)
-{
-    free(to_replace->value);
-    to_replace->value = value;
-}   
-else if(!to_replace)
-    ft_lstadd_back_envp(envp, ft_lstnew_envp(envp->env_str));
-    
+    while(key[i])
+    {
+        if (ft_isalnum(key[i]) || key[i] == '_')
+            i++;
+        else
+            return (printf("bash: export:`%s': not a valid idetifier\n", key), 1);
+    }
+    to_replace = search_envp(envp, key);
+    if (to_replace && value)
+    {
+        free(to_replace->value);
+        to_replace->value = value;
+    }   
+    else if(!to_replace)
+    {
+        str = ft_strjoin(key, "=");
+        mini = ft_strjoin(str, value);
+        free(value);
+        free(str);
+        ft_lstadd_back_envp(&envp, ft_lstnew_envp(mini));
+    }
+    return (0);
 }
 
     
@@ -107,17 +115,18 @@ else if(!to_replace)
 
 int export(char **cmd, t_envp *envp)
 {
-    int *key;
-    int *value;
+    char *key;
+    char *value;
     int       i;
-    int  nb_arg;
     
-    i = 0;
+    i = 1;
     while(cmd[i])
     {
-        if ()
-        key = *get_key_export()
-        
+        key = get_key_export(cmd[1]);
+        value = get_value_export(cmd[1]);
+        add_to_env(key, value, envp);
+        free(key);
+        i++;
     }
-
+    return (0);
 }
