@@ -6,12 +6,25 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/08 17:55:12 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/13 03:48:13 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	double_last(char *str, int i)
+{
+	int cmpt;
+
+	cmpt = 0;
+	while(str[i])
+	{
+		if(str[i] == '"')
+			cmpt++;
+		i++;
+	}
+	return(cmpt % 2);
+}
 char	*all_dollar(char *str, int *i)
 {
 	int	start;
@@ -32,10 +45,7 @@ char	*find_value(t_envp *env, char *key_start)
 		if (ft_strcmp(tmp->key, key_start) == 0)
 		{
 			if (tmp->value)
-			{
-				// printf(" FIND_VALUE : %s\n", tmp->value);
 				return (tmp->value);
-			}
 		}
 		tmp = tmp->next;
 	}
@@ -44,33 +54,30 @@ char	*find_value(t_envp *env, char *key_start)
 
 char	*find_value_new(t_stock *stock, char *str, int *i)
 {
-	char	*key;
-	char	*value;
-	int		k;
-	int		size;
-	int		j;
+	int	k;
+	int	size;
+	int	j;
 
 	j = 0;
 	k = *i;
 	while (str[k] && (ft_isalnum(str[k]) || str[k] == '_'))
 		k++;
 	size = k - *i;
-	key = malloc(sizeof(char) * (size) + 1);
-	if (!key)
+	stock->key = malloc(sizeof(char) * (size) + 1);
+	if (!stock->key)
 		return (NULL);
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
 	{
-		key[j] = str[*i];
+		stock->key[j] = str[*i];
 		(*i)++;
 		j++;
 	}
-	key[j] = '\0';
-	value = find_value(stock->envp, key);
-	// printf("variable value : %s\n", value);
-	free(key);
-	if (!value)
+	stock->key[j] = '\0';
+	stock->value = find_value(stock->envp, stock->key);
+	free(stock->key);
+	if (!stock->value)
 		return (ft_strdup(""));
-	return (ft_strdup(value));
+	return (ft_strdup(stock->value));
 }
 
 char	*after_env_str(t_stock *stock, char *str, int *i)
@@ -83,6 +90,10 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 		(*i)++;
 		return (ft_strdup(""));
 	}
+	if(str[*i] == '\'' || str[*i] == '"')
+		return(ft_strdup(""));
+	if ((!ft_isalpha(str[*i]) && str[*i] != '_') /*&& !double_last(str, *i)*/)
+		return (ft_strdup("$"));
 	env = find_value_new(stock, str, i);
 	// printf("variable ENV : %s\n", env);
 	return (env);
@@ -104,6 +115,7 @@ char	*bool_expand(t_stock *stock, char *str)
 		}
 		else
 			str_env = ft_joinstr(str_env, all_dollar(str, &i));
+		// i++;
 	}
 	free(str);
 	return (str_env);
@@ -113,8 +125,6 @@ void	ft_expand(t_stock *stock, t_token *token)
 {
 	t_token	*tmp;
 	char	*pos_dollar;
-	char	*key_start;
-	char	*end;
 
 	if (!token)
 		return ;
@@ -124,77 +134,8 @@ void	ft_expand(t_stock *stock, t_token *token)
 		pos_dollar = ft_strchr(tmp->name, '$');
 		if (pos_dollar)
 		{
-			// printf("pos_dollar : %s\n", pos_dollar);
-			key_start = pos_dollar + 1;
-			// printf("key_start : %s\n", key_start);
-			end = key_start;
-			// printf("END : %s\n", end);
 			tmp->name = bool_expand(stock, tmp->name);
-			// printf(" FT_EXPAND-bool expand : %s\n", tmp->name);
-			while (*end && (ft_isalnum(*end) || *end == '_'))
-			{
-				end++;
-			}
-			// find_value(stock->envp, key_start);
-			printf("FT_EXPAND : %s\n", tmp->name);
 		}
 		tmp = tmp->next;
 	}
 }
-
-// void	ft_expand(t_envp *env, char *key_start)
-// {
-// 	while (env)
-// 	{
-// 		if (ft_strcmp(env->key, key_start) == 0) // strncmp
-// 		{
-// 			if (env->value)
-// 			{
-// 				printf("%s\n", env->value);
-// 			}
-// 			return ;
-// 		}
-// 		env = env->next;
-// 	}
-// 	printf("\n"); //A GERER DANS LE ECHO
-// }
-
-// void	chr_dollar(t_stock *stock, t_token *token)
-// {
-// 	char *pos_dollar;
-// 	char *key_start;
-// 	char *end;
-
-// 	while (token) //->type : cd
-// 	{
-// 		pos_dollar = ft_strchr(token->name, '$');
-// 		if (pos_dollar)
-// 		{
-// 			printf("----%s\n", pos_dollar);
-// 			key_start = pos_dollar + 1;
-// 			end = key_start;
-// 			while (*end && (ft_isalnum(*end) || *end == '_'))
-// 			{
-// 				end++;
-// 			}
-// 			// char *after = end;
-// 			printf(" OKKKK%c\n", *end);
-// 			*end = '\0';
-// 			// while (*after)
-// 			// {
-// 			// 	if(!ft_isalnum(*after) && *after != '_')
-// 			// 	{
-// 			// 		printf("%c", *after);
-// 			// 	}
-// 			// 	after++;
-// 			// }
-// 				ft_expand(stock->envp, key_start); //
-// 				// if (stock->envp)
-// 				// {
-// 				// 	ft_expand(stock->envp,);
-// 				// 	printf("LE DOLLAR: %s\n", token->name);
-// 				// }
-// 			}
-// 			token = token->next;
-// 		}
-// 	}

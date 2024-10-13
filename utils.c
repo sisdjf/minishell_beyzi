@@ -6,13 +6,38 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/06 18:22:15 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/13 04:03:23 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	ft_len_mini(char *str)
+{
+	int	i;
 
+	i = 0;
+	if (!str)
+		return (i);
+	while (str[i])
+		i++;
+	return (i);
+}
+char	*ft_strcat(char *dest, char *src)
+{
+	int	dest_len;
+	int	i;
+
+	i = 0;
+	dest_len = ft_len_mini(dest);
+	while (src[i] != '\0')
+	{
+		dest[dest_len + i] = src[i];
+		i++;
+	}
+	dest[dest_len + i] = '\0';
+	return (dest);
+}
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
@@ -32,7 +57,9 @@ int	ft_prompt(t_stock *stock, char *input)
 	{
 		input = readline("minishell ");
 		if (!input)
-			return (1);
+			return (1) ;
+		if (!*input)
+			continue ;
 		add_history(input);
 		if (syntax_error(input))
 		{
@@ -46,7 +73,8 @@ int	ft_prompt(t_stock *stock, char *input)
 			free(input);
 			return (1);
 		}
-		ft_expand(stock, stock->token);  //A REVOIRRRRRRRRRR
+		ft_expand(stock, stock->token); //A REVOIRRRRRRRRRR
+		printf("%s\n", stock->token->name);
 		printf("tt est ok\n");
 		// printf("%s\n", input);
 		free(input);
