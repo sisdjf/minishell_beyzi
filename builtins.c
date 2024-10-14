@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/08 20:13:07 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/12 23:51:23 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int builtins(char **cmd, t_envp *envp)
         return (ft_unset(cmd, envp), 1);
     else if(!strcmp(cmd[0], "env"))
         return (env(envp), 1);
-    // else if(!strcmp(cmd[0], "exit"))
-    //     return (printf("exit trouveeeeeeeeeeee\n"), 1);
-    return (0);           
+    else if(!strcmp(cmd[0], "exit"))
+        return (ft_exit(cmd), 1);
+    return (0);      
 }

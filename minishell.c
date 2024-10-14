@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/07 18:20:01 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/14 21:01:13 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void tok_to_tab(t_stock *stock)
 	j = 0;
 	tmp = stock;
 	i = get_nb_words(stock->token);
-	printf("iiiiiiiiiiiiiiii %d\n", i);
-	tmp->tab = malloc(sizeof(char *) * i + 1);
+	// printf("iiiiiiiiiiiiiiii %d\n", i);
+	tmp->tab = malloc(sizeof(char *) * (i + 1));
 	if (!tmp->tab)
 	{
 		printf("Error tab malloc\n");
@@ -56,18 +56,19 @@ void tok_to_tab(t_stock *stock)
 	{
 		if(tmp->token->name)
 		{
-			printf("--------- temp->name = %s\n", tmp->token->name);
+			// printf("--------- temp->name = %s\n", tmp->token->name);
 			if (tmp->token->type == WORD)
 			{
 				tmp->tab[j] = ft_strdup(tmp->token->name);
 				if(!stock->tab[j])
 					printf("error tab\n");
-				printf("---------- stock->tab[%d] = %s\n", j, stock->tab[j]);
+				// printf("---------- stock->tab[%d] = %s\n", j, stock->tab[j]);
 				j++;
 			}
 		}
 		tmp->token = tmp->token->next;
 	}
+	// printf("jjjjjjj = %d\n iiiii = %d\n", j, i);
 	stock->tab[j] = NULL;
 }
 

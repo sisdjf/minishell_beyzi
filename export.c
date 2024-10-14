@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/08 20:53:25 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/11 18:00:15 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,30 +88,6 @@ int add_to_env(char *key, char *value, t_envp *envp)
     }
     return (0);
 }
-
-    
-
-// char    get_value_export(char **cmd)
-
-// Rajoute dans l'env une key avec une value;
-
-// key = value;
-
-// t_envp *envp;
-// while (envp)
-// {
-//     envp = envp->next;
-// }
-
-// str = TERM_PROGRAM=vscode
-// key = TERM_PROGRAM
-// value = vscode
-//     next = ------------------->>>  
-
-// cmd = oui=non
-// parsing (si j'ai un '=', si j'ai char avant et apres '=')
-// lst_add_last(envp, ft_new_maillon());
-
 
 int export(char **cmd, t_envp *envp)
 {

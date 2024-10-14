@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/08 20:09:41 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/14 20:22:11 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 // typedef enum		sign;
 // enum				s_sign
@@ -100,7 +101,7 @@ void				ft_lstadd_back(t_token **token, t_token *new);
 //TOKEN
 void				skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
-void				chr_operator(char *input, t_token *token, int *i);
+void				ft_exit_atoichr_operator(char *input, t_token *token, int *i);
 void				free_tokens(t_token *token);
 //CHR_OPERATOR
 char				*ft_greats_right(char *input);
@@ -140,6 +141,12 @@ t_envp				*search_envp(t_envp *envp, char *key);
 void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
 int					add_to_env(char *key, char *value, t_envp *envp);
 int 				export(char **cmd, t_envp *envp);
+int					ft_exit(char **cmd);
+int 				check_atoi_exit(char **cmd);
+int					ft_atoi_exit(char *str);
+int					nb_args_exit(char **cmd);
+
+
 
 #endif
 

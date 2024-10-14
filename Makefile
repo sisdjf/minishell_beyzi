@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 LDFLAGS = -lreadline
 
-SRCS = env.c minishell.c utils.c operator.c single_greater.c double_greater.c token.c utils.lst.c expand.c utils_expand.c utils_env.c echoo.c pwd.c builtins.c cd.c unset.c export.c
+SRCS = env.c minishell.c utils.c operator.c single_greater.c double_greater.c token.c utils.lst.c expand.c utils_expand.c utils_env.c echoo.c pwd.c builtins.c cd.c unset.c export.c exit.c utils_exit.c
 
 OBJS = ${SRCS:.c=.o}
 

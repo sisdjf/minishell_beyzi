@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:13 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/03 11:29:08 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/14 20:36:35 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_double_greater_right(char *str)
 		i++;
 	if (d_loop_right(str, &i, nb_greater, word))
 		return (1);
-	if (str[i - 1] == '>' && str[i - 2] != '>')
+	if (i > 2 && (str[i - 1] == '>' && str[i - 2] != '>'))
 	{
 		printf("E\n");
 		return (printf(ERROR_NL), 1);
@@ -82,7 +82,8 @@ int	d_loop_left(char *str, int *i, int nb_greater, int word)
 			}
 			(*i)++;
 		}
-		(*i)++;
+		if (str[*i])
+			(*i)++;
 		while (str[(*i)] && str[(*i)] == ' ')
 			(*i)++;
 		while (str[(*i)] && (str[(*i)] != '>' && str[(*i)] != '<'
@@ -113,7 +114,7 @@ int	ft_double_greater_left(char *str)
 		i++;
 	if (d_loop_left(str, &i, nb_greater, word))
 		return (1);
-	if (str[i - 1] == '<' && str[i - 2] != '<')
+	if (i > 2 && (str[i - 1] == '<' && str[i - 2] != '<'))
 	{
 		printf("F\n");
 		return (printf(ERROR_NL), 1);
