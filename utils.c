@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/13 04:03:23 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/15 21:46:24 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,31 @@ int	ft_len_mini(char *str)
 		i++;
 	return (i);
 }
-char	*ft_strcat(char *dest, char *src)
+char	*ft_joinstr(char *s1, char *s2)
 {
-	int	dest_len;
-	int	i;
+	int		i;
+	char	*res;
 
+	if (!s1 && !s2)
+		return (NULL);
 	i = 0;
-	dest_len = ft_len_mini(dest);
-	while (src[i] != '\0')
+	res = malloc(ft_len_mini(s1) + ft_len_mini(s2) + 1);
+	if (!res)
+		return (NULL);
+	while (i < ft_len_mini(s1))
 	{
-		dest[dest_len + i] = src[i];
+		res[i] = s1[i];
 		i++;
 	}
-	dest[dest_len + i] = '\0';
-	return (dest);
+	while (i < ft_len_mini(s1) + ft_len_mini(s2))
+	{
+		res[i] = s2[i - ft_len_mini(s1)];
+		i++;
+	}
+	res[i] = 0;
+	free(s1);
+	free(s2);
+	return (res);
 }
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -57,7 +68,7 @@ int	ft_prompt(t_stock *stock, char *input)
 	{
 		input = readline("minishell ");
 		if (!input)
-			return (1) ;
+			return (1);
 		if (!*input)
 			continue ;
 		add_history(input);

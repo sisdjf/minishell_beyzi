@@ -6,34 +6,39 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/13 03:48:13 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/15 21:47:04 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	double_last(char *str, int i)
-{
-	int cmpt;
+//A VOIR APRES
 
-	cmpt = 0;
-	while(str[i])
-	{
-		if(str[i] == '"')
-			cmpt++;
-		i++;
-	}
-	return(cmpt % 2);
-}
-char	*all_dollar(char *str, int *i)
-{
-	int	start;
+// void	question_mark(char *str)
+// {
+// 	int i;
 
-	start = *i;
-	while (str[*i] && str[*i] != '$')
-		(*i)++;
-	return (ft_substr(str, start, *i - start));
-}
+// 	i = 0;
+// 	if(str[i] == '?')
+// 	{
+
+// 	}
+
+// }
+
+// int	double_last(char *str, int i)
+// {
+// 	int cmpt;
+
+// 	cmpt = 0;
+// 	while(str[i])
+// 	{
+// 		if(str[i] == '"')
+// 			cmpt++;
+// 		i++;
+// 	}
+// 	return(cmpt % 2);
+// }
 
 char	*find_value(t_envp *env, char *key_start)
 {
@@ -90,12 +95,11 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 		(*i)++;
 		return (ft_strdup(""));
 	}
-	if(str[*i] == '\'' || str[*i] == '"')
-		return(ft_strdup(""));
+	if (str[*i] == '\'' || str[*i] == '"')
+		return (ft_strdup(""));
 	if ((!ft_isalpha(str[*i]) && str[*i] != '_') /*&& !double_last(str, *i)*/)
 		return (ft_strdup("$"));
 	env = find_value_new(stock, str, i);
-	// printf("variable ENV : %s\n", env);
 	return (env);
 }
 
@@ -108,14 +112,16 @@ char	*bool_expand(t_stock *stock, char *str)
 	str_env = NULL;
 	while (str[i])
 	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			str_env = ft_joinstr(str_env, ft_quotes_expand(stock, str, &i));
+		}
 		if (str[i] == '$')
 		{
 			str_env = ft_joinstr(str_env, after_env_str(stock, str, &i));
-			// printf("BOOL_EXPAND : %s\n", str_env);
 		}
 		else
 			str_env = ft_joinstr(str_env, all_dollar(str, &i));
-		// i++;
 	}
 	free(str);
 	return (str_env);

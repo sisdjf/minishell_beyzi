@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/12 18:26:22 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/15 18:55:29 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ char				*after_env_str(t_stock *stock, char *str, int *i);
 char				*bool_expand(t_stock *stock, char *str);
 char				*find_value(t_envp *env, char *key_start);
 char				*all_dollar(char *str, int *i);
+char	*ft_quotes_expand(t_stock *stock, char *str, int *i);
 //
 //EXPAND 3
 // char				*ft_expand(t_stock *stock, char *str);
