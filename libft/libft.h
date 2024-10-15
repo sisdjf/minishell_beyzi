@@ -6,17 +6,13 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:22:11 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/10 00:17:29 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/15 22:52:37 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# ifndef SIZE_MAX
-#  define SIZE_MAX ((size_t)-1)
-
-# endif
 # include <ctype.h>
 # include <limits.h>
 # include <stddef.h>

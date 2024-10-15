@@ -6,39 +6,11 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/15 21:47:04 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/16 00:06:48 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//A VOIR APRES
-
-// void	question_mark(char *str)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	if(str[i] == '?')
-// 	{
-
-// 	}
-
-// }
-
-// int	double_last(char *str, int i)
-// {
-// 	int cmpt;
-
-// 	cmpt = 0;
-// 	while(str[i])
-// 	{
-// 		if(str[i] == '"')
-// 			cmpt++;
-// 		i++;
-// 	}
-// 	return(cmpt % 2);
-// }
 
 char	*find_value(t_envp *env, char *key_start)
 {
@@ -97,7 +69,7 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 	}
 	if (str[*i] == '\'' || str[*i] == '"')
 		return (ft_strdup(""));
-	if ((!ft_isalpha(str[*i]) && str[*i] != '_') /*&& !double_last(str, *i)*/)
+	if ((!ft_isalpha(str[*i]) && str[*i] != '_'))
 		return (ft_strdup("$"));
 	env = find_value_new(stock, str, i);
 	return (env);

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/15 21:47:09 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/15 22:56:22 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	*ft_quotes_expand(t_stock *stock, char *str, int *i)
 	return (ft_strjoin(str_quote, ft_strdup("\"")));
 	return (NULL);
 }
+
 char	*all_dollar(char *str, int *i)
 {
 	int	start;

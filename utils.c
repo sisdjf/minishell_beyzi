@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/15 21:46:24 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/16 01:34:07 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	ft_len_mini(char *str)
 		i++;
 	return (i);
 }
+
 char	*ft_joinstr(char *s1, char *s2)
 {
 	int		i;
@@ -49,6 +50,7 @@ char	*ft_joinstr(char *s1, char *s2)
 	free(s2);
 	return (res);
 }
+
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
@@ -61,9 +63,24 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
+void	print_tab(t_token *token)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	while (tmp)
+	{
+		printf("%s ", tmp->name);
+		tmp = tmp->next;
+	}
+	printf("\n");
+}
+
+// a regler : Invalid read of size 1
+// tu free t_tokens avant ft_expand qui utilise str '$' dans bool_expand
+// verifie order des fonctions dans ft_prompt- free pas ce que tu utilise plus tard, free tout a la fin !
 int	ft_prompt(t_stock *stock, char *input)
 {
-	// (void)stock;
 	while (1)
 	{
 		input = readline("minishell ");
@@ -75,19 +92,15 @@ int	ft_prompt(t_stock *stock, char *input)
 		if (syntax_error(input))
 		{
 			free(input);
-			return (1);
+			continue ;
 		}
 		free_tokens(stock->token);
 		stock->token = NULL;
 		if (ft_token(stock, input) != 0)
-		{
-			free(input);
-			return (1);
-		}
-		ft_expand(stock, stock->token); //A REVOIRRRRRRRRRR
-		printf("%s\n", stock->token->name);
+			return (free(input), 1);
+		ft_expand(stock, stock->token);
+		print_tab(stock->token);
 		printf("tt est ok\n");
-		// printf("%s\n", input);
 		free(input);
 	}
 	return (0);

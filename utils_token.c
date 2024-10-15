@@ -6,31 +6,50 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:36:01 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/06 17:51:48 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/16 00:12:53 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void    ft_(t_token *token, char *input)
-// {
-//     int i;
+void	stock_redir_double_r(t_token *token, int *i)
+{
+	token->name = ft_strdup(">>");
+	token->type = D_REDIR_R;
+	token->next = NULL;
+	(*i)++;
+	return ;
+}
 
-//     i = 0;
-//    while(input[i])
-//    {
-//     if()
-//     i++;
-//    }
-//     if(token->type == REDIR_L)
-//         if(token->next->type == WORD)
-        
-//         // if(1 < 0)
-     
-// }
+void	stock_heredoc(t_token *token, int *i)
+{
+	token->name = ft_strdup("<<");
+	token->type = HERDOC;
+	token->next = NULL;
+	(*i)++;
+	return ;
+}
 
-// apres un chevron CEST FORCEMENT un fichier
-// tout ce qui est ni un fichier ni une redirection EST un argument
-// le premier argument = la commande
-// < FEFEFEF | FEFEF
-// -R > avion < ls >> bonjour < echo -s
+void	stock_redir_r(t_token *token)
+{
+	token->name = ft_strdup(">");
+	token->type = REDIR_R;
+	token->next = NULL;
+	return ;
+}
+
+void	stock_pipe(t_token *token)
+{
+	token->name = ft_strdup("|");
+	token->type = PIPE;
+	token->next = NULL;
+	return ;
+}
+
+void	stock_redir_l(t_token *token)
+{
+	token->name = ft_strdup("<");
+	token->type = REDIR_L;
+	token->next = NULL;
+	return ;
+}

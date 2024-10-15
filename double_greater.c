@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:13 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/14 22:08:53 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/15 23:15:14 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ int	d_loop_right(char *str, int *i, int nb_greater, int word)
 		{
 			nb_greater++;
 			if (nb_greater >= 3)
-			{
-				printf("A\n");
 				return (printf(ERROR_NL), 1);
-			}
 			(*i)++;
 		}
 		if (str[*i])
@@ -39,10 +36,7 @@ int	d_loop_right(char *str, int *i, int nb_greater, int word)
 			(*i)++;
 		}
 		if (nb_greater == 1 && word == 0)
-		{
-			printf("B\n");
 			return (printf(ERROR_NL), 1);
-		}
 	}
 	return (0);
 }
@@ -67,6 +61,7 @@ int	ft_double_greater_right(char *str)
 	}
 	return (0);
 }
+
 int	d_loop_left(char *str, int *i, int nb_greater, int word)
 {
 	while (str[(*i)])
@@ -77,10 +72,7 @@ int	d_loop_left(char *str, int *i, int nb_greater, int word)
 		{
 			nb_greater++;
 			if (nb_greater >= 3)
-			{
-				printf("C\n");
 				return (printf(ERROR_NL), 1);
-			}
 			(*i)++;
 		}
 		if (str[*i])
@@ -94,19 +86,16 @@ int	d_loop_left(char *str, int *i, int nb_greater, int word)
 			(*i)++;
 		}
 		if (nb_greater == 1 && word == 0)
-		{
-			printf("D\n");
 			return (printf(ERROR_NL), 1);
-		}
 	}
 	return (0);
 }
 
 int	ft_double_greater_left(char *str)
 {
-	int i;
-	int nb_greater;
-	int word;
+	int	i;
+	int	nb_greater;
+	int	word;
 
 	i = 0;
 	word = 0;
