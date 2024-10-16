@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/16 01:34:07 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/16 20:27:59 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,6 @@ void	print_tab(t_token *token)
 	printf("\n");
 }
 
-// a regler : Invalid read of size 1
-// tu free t_tokens avant ft_expand qui utilise str '$' dans bool_expand
-// verifie order des fonctions dans ft_prompt- free pas ce que tu utilise plus tard, free tout a la fin !
 int	ft_prompt(t_stock *stock, char *input)
 {
 	while (1)
