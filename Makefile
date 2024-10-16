@@ -6,46 +6,52 @@
 #    By: lybey <lybey@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/17 00:22:13 by lybey             #+#    #+#              #
-#    Updated: 2024/10/17 00:22:29 by lybey            ###   ########.fr        #
+#    Updated: 2024/10/17 00:25:05 by lybey            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME    = minishell
- 
 CC      = cc
 
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS  = -Wall -Wextra -Werror -g3 
 
-LDFLAGS = -lreadline
+RM      = rm -f
 
-SRCS = minishell.c utils.c operator.c single_greater.c double_greater.c token.c utils_token.c utils.lst.c expand.c utils_expand.c utils_env.c
+LIBFT          = libft
 
-OBJS = ${SRCS:.c=.o}
+FT_LIBFT        = libft/libft.a
 
-INCLUDES = -I. -I/usr/include -Ilibft
+DIR_SRCS		=	srcs
 
-LIBFT = libft/libft.a
+DIR_OBJS		=	objs
 
-all: ${NAME}
+SRCS_NAMES		=	minishell.c parsing/utils.c parsing/operator.c parsing/single_greater.c \
+					parsing/double_greater.c parsing/token.c parsing/utils_token.c parsing/utils.lst.c \
+					parsing/expand.c parsing/utils_expand.c parsing/utils_env.c parsing/quotes.c \
+					parsing/free.c
+OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDFLAGS)
+DEPS			=	${SRCS_NAMES:.c=.d}
 
-$(LIBFT):
-	make -C libft
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
 
-%.o: %.c minishell.h
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
 
-clean:
-	rm -f ${OBJS}
-	make -C libft clean
+HEAD	=	-I.
 
-fclean:		clean
-	rm -f ${NAME}
-	make -C libft fclean
+all : ${NAME}
 
-re:			fclean all
+${NAME} : ${DIR_OBJS} ${OBJS}
+		${MAKE} -C ${LIBFT}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline
+		@echo "\033[31;5mminishell\033[0m"
+
+${OBJS} : ${DIR_OBJS}/%.o : ${DIR_SRCS}/%.c
+	${CC} ${CFLAGS} ${HEAD} -c $< -o $@
+
+$(DIR_OBJS):
+	mkdir -p $(DIR_OBJS)
+	mkdir -p objs/parsing
+	mkdir -p objs/exec
 
 leaks : all
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt ./minishell
