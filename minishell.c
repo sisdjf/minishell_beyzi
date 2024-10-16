@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/14 21:01:13 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/15 16:40:10 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void tok_to_tab(t_stock *stock)
 	}
 	// printf("jjjjjjj = %d\n iiiii = %d\n", j, i);
 	stock->tab[j] = NULL;
+	free(stock->tab);
 }
 
 int	ft_prompt(t_stock *stock)
