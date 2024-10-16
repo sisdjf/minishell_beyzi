@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/16 22:51:22 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:10:10 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "include/minishell.h"
 
 int	ft_len_mini(char *str)
 {
@@ -101,4 +101,13 @@ int	ft_prompt(t_stock *stock, char *input)
 		free(input);
 	}
 	return (0);
+}
+
+void	ft_path(void)
+{
+	char	*path;
+
+	path = getenv("PATH");
+	if (path != NULL)
+		printf("path=%s\n", path);
 }

@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   single_greater.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:07 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/16 00:14:30 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:09:20 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	norm_great(char *str, int word, int *i)
-{
-	while (str[(*i)] && (str[(*i)] != '>' && str[(*i)] != '<'
-			&& str[(*i)] != '|'))
-	{
-		word++;
-		(*i)++;
-	}
-}
+#include "include/minishell.h"
 
 int	s_loop_right(char *str, int *i, int nb_greater, int word)
 {

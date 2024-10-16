@@ -2,46 +2,38 @@ NAME    = minishell
  
 CC      = cc
 
-CFLAGS  = -Wall -Wextra -Werror -g3 
+CFLAGS = -Wall -Wextra -Werror -g
 
-RM      = rm -f
+LDFLAGS = -lreadline
 
-LIBFT          = libft
+SRCS = minishell.c utils.c operator.c single_greater.c double_greater.c token.c utils_token.c utils.lst.c expand.c utils_expand.c utils_env.c
 
-FT_LIBFT        = libft/libft.a
+OBJS = ${SRCS:.c=.o}
 
-DIR_SRCS		=	srcs
+INCLUDES = -I. -I/usr/include -Ilibft
 
-DIR_OBJS		=	objs
+LIBFT = libft/libft.a
 
-SRCS_NAMES		=	minishell.c parsing/utils.c parsing/operator.c parsing/single_greater.c \
-					parsing/double_greater.c parsing/token.c parsing/utils_token.c parsing/utils.lst.c \
-					parsing/expand.c parsing/utils_expand.c parsing/utils_env.c parsing/quotes.c \
-					parsing/free.c
-OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
+all: ${NAME}
 
-DEPS			=	${SRCS_NAMES:.c=.d}
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDFLAGS)
 
-SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+$(LIBFT):
+	make -C libft
 
-OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+%.o: %.c minishell.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-HEAD	=	-I.
+clean:
+	rm -f ${OBJS}
+	make -C libft clean
 
-all : ${NAME}
+fclean:		clean
+	rm -f ${NAME}
+	make -C libft fclean
 
-${NAME} : ${DIR_OBJS} ${OBJS}
-		${MAKE} -C ${LIBFT}
-		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline
-		@echo "\033[31;5mminishell\033[0m"
-
-${OBJS} : ${DIR_OBJS}/%.o : ${DIR_SRCS}/%.c
-	${CC} ${CFLAGS} ${HEAD} -c $< -o $@
-
-$(DIR_OBJS):
-	mkdir -p $(DIR_OBJS)
-	mkdir -p objs/parsing
-	mkdir -p objs/exec
+re:			fclean all
 
 leaks : all
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt ./minishell
