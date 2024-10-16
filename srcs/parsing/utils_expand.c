@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/16 20:27:27 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/16 23:01:37 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*ft_quotes_expand(t_stock *stock, char *str, int *i)
 		(*i)++;
 		return (ft_substr(str, start, *i - start));
 	}
-	// str_quote = ft_joinstr(str_quote, ft_strdup("\'"));
 	while (str[*i] != DQUOTE)
 	{
 		if (str[*i] == '$')
@@ -49,7 +48,7 @@ char	*ft_quotes_expand(t_stock *stock, char *str, int *i)
 		(*i)++;
 	}
 	(*i)++;
-	return (ft_strjoin(str_quote, ft_strdup("\'")));
+	return (ft_strjoin(str_quote, ("\"")));
 }
 
 char	*all_dollar(char *str, int *i)
