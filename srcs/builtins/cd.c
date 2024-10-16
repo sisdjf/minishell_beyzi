@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/03 18:06:21 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:20:13 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../../minishell.h"
 
 
 int check_args_cd(char **cmd)

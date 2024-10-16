@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/16 23:01:37 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:21:12 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 char	*dd_quote(char *str, int *i)
 {

@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:10:31 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:11:21 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:21:22 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../../minishell.h"
 
 int	ft_lstsize(t_list *list)
 {

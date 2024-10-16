@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/11 18:00:15 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:20:34 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../../minishell.h"
 
 void    print_export(t_envp *envp)
 {

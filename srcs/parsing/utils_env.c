@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 00:29:49 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:09:27 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:21:10 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../../minishell.h"
 
 int	chr_equal(char *str)
 {

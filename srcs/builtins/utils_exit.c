@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:40:06 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/13 04:13:56 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:20:42 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <include/minishell.h>
+#include "../../minishell.h"
 
 
 int	ft_atoi_exit(char *str)

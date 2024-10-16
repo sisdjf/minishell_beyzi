@@ -6,12 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:07 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:09:20 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:21:01 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
-
+#include "../../minishell.h"
 int	s_loop_right(char *str, int *i, int nb_greater, int word)
 {
 	while (str[(*i)])

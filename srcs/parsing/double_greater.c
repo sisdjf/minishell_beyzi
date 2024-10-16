@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:13 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:09:04 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:20:47 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../../minishell.h"
 
 int	d_loop_right(char *str, int *i, int nb_greater, int word)
 {

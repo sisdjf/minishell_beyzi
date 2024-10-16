@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 22:11:36 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/03 18:57:16 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:20:36 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../../minishell.h"
 
 int pwd(char **cmd)
 {

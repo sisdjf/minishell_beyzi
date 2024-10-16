@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echoo.c                                            :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 01:45:04 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/03 11:29:19 by lybey            ###   ########.fr       */
+/*   Created: 2024/09/24 19:03:28 by lybey             #+#    #+#             */
+/*   Updated: 2024/10/17 00:20:18 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../../minishell.h"
 
-int arg_len(char **array)//nb_arg_echo
+int strlen_echo(char **array)
 {
     int i;
 
@@ -28,7 +28,6 @@ int print_echo(char **cmd, int start)
 {
     int i;
     
-    printf("start = %d\n", start);
     i = start;
     while(cmd[i])
     {
@@ -48,37 +47,31 @@ int    check_n_option(char **cmd)
     int j;
     
     i = 1;
-    while(cmd[i])//echo -n hello
+    while(cmd[i])
     {
-        if(cmd[i][0] == '-')
+        if(cmd[i][0] != '-')
         {
-            printf("cmd = %s\n", cmd[i]);
-            j = 1;
+            j++;
             while(cmd[i][j])
             {
                 if(cmd[i][j] != 'n' && cmd[i][j] != '\0')
-                {
-                    return(i);//
-                }
+                    return(i);
                 j++;
             }
         }
         else
-            return(i);//
+            return(i);
         j = 0;
         i++;
     }
     return(i);
 }
-
 int echo(char **cmd)
 {
     int i;
     int nb_arg;
 
-    i = 0;
-    // printf("HERE\n");
-    nb_arg = arg_len(cmd);//-n hello // echo helloo hfgjkdfd 
+    nb_arg = strlen_echo(cmd);
     if(nb_arg == 1)
         printf("\n");
     else if(i < nb_arg)
@@ -87,23 +80,4 @@ int echo(char **cmd)
         print_echo(cmd, i);
     }
     return (0);
-}
-
-int test_echo(t_stock *stock)
-{
-    int i = 0;
-        while (stock->tab[i])
-		{
-			if (strcmp(stock->tab[i], "echo") == 0)
-			{
-				printf("argv 2 = %s\n", stock->tab[i]);
-				echo(&stock->tab[i]); //echo -n h
-			}
-			else
-			{
-				printf("another builtin\n");
-			}
-			i++;
-		}
-	return (0);
 }

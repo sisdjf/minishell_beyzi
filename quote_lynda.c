@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:47:03 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/16 23:07:57 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:19:47 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "minishell.h"
 
 char delete_quote(char *str)
 {

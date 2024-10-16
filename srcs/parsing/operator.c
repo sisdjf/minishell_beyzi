@@ -6,11 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:09:12 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:20:55 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../../minishell.h"
 
 int	ft_quotes(char *str)
 {
