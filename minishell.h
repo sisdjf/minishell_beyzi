@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 22:56:27 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/16 01:07:07 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-// typedef enum		sign;
-// enum				s_sign
-// {
-// 	PIPE = '|',
-// 	REDIR_R = '>',
-// 	REDIR_L = '<',
-// 	D_REDIR_R = '>>',
-// 	HERDOC = '<<',
-// 	// FICHIER = ,
-// 	// ARGS = ,
-// 	// CMD = ,
-// 	// WORD,
-// }					t_sign;
-
 typedef enum s_sign
 {
 	D_REDIR_R,
@@ -48,16 +34,16 @@ typedef enum s_sign
 
 typedef struct s_token
 {
-	char *name; // ">"
+	char			*name;
 	struct s_token	*next;
 	enum s_sign		type;
 }					t_token;
 
 typedef struct s_envp
 {
-	char *env_str; //variable d env
-	char *key;     // avanr le =
-	char *value;   // apres le =
+	char			*env_str;
+	char			*key;
+	char			*value;
 	struct s_envp	*next;
 }					t_envp;
 
@@ -69,15 +55,19 @@ typedef struct s_list
 
 typedef struct s_stock
 {
-	// char			**tab;
+	char			*key;
+	char			*value;
+	char			*new_str;
 	t_token			*token;
 	t_envp			*envp;
 }					t_stock;
 
 int					ft_prompt(t_stock *stock, char *input);
 void				ft_path(void);
-//GUILLEMETS
+//QUOTES
 int					ft_quotes(char *str);
+char				*delete_quote(char *str);
+//GUILLEMETS
 int					ft_double_quotes(char str);
 int					syntax_error(char *input);
 //GREATER
@@ -100,8 +90,13 @@ void				ft_lstadd_back(t_token **token, t_token *new);
 //TOKEN
 void				skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
-void				chr_operator(char *input, t_token *token, int *i);
+void				chr_operator(char *input, t_token *token, int *i, int j);
 void				free_tokens(t_token *token);
+void				stock_redir_double_r(t_token *token, int *i);
+void				stock_heredoc(t_token *token, int *i);
+void				stock_redir_r(t_token *token);
+void				stock_pipe(t_token *token);
+void				stock_redir_l(t_token *token);
 //CHR_OPERATOR
 char				*ft_greats_right(char *input);
 char				*ft_greats_left(char *input);
@@ -110,17 +105,26 @@ char				*ft_double_greats_left(char *input);
 char				*ft_chr_pipe(char *input);
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
-//EXPAND
-void				chr_dollar(t_stock *stock, t_token *token);
-void				ft_expand(t_envp *env);
-//ENVP
-// void				print_envp(char **env);
-// void				ft_envp(t_envp **env);
+char				*ft_strcat(char *dest, char *src);
+int					ft_len_mini(char *str);
+//EXPAND 2
+void				ft_expand(t_stock *stock, t_token *token);
+char				*ft_joinstr(char *s1, char *s2);
+char				*after_env_str(t_stock *stock, char *str, int *i);
+char				*bool_expand(t_stock *stock, char *str);
+char				*find_value(t_envp *env, char *key_start);
+char				*all_dollar(char *str, int *i);
+char				*ft_quotes_expand(t_stock *stock, char *str, int *i);
+//
+//ENV
 int					chr_equal(char *str);
 t_envp				*ft_lstnew_envp(char *env_str);
 void				ft_lstadd_back_envp(t_envp **token, t_envp *new);
 void				stock_env_lst(char **env, t_stock *stock);
 void				print_lst_envp(t_stock *stock);
+//FREE
+void				free_envp(t_envp *env);
+void				ft_free_envp_list(t_envp *envp);
 
 #endif
 

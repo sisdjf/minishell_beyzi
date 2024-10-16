@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:10:31 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/02 19:02:16 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/15 23:07:00 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_list	*lstend(t_list *list)
 		tmp = tmp->next;
 	return (tmp);
 }
+
 void	ft_lstadd_back(t_token **token, t_token *new)
 {
 	t_token	*last;

@@ -6,55 +6,45 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/01 23:23:15 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/16 01:26:12 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int ft_strlen_du_nbr_de_str(char **envp)
-// {
-// 	int i;
+void	free_envp(t_envp *envp)
+{
+	if (envp)
+	{
+		if (envp->env_str)
+			free(envp->env_str);
+		if (envp->key)
+			free(envp->key);
+		if (envp->value)
+			free(envp->value);
+		free(envp);
+	}
+}
 
-// 	i = 0;
-// 	while(envp[i])
-// 	{
-// 		i++;
-// 	}
-// 	return(i);
-// }
+void	ft_free_envp_list(t_envp *envp)
+{
+	t_envp	*tmp;
 
-// void ft_copy_env_tab(char **envp, t_stock *stock)
-// {
-// 	int i;
-// 	int size;
-
-// 	i = 0;
-// 	size = ft_strlen_du_nbr_de_str(envp);
-// 	stock->env = malloc((sizeof(char *) * size) + 1);
-// 	while(envp[i])
-// 	{
-// 		stock->env[i] = ft_strdup(envp[i]);
-// 		i++;
-// 	}
-// 	stock->env[i] = NULL;
-// }
+	while (envp)
+	{
+		tmp = envp->next;
+		free_envp(envp);
+		envp = tmp;
+	}
+}
 
 int	main(int argc, char **argv, char **env)
 {
-	static t_stock	stock = {0};
-	stock_env_lst(env, &stock);
+	static t_stock	stock= {0};
 	(void)argc;
-	while (1)
-	{
-		ft_prompt(&stock, *argv);
-	}
+	stock_env_lst(env, &stock);
+	ft_prompt(&stock, *argv);
+	ft_free_envp_list(stock.envp);
+	free_tokens(stock.token);
 	return (0);
 }
-
-
-
-
-
-	// str = malloc(20);
-	// str = ft_strdup("$LESS");

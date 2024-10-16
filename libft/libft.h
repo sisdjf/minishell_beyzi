@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:22:11 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/02 16:15:03 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/15 22:52:37 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 # define LIBFT_H
 
 # include <ctype.h>
-# include <string.h>
-# include <stdlib.h>
+# include <limits.h>
 # include <stddef.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 
 int		ft_atoi(const char *str);

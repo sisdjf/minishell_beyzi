@@ -6,38 +6,11 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/08/30 21:07:30 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/15 23:05:55 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_quotes(char *str)
-{
-	int	single_quote;
-	int	double_quote;
-
-	single_quote = 0;
-	double_quote = 0;
-	while (*str)
-	{
-		if (*str == '\'' && double_quote == 0)
-		{
-			single_quote = !single_quote;
-		}
-		else if (*str == '"' && single_quote == 0)
-		{
-			double_quote = !double_quote;
-		}
-		str++;
-	}
-	if (single_quote || double_quote)
-	{
-		printf("Error quote not close\n");
-		return (1);
-	}
-	return (0);
-}
 
 int	loop_pipe(char *str, int *i, int nb_pipe, int word)
 {
@@ -87,8 +60,8 @@ int	ft_pipe(char *str)
 
 void	ft_negatif(char *input)
 {
-	int	i;
-	char j;
+	int		i;
+	char	j;
 
 	i = 0;
 	while (input[i] != '\0')
@@ -99,13 +72,14 @@ void	ft_negatif(char *input)
 			while (input[i] != j)
 			{
 				input[i] = -input[i];
-				i++;	
+				i++;
 			}
 		}
-		i++;	
+		i++;
 	}
 }
-void ft_positif(char *input)
+
+void	ft_positif(char *input)
 {
 	int	i;
 
@@ -117,12 +91,11 @@ void ft_positif(char *input)
 		i++;
 	}
 }
-// syntax errors
+
 int	syntax_error(char *input)
 {
 	if (ft_quotes(input))
 		return (1);
-	/*expend*/
 	ft_negatif(input);
 	if (ft_pipe(input))
 		return (1);
