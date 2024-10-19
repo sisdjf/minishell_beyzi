@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/17 00:20:05 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/19 22:59:41 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void tok_to_tab(t_stock *stock)
 			if (tmp->token->type == WORD)
 			{
 				tmp->tab[j] = ft_strdup(tmp->token->name);
-				if(!stock->tab[j])
+				if(!tmp->tab[j])
 					printf("error tab\n");
 				// printf("---------- stock->tab[%d] = %s\n", j, stock->tab[j]);
 				j++;
@@ -91,6 +91,6 @@ void tok_to_tab(t_stock *stock)
 		tmp->token = tmp->token->next;
 	}
 	// printf("jjjjjjj = %d\n iiiii = %d\n", j, i);
-	stock->tab[j] = NULL;
-	free(stock->tab);
+	tmp->tab[j] = NULL;
+	free(tmp->tab);
 }

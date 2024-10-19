@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:21:29 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/19 23:32:33 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_prompt(t_stock *stock, char *input)
 {
+	char *str;
+	
 	while (1)
 	{
 		input = readline("minishell ");
@@ -32,6 +34,8 @@ int	ft_prompt(t_stock *stock, char *input)
 		if (ft_token(stock, input) != 0)
 			return (free(input), 1);
 		ft_expand(stock, stock->token);
+		str = delete_quote(input);
+		printf("str = %s\n", str);
 		tok_to_tab(stock);
 		builtins(stock->tab, stock->envp);
 		print_tab(stock->token);

@@ -6,13 +6,13 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:03:28 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/17 00:20:18 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/19 23:57:38 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int strlen_echo(char **array)
+int arg_len(char **array)
 {
     int i;
 
@@ -71,7 +71,8 @@ int echo(char **cmd)
     int i;
     int nb_arg;
 
-    nb_arg = strlen_echo(cmd);
+    i = 0;
+    nb_arg = arg_len(cmd);
     if(nb_arg == 1)
         printf("\n");
     else if(i < nb_arg)
