@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/16 23:18:57 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:21:18 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 int	ft_len_mini(char *str)
 {
@@ -76,29 +76,12 @@ void	print_tab(t_token *token)
 	printf("\n");
 }
 
-int	ft_prompt(t_stock *stock, char *input)
+
+void	ft_path(void)
 {
-	while (1)
-	{
-		input = readline("minishell ");
-		if (!input)
-			return (1);
-		if (!*input)
-			continue ;
-		add_history(input);
-		if (syntax_error(input))
-		{
-			free(input);
-			continue ;
-		}
-		free_tokens(stock->token);
-		stock->token = NULL;
-		if (ft_token(stock, input) != 0)
-			return (free(input), 1);
-		ft_expand(stock, stock->token);
-		print_tab(stock->token);
-		printf("tt est ok\n");
-		free(input);
-	}
-	return (0);
+	char	*path;
+
+	path = getenv("PATH");
+	if (path != NULL)
+		printf("path=%s\n", path);
 }

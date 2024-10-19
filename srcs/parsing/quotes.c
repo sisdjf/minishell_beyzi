@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 23:05:27 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/16 23:54:46 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:20:57 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 int	ft_quotes(char *str)
 {
@@ -37,29 +37,4 @@ int	ft_quotes(char *str)
 		return (1);
 	}
 	return (0);
-}
-char	*delete_quote(char *str)
-{
-	char	*new;
-	int		i;
-	int		n;
-	int		c;
-
-	new = malloc(sizeof(char) * ft_strlen(str) + 1);
-	i = 0;
-	n = 0;
-	while (str[i])
-	{
-		while (str[i] == '\'' || str[i] == '\"')
-		{
-			c = str[i++];
-			while (str[i] != c)
-				new[n++] = str[i++];
-			i++;
-		}
-		if (str[i])
-			new[n++] = str[i++];
-	}
-	new[i] = '\0';
-	return (new);
 }

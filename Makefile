@@ -1,5 +1,5 @@
-NAME    = minishell
- 
+NAME = minishell
+
 CC      = cc
 
 CFLAGS  = -Wall -Wextra -Werror -g3 
@@ -16,8 +16,9 @@ DIR_OBJS		=	objs
 
 SRCS_NAMES		=	minishell.c parsing/utils.c parsing/operator.c parsing/single_greater.c \
 					parsing/double_greater.c parsing/token.c parsing/utils_token.c parsing/utils.lst.c \
-					parsing/expand.c parsing/utils_expand.c parsing/utils_env.c parsing/quotes.c \
-					parsing/free.c
+					parsing/expand.c parsing/utils_expand.c parsing/utils_env.c parsing/quotes.c parsing/free.c \
+					builtins/builtins.c builtins/cd.c builtins/echo.c env/cd.c builtins/exit.c builtins/export.c \
+					builtins/pwd.c builtins/unset.c builtins/utils_exit.c
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 
 DEPS			=	${SRCS_NAMES:.c=.d}
@@ -42,6 +43,8 @@ $(DIR_OBJS):
 	mkdir -p $(DIR_OBJS)
 	mkdir -p objs/parsing
 	mkdir -p objs/exec
+	mkdir -p objs/builtins
+
 
 leaks : all
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt ./minishell

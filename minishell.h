@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/16 20:27:34 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/19 22:57:26 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_stock
 }					t_stock;
 
 int					ft_prompt(t_stock *stock, char *input);
-void				ft_path(void);
 //QUOTES
 int					ft_quotes(char *str);
 char				*delete_quote(char *str);
@@ -110,6 +109,7 @@ char				*ft_chr_pipe(char *input);
 int					ft_strcmp(char *s1, char *s2);
 char				*ft_strcat(char *dest, char *src);
 int					ft_len_mini(char *str);
+void				print_tab(t_token *token);
 //EXPAND 2
 void				ft_expand(t_stock *stock, t_token *token);
 char				*ft_joinstr(char *s1, char *s2);
