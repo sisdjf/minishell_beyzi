@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/19 22:57:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:39:24 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_list
 
 typedef struct s_stock
 {
+	char			**tab;
 	char			*key;
 	char			*value;
 	char			*new_str;
@@ -129,6 +130,29 @@ void				print_lst_envp(t_stock *stock);
 void				free_envp(t_envp *env);
 void				ft_free_envp_list(t_envp *envp);
 
+//BUILTINS
+int					check_n_option(char **cmd);
+void				env(t_envp *envp);
+int					echo(char **cmd);
+int					print_echo(char **cmd, int start);
+int					arg_len(char **array);
+int					pwd(char **cmd);
+int					test_echo(t_stock *stock);
+int					builtins(char **cmd, t_envp *envp);
+int					cd_test(t_stock *stock);
+int					ft_cd(char **cmd, t_envp *envp);
+char				*find_env_var(t_envp *envp);
+int					check_args_cd(char **cmd);
+int					ft_unset(char **cmd, t_envp *envp);
+t_envp				*search_envp(t_envp *envp, char *key);
+void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
+int					add_to_env(char *key, char *value, t_envp *envp);
+int					export(char **cmd, t_envp *envp);
+int					ft_exit(char **cmd);
+int					check_atoi_exit(char **cmd);
+int					ft_atoi_exit(char *str);
+int					nb_args_exit(char **cmd);
+void				tok_to_tab(t_stock *stock);
 #endif
 
 // #define RESET "\033[0m"

@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   operator.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:20:55 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/20 19:46:06 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	ft_quotes(char *str)
-{
-	int	single_quote;
-	int	double_quote;
-
-	single_quote = 0;
-	double_quote = 0;
-	while (*str)
-	{
-		if (*str == '\'' && double_quote == 0)
-		{
-			single_quote = !single_quote;
-		}
-		else if (*str == '"' && single_quote == 0)
-		{
-			double_quote = !double_quote;
-		}
-		str++;
-	}
-	if (single_quote || double_quote)
-	{
-		printf("Error quote not close\n");
-		return (1);
-	}
-	return (0);
-}
 
 int	loop_pipe(char *str, int *i, int nb_pipe, int word)
 {

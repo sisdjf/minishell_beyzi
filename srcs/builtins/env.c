@@ -6,21 +6,21 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:55:07 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/19 19:05:52 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:34:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	env(t_envp *envp)
+void    env(t_envp *envp)
 {
-	t_envp *tmp;
+    t_envp  *tmp;
 
-	tmp = envp;
-	while (tmp)
-	{
-		if (tmp->value)
-			printf("%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
-	}
+    tmp = envp;
+    while(tmp)
+    {
+        if(tmp->value)
+            printf("%s=%s\n", tmp->key, tmp->value);
+        tmp = tmp->next;
+    }
 }
