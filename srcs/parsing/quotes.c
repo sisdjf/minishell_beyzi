@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 23:05:27 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/20 20:22:06 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:52:35 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*delete_quote(char *str)
 	int		n;
 	int		c;
 
-	new = malloc(sizeof(char) * ft_strlen(str) + 1);
+	new = ft_calloc(sizeof(char), (ft_strlen(str) + 1));
 	i = 0;
 	n = 0;
 	while (str[i])
