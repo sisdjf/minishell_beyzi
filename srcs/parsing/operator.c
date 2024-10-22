@@ -6,11 +6,11 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/15 23:05:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:46:06 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 int	loop_pipe(char *str, int *i, int nb_pipe, int word)
 {

@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/22 18:57:06 by sizitout         ###   ########.fr       */
+/*   Created: 2024/10/04 17:55:07 by lybey             #+#    #+#             */
+/*   Updated: 2024/10/20 19:34:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	main(int argc, char **argv)
+void    env(t_envp *envp)
 {
-	int id = fork();
-	int id1 = fork();
+    t_envp  *tmp;
 
-	printf("Le parents : %d\n", id);
-	printf("L enfant : %d\n", id1);
-	
-	return (0);
+    tmp = envp;
+    while(tmp)
+    {
+        if(tmp->value)
+            printf("%s=%s\n", tmp->key, tmp->value);
+        tmp = tmp->next;
+    }
 }

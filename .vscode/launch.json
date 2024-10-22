@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/mnt/nfs/homes/sizitout/minishell_beyzi",
-      "program": "/mnt/nfs/homes/sizitout/minishell_beyzi/build/Debug/outDebug",
+      "cwd": "/mnt/nfs/homes/sizitout/minish/srcs",
+      "program": "/mnt/nfs/homes/sizitout/minish/srcs/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
