@@ -6,16 +6,26 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/23 21:01:03 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/23 22:11:30 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void free_tab(char **tab)
+{
+	int i;
+
+	i = 0;
+	while(tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+}
+
 int	ft_prompt(t_stock *stock, char *input)
 {
-	char	*str;
-
 	while (1)
 	{
 		input = readline("minishell ");
@@ -33,16 +43,10 @@ int	ft_prompt(t_stock *stock, char *input)
 		stock->token = NULL;
 		if (ft_token(stock, input) != 0)
 		{
-			printf("ICI 4\n");
 			return (free(input), 1);
 		}
 		ft_expand(stock, stock->token);
-		str = delete_quote(input);
-		printf("ICI 7\n");
-		printf("str = %s\n", str);
-		printf("ICI 8\n");
-		// tok_to_tab(stock); revoir cette fonction avec lynda
-		printf("ICI 9\n");
+		tok_to_tab(stock);
 		// builtins(&input, stock->envp);
 		builtins(stock->tab, stock->envp);
 		printf("ICI EXEC\n");
@@ -52,7 +56,7 @@ int	ft_prompt(t_stock *stock, char *input)
 		printf("ICI 11\n");
 		printf("tt est ok\n");
 		free(input);
-		free(stock->tab);
+		free_tab(stock->tab);
 	}
 	return (0);
 }

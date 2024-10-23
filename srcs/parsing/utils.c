@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/22 19:47:50 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/23 22:07:49 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char	*ft_joinstr(char *s1, char *s2)
 	int		i;
 	char	*res;
 
-	if (!s1 && !s2)
-		return (NULL);
+	if (!s1)
+		return(ft_strdup(s2));
 	i = 0;
 	res = malloc(ft_len_mini(s1) + ft_len_mini(s2) + 1);
 	if (!res)

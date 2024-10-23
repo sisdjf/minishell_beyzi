@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/20 20:12:53 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/21 22:08:15 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	builtins(char **cmd, t_envp *envp)
 {
-	(void)envp;
 	if (!cmd || !cmd[0])
 		return (1);
 	if (!strcmp(cmd[0], "echo"))
@@ -92,5 +91,4 @@ void	tok_to_tab(t_stock *stock)
 	}
 	// printf("jjjjjjj = %d\n iiiii = %d\n", j, i);
 	tmp->tab[j] = NULL;
-	free(tmp->tab);
 }
