@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/22 21:31:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/23 20:58:06 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ typedef struct s_exec
 {
 	char			**split_path;
 	char			*path;
-
+	char			*cmd;
+	enum s_sign		type;
 }					t_exec;
 
 typedef struct s_stock
@@ -71,6 +72,7 @@ typedef struct s_stock
 	char			*new_str;
 	t_token			*token;
 	t_envp			*envp;
+	t_exec			exec;
 }					t_stock;
 
 int					ft_prompt(t_stock *stock, char *input);
@@ -162,8 +164,10 @@ void				tok_to_tab(t_stock *stock);
 //EXEC
 // void				env(t_envp *envp);
 // char				*retrouver_variable(t_envp *envp, char *name);
-char				*chr_path(char **env);
-char				*path_to_cmd(char *str, char **path);
+char				*chr_path(t_envp *envp);
+char				*path_to_cmd(t_exec *exec, t_envp *envp);
+void				ft_exec(t_exec *exec, t_envp *envp);
+void				free_split(char **split);
 #endif
 
 // #define RESET "\033[0m"
