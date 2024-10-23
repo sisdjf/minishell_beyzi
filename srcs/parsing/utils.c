@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/22 18:54:39 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:47:50 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,61 +74,4 @@ void	print_tab(t_token *token)
 		tmp = tmp->next;
 	}
 	printf("\n");
-}
-
-
-void	ft_path(void)
-{
-	while (1)
-	{
-		input = readline("minishell ");
-		if (!input)
-			return (1);
-		if (!*input)
-			continue ;
-		add_history(input);
-		if (syntax_error(input))
-		{
-			free(input);
-			continue ;
-		}
-		free_tokens(stock->token);
-		stock->token = NULL;
-		if (ft_token(stock, input) != 0)
-			return (free(input), 1);
-		ft_expand(stock, stock->token);
-		print_tab(stock->token);
-		printf("tt est ok\n");
-		printf("on a retrouve PATH // %s\t\n", retrouver_variable(stock->envp, "PATH"));
-		free(input);
-	}
-	return (0);
-}
-
-void    env(t_envp *envp)
-{
-    t_envp	*tmp;
-
-    tmp = envp;
-    while(tmp)
-    {
-        if(tmp->value)
-            printf("%s=%s\n", tmp->key, tmp->value);
-        tmp = tmp->next;
-    }
-}
-
-
-char	*retrouver_variable(t_envp *envp, char *name)
-{
-	t_envp	*tmp;
-
-    tmp = envp;
-    while(tmp)
-    {
-		if (ft_strcmp(tmp->key, name) == 0)
-			return(tmp->value);
-        tmp = tmp->next;
-    }
-	return (NULL);	
 }

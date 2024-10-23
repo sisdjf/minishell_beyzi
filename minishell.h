@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/22 18:53:46 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:31:26 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,13 @@ typedef struct s_list
 	int				sort;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_exec
+{
+	char			**split_path;
+	char			*path;
+
+}					t_exec;
 
 typedef struct s_stock
 {
@@ -129,7 +136,6 @@ void				print_lst_envp(t_stock *stock);
 //FREE
 void				free_envp(t_envp *env);
 void				ft_free_envp_list(t_envp *envp);
-
 //BUILTINS
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
@@ -153,42 +159,47 @@ int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
 void				tok_to_tab(t_stock *stock);
+//EXEC
+// void				env(t_envp *envp);
+// char				*retrouver_variable(t_envp *envp, char *name);
+char				*chr_path(char **env);
+char				*path_to_cmd(char *str, char **path);
 #endif
 
-	// #define RESET "\033[0m"
+// #define RESET "\033[0m"
 
-	// #define BLACK "\033[30m"
-	// #define RED "\033[31m"
-	// #define GREEN "\033[32m"
-	// #define YELLOW "\033[33m"
-	// #define BLUE "\033[34m"
-	// #define MAGENTA "\033[35m"
-	// #define CYAN "\033[36m"
-	// #define WHITE "\033[37m"
+// #define BLACK "\033[30m"
+// #define RED "\033[31m"
+// #define GREEN "\033[32m"
+// #define YELLOW "\033[33m"
+// #define BLUE "\033[34m"
+// #define MAGENTA "\033[35m"
+// #define CYAN "\033[36m"
+// #define WHITE "\033[37m"
 
-	// #define BBLACK "\033[40m"
-	// #define BRED "\033[41m"
-	// #define BGREEN "\033[42m"
-	// #define BYELLOW "\033[43m"
-	// #define BBLUE "\033[44m"
-	// #define BMAGENTA "\033[45m"
-	// #define BCYAN "\033[46m"
-	// #define BWHITE "\033[47m"
+// #define BBLACK "\033[40m"
+// #define BRED "\033[41m"
+// #define BGREEN "\033[42m"
+// #define BYELLOW "\033[43m"
+// #define BBLUE "\033[44m"
+// #define BMAGENTA "\033[45m"
+// #define BCYAN "\033[46m"
+// #define BWHITE "\033[47m"
 
-	// #define CBLACK "\033[5;30m"
-	// #define CRED "\033[5;31m"
-	// #define CGREEN "\033[5;32m"
-	// #define CYELLOW "\033[5;33m"
-	// #define CBLUE "\033[5;34m"
-	// #define CMAGENTA "\033[5;35m"
-	// #define CCYAN "\033[5;36m"
-	// #define CWHITE "\033[5;37m"
+// #define CBLACK "\033[5;30m"
+// #define CRED "\033[5;31m"
+// #define CGREEN "\033[5;32m"
+// #define CYELLOW "\033[5;33m"
+// #define CBLUE "\033[5;34m"
+// #define CMAGENTA "\033[5;35m"
+// #define CCYAN "\033[5;36m"
+// #define CWHITE "\033[5;37m"
 
-	// #define IBLACK "\033[3;30m"
-	// #define IRED "\033[3;31m"
-	// #define IGREEN "\033[3;32m"
-	// #define IYELLOW "\033[3;33m"
-	// #define IBLUE "\033[3;34m"
-	// #define IMAGENTA "\033[3;35m"
-	// #define ICYAN "\033[3;36m"
-	// #define IWHITE "\033[3;37m"
+// #define IBLACK "\033[3;30m"
+// #define IRED "\033[3;31m"
+// #define IGREEN "\033[3;32m"
+// #define IYELLOW "\033[3;33m"
+// #define IBLUE "\033[3;34m"
+// #define IMAGENTA "\033[3;35m"
+// #define ICYAN "\033[3;36m"
+// #define IWHITE "\033[3;37m"

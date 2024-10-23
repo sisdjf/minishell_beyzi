@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/22 18:54:10 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:44:21 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_prompt(t_stock *stock, char *input)
 {
 	char	*str;
+
 	while (1)
 	{
 		input = readline("minishell ");
@@ -62,6 +63,7 @@ int	ft_prompt(t_stock *stock, char *input)
 int	main(int argc, char **argv, char **env)
 {
 	static t_stock	stock = {0};
+	
 	(void)argc;
 	stock_env_lst(env, &stock);
 	ft_prompt(&stock, *argv);

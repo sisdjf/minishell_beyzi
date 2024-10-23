@@ -18,7 +18,7 @@ SRCS_NAMES		=	minishell.c parsing/utils.c parsing/operator.c parsing/single_grea
                     parsing/double_greater.c parsing/token.c parsing/utils_token.c parsing/utils.lst.c \
                     parsing/expand.c parsing/utils_expand.c parsing/utils_env.c parsing/quotes.c parsing/free.c \
                     builtins/builtins.c builtins/cd.c builtins/echo.c builtins/env.c builtins/exit.c builtins/export.c \
-                    builtins/pwd.c builtins/unset.c builtins/utils_exit.c
+                    builtins/pwd.c builtins/unset.c builtins/utils_exit.c exec/exec.c
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 
 DEPS			=	${SRCS_NAMES:.c=.d}
