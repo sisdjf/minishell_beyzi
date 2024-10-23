@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:20:49 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/21 21:59:45 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,23 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 	return (env);
 }
 
+int ft_strlen_check(char *str)
+{
+	int i = 0;
+	while(str[i])
+		i++;
+	return (i);
+}
+
 char	*bool_expand(t_stock *stock, char *str)
 {
 	char	*str_env;
+	char	*test;
 	int		i;
 
 	i = 0;
 	str_env = NULL;
-	while (str[i])
+	while (i < ft_strlen_check(str))
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
@@ -93,10 +102,14 @@ char	*bool_expand(t_stock *stock, char *str)
 			str_env = ft_joinstr(str_env, after_env_str(stock, str, &i));
 		}
 		else
+		{
 			str_env = ft_joinstr(str_env, all_dollar(str, &i));
+		}
 	}
 	free(str);
-	return (str_env);
+	test = delete_quote(str_env);
+	free(str_env);
+	return (test);
 }
 
 void	ft_expand(t_stock *stock, t_token *token)
@@ -114,6 +127,9 @@ void	ft_expand(t_stock *stock, t_token *token)
 		{
 			tmp->name = bool_expand(stock, tmp->name);
 		}
+		// A FAIRE 
+		// else
+		// 	tmp->name = bool_not_expand(stock, tmp->name);
 		tmp = tmp->next;
 	}
 }

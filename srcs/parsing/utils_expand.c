@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:21:12 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/21 21:56:40 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_quotes_expand(t_stock *stock, char *str, int *i)
 		(*i)++;
 	}
 	(*i)++;
-	return (ft_strjoin(str_quote, ("\"")));
+	return (ft_joinstr(str_quote, ("\"")));
 }
 
 char	*all_dollar(char *str, int *i)

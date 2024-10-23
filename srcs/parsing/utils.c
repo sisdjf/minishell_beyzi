@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:21:18 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/21 21:53:06 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char	*ft_joinstr(char *s1, char *s2)
 	int		i;
 	char	*res;
 
-	if (!s1 && !s2)
-		return (NULL);
+	if (!s1)
+		return(ft_strdup(s2));
 	i = 0;
 	res = malloc(ft_len_mini(s1) + ft_len_mini(s2) + 1);
 	if (!res)
