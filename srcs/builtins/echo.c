@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:03:28 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/21 22:08:43 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/23 22:45:04 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,11 @@ int    check_n_option(char **cmd)
     int j;
     
     i = 1;
-    j = 0;
     while(cmd[i])
     {
-        if(cmd[i][0] != '-')
+        if(cmd[i][0] == '-')
         {
-            j++;
+            j = 1;
             while(cmd[i][j])
             {
                 if(cmd[i][j] != 'n' && cmd[i][j] != '\0')
@@ -79,6 +78,7 @@ int echo(char **cmd)
     else if(i < nb_arg)
     {
         i = check_n_option(cmd);
+        printf("i check n option = %d\n", i);
         print_echo(cmd, i);
     }
     return (0);

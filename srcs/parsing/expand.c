@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/21 21:59:45 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/23 22:31:16 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,16 @@ char	*bool_expand(t_stock *stock, char *str)
 	return (test);
 }
 
+char	*bool_not_expand(char *str)
+{
+	char	*str_expand;
+
+	str_expand = delete_quote(str);
+	free(str);
+	return (str_expand);
+}
+
+
 void	ft_expand(t_stock *stock, t_token *token)
 {
 	t_token	*tmp;
@@ -127,9 +137,11 @@ void	ft_expand(t_stock *stock, t_token *token)
 		{
 			tmp->name = bool_expand(stock, tmp->name);
 		}
-		// A FAIRE 
-		// else
-		// 	tmp->name = bool_not_expand(stock, tmp->name);
+		else
+		{
+			tmp->name = bool_not_expand(tmp->name);
+		}
 		tmp = tmp->next;
+		
 	}
 }

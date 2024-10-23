@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/20 19:39:24 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:28:32 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int					ft_strcmp(char *s1, char *s2);
 char				*ft_strcat(char *dest, char *src);
 int					ft_len_mini(char *str);
 void				print_tab(t_token *token);
+char				*bool_not_expand(char *str);
 //EXPAND 2
 void				ft_expand(t_stock *stock, t_token *token);
 char				*ft_joinstr(char *s1, char *s2);
