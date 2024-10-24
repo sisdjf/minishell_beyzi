@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/23 20:58:06 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/25 01:23:36 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_exec
 
 typedef struct s_stock
 {
-	char			**tab;
+	// char			**tab;
 	char			*key;
 	char			*value;
 	char			*new_str;
@@ -120,7 +120,7 @@ int					ft_strcmp(char *s1, char *s2);
 char				*ft_strcat(char *dest, char *src);
 int					ft_len_mini(char *str);
 void				print_tab(t_token *token);
-//EXPAND 2
+//EXPAND
 void				ft_expand(t_stock *stock, t_token *token);
 char				*ft_joinstr(char *s1, char *s2);
 char				*after_env_str(t_stock *stock, char *str, int *i);
@@ -128,6 +128,8 @@ char				*bool_expand(t_stock *stock, char *str);
 char				*find_value(t_envp *env, char *key_start);
 char				*all_dollar(char *str, int *i);
 char				*ft_quotes_expand(t_stock *stock, char *str, int *i);
+char				*bool_not_expand(char *str);
+int					ft_strlen_check(char *str);
 //
 //ENV
 int					chr_equal(char *str);
@@ -138,6 +140,7 @@ void				print_lst_envp(t_stock *stock);
 //FREE
 void				free_envp(t_envp *env);
 void				ft_free_envp_list(t_envp *envp);
+void				free_tab(char **tab);
 //BUILTINS
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
@@ -160,13 +163,14 @@ int					ft_exit(char **cmd);
 int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
-void				tok_to_tab(t_stock *stock);
+// void				tok_to_tab(t_stock *stock);
+char				**tok_to_tab(t_token *token);
+
 //EXEC
 // void				env(t_envp *envp);
-// char				*retrouver_variable(t_envp *envp, char *name);
 char				*chr_path(t_envp *envp);
 char				*path_to_cmd(t_exec *exec, t_envp *envp);
-void				ft_exec(t_exec *exec, t_envp *envp);
+void				ft_exec(t_exec *exec, t_envp *envp, char **cmd);
 void				free_split(char **split);
 #endif
 
