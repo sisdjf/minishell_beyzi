@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/25 01:31:04 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:02:19 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ int	ft_prompt(t_stock *stock, char *input)
 		builtins(cmd_tab, stock->envp);
 		// printf("ICI EXEC\n");
 		stock->exec.cmd = cmd_tab[0];
-		ft_exec(&stock->exec, stock->envp, cmd_tab);
+		//boucle sur le nbr de cmd
+			//pipe (1 fois)- fork(le nbr de cmd) -> faire les dup2 en fonction de la 1ere milieu ou derniere cmd
+			ft_exec(&stock->exec, stock->envp, cmd_tab);
 		// printf("ICI 10\n");
 		// printf("ICI 11\n");
 		printf("tt est ok\n");

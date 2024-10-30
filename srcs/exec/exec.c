@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/25 01:30:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/27 01:42:29 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	char	*tmp;
 
 	exec->path = chr_path(envp);
-	printf("exec->cmd = %s\n", exec->cmd);
+	printf("exec->cmd = '%s\n", exec->cmd);
 	i = -1;
 	if (exec->path)
 	{
@@ -65,36 +65,56 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	free_split(exec->split_path);
 	return (NULL);
 }
+
+char	**tab_env(t_exec *exec, t_envp *envp)
+{
+	int		i;
+	int		size;
+	char	**env;
+	t_envp	*tmp;
+
+	(void)exec;
+	tmp = envp;
+	i = 0;
+	size = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		size++;
+	}
+	env = malloc(sizeof(char *) * (size + 1));
+	if (!env)
+		return (NULL);
+	while (envp)
+	{
+		env[i] = ft_strdup(envp->env_str);
+		if (!env)
+			return (NULL);
+		envp = envp->next;
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
+}
+
 void	ft_exec(t_exec *exec, t_envp *envp, char **cmd)
 {
-	t_stock	*stock;
-	char	*path;
-	char	**env;
-
-	// static t_token	token = {0};
-	stock = NULL;
-	// t_envp	*tmp2;
-	// tmp2 = envp;
-	// env = setup_env_to_char_star(envp); // mon env en double tableau
-	path = path_to_cmd(exec, envp);
-	printf("exec path found = %s\n", path);
+	int		i;
+	
+	i = 0;
+	exec->path = path_to_cmd(exec, envp);
 	printf("exec cmd = %s\n", cmd[0]);
-	execve(path, cmd, env);
-	// printf("%s\n", tmp);
-	// printf("%s\n", tmp);
+	exec->env = tab_env(exec, envp);
+	printf("exec path found = %s\n", exec->path);
+	while (exec->env[i])
+	{
+		printf("%s\n", exec->env[i]);
+		i++;
+	}
+	// execve(path, cmd, env);
 	if (exec->path)
 		return ;
 	// printf("CHemin: %s\n", tmp);
 	// else
 	// 	printf("Erreur : exec->path est NULL.\n");
 }
-
-// if (exec->split_path)
-// {
-// 	int i = 0;
-// 	while (exec->split_path[i])
-// 	{
-// 		printf("split_path[%d] = %s\n", i, exec->split_path[i]);
-// 		i++;
-// 	}
-// }

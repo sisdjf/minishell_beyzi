@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/25 01:23:36 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/27 01:35:20 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_exec
 	char			**split_path;
 	char			*path;
 	char			*cmd;
+	char			**env;
 	enum s_sign		type;
 }					t_exec;
 
@@ -172,6 +173,7 @@ char				*chr_path(t_envp *envp);
 char				*path_to_cmd(t_exec *exec, t_envp *envp);
 void				ft_exec(t_exec *exec, t_envp *envp, char **cmd);
 void				free_split(char **split);
+char				**tab_env(t_exec *exec, t_envp *envp);
 #endif
 
 // #define RESET "\033[0m"
