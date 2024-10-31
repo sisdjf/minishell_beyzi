@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/24 21:42:14 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/31 19:41:11 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,18 @@ char	*all_dollar(char *str, int *i)
 	return (ft_substr(str, start, *i - start));
 }
 
-int	ft_strlen_check(char *str)
+int	norm_quote(char *str, int i)
 {
-	int	i;
+	int	count;
 
-	i = 0;
+	count = 0;
 	while (str[i])
+	{
+		if (str[i] == '"')
+			count++;
 		i++;
-	return (i);
+	}
+	return (count % 2);
 }
 
 char	*bool_not_expand(char *str)
