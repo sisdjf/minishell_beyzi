@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/31 21:13:02 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/31 23:30:33 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,20 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 # define DQUOTE '"'
 # define SQUOTE '\''
 
 typedef enum s_sign
 {
-	D_REDIR_R,
-	HERDOC,
-	REDIR_R,
-	REDIR_L,
+	D_REDIR_R, //>>
+	HERDOC,    //<<
+	REDIR_R,   //>
+	REDIR_L,   //<
 	PIPE,
 	WORD,
 }					t_sign;
@@ -64,8 +68,18 @@ typedef struct s_exec
 	char			**env;
 	int				fd_pipe[2];
 	int				pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
+typedef struct s_cmd
+{
+    char    **args;          // Tableau de chaînes pour stocker les arguments de la commande
+    char    **infile;         // Fichier pour la redirection d'entrée (`<`)
+	char    **outfile;        // Fichier pour la redirection de sortie (`>`)
+    char    **appendfile;     // Fichier pour la redirection de sortie en mode append (`>>`)
+    char    **heredoc;        // Fichier ou contenu pour un heredoc (`<<`)
+    struct s_cmd *next;      // Pointeur vers la prochaine commande (chaîne de commandes)
+} t_cmd;
 
 typedef struct s_stock
 {
@@ -76,8 +90,12 @@ typedef struct s_stock
 	t_token			*token;
 	t_envp			*envp;
 	t_exec			exec;
+	t_cmd			*cmd;
+
 }					t_stock;
 
+void				print_args(t_cmd *cmd);
+void				stock_cmd_lst(t_stock *stock);
 int					ft_prompt(t_stock *stock, char *input);
 //QUOTES
 int					ft_quotes(char *str);
@@ -135,6 +153,8 @@ char				*bool_not_expand(char *str);
 int					ft_strlen_check(char *str);
 int					norm_quote(char *str, int i);
 //
+//CMD
+void				ft_cmd(t_stock *stock);
 //ENV
 int					chr_equal(char *str);
 t_envp				*ft_lstnew_envp(char *env_str);
@@ -174,9 +194,25 @@ char				**tok_to_tab(t_token *token);
 // void				env(t_envp *envp);
 char				*chr_path(t_envp *envp);
 char				*path_to_cmd(t_exec *exec, t_envp *envp);
-void				ft_exec(t_exec *exec, t_envp *envp, char **cmd);
+void				ft_exec(t_stock *stock);
 void				free_split(char **split);
 char				**tab_env(t_exec *exec, t_envp *envp);
+// void				tok_to_tab(t_stock *stock);
+
+// PARSE
+int					nbr_malloc_word_cmd(t_token *token, int pipe);
+int					stock_args_cmd(t_token *token, int pipe, t_cmd *cmd);
+t_cmd				*ft_lstnew_cmd(t_token *token, int pipe);
+void				ft_lstadd_back_cmd(t_cmd **token, t_cmd *new);
+int					nb_cmd(t_token *token);
+void   				print_args(t_cmd *cmd);
+void				stock_cmd_lst(t_stock *stock);
+int   				stock_files_cmd(t_token *token, int pipe, t_cmd *new);
+int					stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new);
+int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
+int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
+int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
+
 #endif
 
 // #define RESET "\033[0m"

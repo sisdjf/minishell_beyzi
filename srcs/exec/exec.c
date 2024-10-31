@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/31 21:41:01 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/31 23:43:05 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 	return (env);
 }
 
-void	ft_exec(t_exec *exec, t_envp *envp, char **cmd)
+void	ft_exec(t_stock *stock)
 {
 	// utilise lynda struct recuperer dans ft_prompt
-
 	int i;
 	i = 0;
-	// WHILE (i < nb_cmd)
+	printf("nb cmd = %d\n", stock->exec.nb_cmd);
+	// WHILE (i < stock->exec.nb_cmd)
 	// {
 	// -> pipe(exec->fd_pipe)
 	// -> exec->pid[i] = fork()
@@ -112,12 +112,13 @@ void	ft_exec(t_exec *exec, t_envp *envp, char **cmd)
 		// -> pipe redirections
 		// -> redirections fichiers (lynda)
 		// -> builtins
-		builtins(cmd, envp);
+		builtins(stock->cmd->args, stock->envp);
 		// -> recuperer cmd path (sirine) 
-		exec->path = path_to_cmd(exec, envp);
-		exec->env = tab_env(exec, envp);
+		stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
+		stock->exec.cmd = stock->cmd->args[0];
+		stock->exec.env = tab_env(&stock->exec, stock->envp);
 		// -> execve
-		execve(exec->path, cmd, exec->env);
+		execve(stock->exec.path, stock->cmd->args, stock->exec.env);
 		// free
 	// }
 	// else (parent)

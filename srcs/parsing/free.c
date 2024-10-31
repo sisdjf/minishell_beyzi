@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/24 15:13:16 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/31 23:12:18 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,5 @@ void	ft_free_envp_list(t_envp *envp)
 		tmp = envp->next;
 		free_envp(envp);
 		envp = tmp;
-	}
-}
-
-void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
 	}
 }
