@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 17:08:56 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/06 18:16:29 by sizitout         ###   ########.fr       */
+/*   Created: 2024/10/04 17:55:07 by lybey             #+#    #+#             */
+/*   Updated: 2024/10/20 19:34:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../minishell.h"
 
-size_t	ft_strlen(const char *s)
+void    env(t_envp *envp)
 {
-	size_t	i;
+    t_envp  *tmp;
 
-	i = 0;
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
+    tmp = envp;
+    while(tmp)
+    {
+        if(tmp->value)
+            printf("%s=%s\n", tmp->key, tmp->value);
+        tmp = tmp->next;
+    }
 }

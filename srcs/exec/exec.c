@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/09/03 15:27:10 by sizitout         ###   ########.fr       */
+/*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
+/*   Updated: 2024/10/19 21:34:21 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv)
 {
-	t_token			*token;
-	static t_stock	stock = {0, 0};
+	int id = fork();
+	int id1 = fork();
 
-	// t_stock			*stock;
-	token = NULL;
-	// ft_bzero(&token, sizeof(token));
-	if (argc == 1)
-		(void)envp;
-	// (void)argv;
-	// (void)argc;
-	while (1)
-	{
-		ft_prompt(&stock, *argv);
-	}
-	ft_path();
+	printf("Le parents : %d\n", id);
+	printf("L enfant : %d\n", id1);
+	
 	return (0);
 }

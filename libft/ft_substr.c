@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 16:34:09 by sizitout          #+#    #+#             */
-/*   Updated: 2023/05/31 21:49:49 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:48:44 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 // ton j est = a n (12) une fois arriver a 12 il se stop
 //le i lui continue dans la boucle on lui donne 7 pour quils comme a 7
 
-/*int	main(void)
-{
-	char src[] = "Une sous chaine de caractere";
+// int	main(void)
+// {
+// 	char src[] = "Une sous chaine de caractere";
 
-	int m = 7;
-	int n = 12;
+// 	int m = 7;
+// 	int n = 12;
 
-	char *dest = ft_substr(src, m, n);
-	printf("%s\n", dest);
+// 	char *dest = ft_substr(src, m, n);
+// 	printf("%s\n", dest);
 
-	return (0);
-}*/
+// 	return (0);
+// }
