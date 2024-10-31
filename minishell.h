@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/27 01:35:20 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/10/31 21:13:02 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_exec
 	char			*path;
 	char			*cmd;
 	char			**env;
+	int				fd_pipe[2];
+	int				pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	enum s_sign		type;
 }					t_exec;
 
@@ -131,6 +133,7 @@ char				*all_dollar(char *str, int *i);
 char				*ft_quotes_expand(t_stock *stock, char *str, int *i);
 char				*bool_not_expand(char *str);
 int					ft_strlen_check(char *str);
+int					norm_quote(char *str, int i);
 //
 //ENV
 int					chr_equal(char *str);
