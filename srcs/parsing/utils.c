@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/21 21:53:06 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/23 22:07:49 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,4 @@ void	print_tab(t_token *token)
 		tmp = tmp->next;
 	}
 	printf("\n");
-}
-
-
-void	ft_path(void)
-{
-	char	*path;
-
-	path = getenv("PATH");
-	if (path != NULL)
-		printf("path=%s\n", path);
 }

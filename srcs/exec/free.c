@@ -5,47 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/24 15:13:16 by sizitout         ###   ########.fr       */
+/*   Created: 2024/10/24 15:48:30 by sizitout          #+#    #+#             */
+/*   Updated: 2024/10/24 15:48:58 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	free_envp(t_envp *envp)
+void	free_split(char **split)
 {
-	if (envp)
-	{
-		if (envp->env_str)
-			free(envp->env_str);
-		if (envp->key)
-			free(envp->key);
-		if (envp->value)
-			free(envp->value);
-		free(envp);
-	}
-}
-
-void	ft_free_envp_list(t_envp *envp)
-{
-	t_envp	*tmp;
-
-	while (envp)
-	{
-		tmp = envp->next;
-		free_envp(envp);
-		envp = tmp;
-	}
-}
-
-void	free_tab(char **tab)
-{
-	int	i;
+	int i;
 
 	i = 0;
-	while (tab[i])
+	if (!split)
+		return ;
+	while (split[i])
 	{
-		free(tab[i]);
+		free(split[i]);
 		i++;
 	}
+	free(split);
 }

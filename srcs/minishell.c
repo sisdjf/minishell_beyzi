@@ -3,29 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/22 19:40:54 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/25 19:02:19 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void free_tab(char **tab)
-{
-	int i;
-
-	i = 0;
-	while(tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-}
-
 int	ft_prompt(t_stock *stock, char *input)
 {
+	char	**cmd_tab;
+
+	cmd_tab = NULL;
 	while (1)
 	{
 		stock->token = NULL;
@@ -45,23 +36,41 @@ int	ft_prompt(t_stock *stock, char *input)
 			return (free(input), 1);
 		}
 		ft_expand(stock, stock->token);
-		tok_to_tab(stock);
-		builtins(stock->tab, stock->envp);
-		// print_tab(stock->token);
+		print_tab(stock->token);
+		cmd_tab = tok_to_tab(stock->token);
+		
+		builtins(cmd_tab, stock->envp);
+		// printf("ICI EXEC\n");
+		stock->exec.cmd = cmd_tab[0];
+		//boucle sur le nbr de cmd
+			//pipe (1 fois)- fork(le nbr de cmd) -> faire les dup2 en fonction de la 1ere milieu ou derniere cmd
+			ft_exec(&stock->exec, stock->envp, cmd_tab);
+		// printf("ICI 10\n");
+		// printf("ICI 11\n");
+		printf("tt est ok\n");
 		free(input);
 		free_tokens(stock->token);
-		free_tab(stock->tab);
+		// free_tab(stock->tab);
 	}
 	return (0);
 }
+// void	init_struct(t_stock *stock)
+// {
 
+// }
 int	main(int argc, char **argv, char **env)
 {
 	static t_stock	stock = {0};
 	(void)argc;
 	stock_env_lst(env, &stock);
+	// while (stock.envp)
+	// {
+	// 	printf("%s\n", stock.envp->key);
+	// 	stock.envp = stock.envp->next;
+	// }
+	// printf("ICI 13\n");
 	ft_prompt(&stock, *argv);
-	free_tab(stock.tab);
+	//free_tab(stock.tab);
 	ft_free_envp_list(stock.envp);
 	// free_tokens(stock.token);
 	return (0);
