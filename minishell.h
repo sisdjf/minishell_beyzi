@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/22 20:28:32 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/31 21:11:27 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,20 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 # define DQUOTE '"'
 # define SQUOTE '\''
 
 typedef enum s_sign
 {
-	D_REDIR_R,
-	HERDOC,
-	REDIR_R,
-	REDIR_L,
+	D_REDIR_R, //>>
+	HERDOC,    //<<
+	REDIR_R,   //>
+	REDIR_L,   //<
 	PIPE,
 	WORD,
 }					t_sign;
@@ -56,6 +60,16 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct s_cmd
+{
+    char    **args;          // Tableau de chaînes pour stocker les arguments de la commande
+    char    **infile;         // Fichier pour la redirection d'entrée (`<`)
+	char    **outfile;        // Fichier pour la redirection de sortie (`>`)
+    char    **appendfile;     // Fichier pour la redirection de sortie en mode append (`>>`)
+    char    **heredoc;        // Fichier ou contenu pour un heredoc (`<<`)
+    struct s_cmd *next;      // Pointeur vers la prochaine commande (chaîne de commandes)
+} t_cmd;
+
 typedef struct s_stock
 {
 	char			**tab;
@@ -64,8 +78,12 @@ typedef struct s_stock
 	char			*new_str;
 	t_token			*token;
 	t_envp			*envp;
+	t_cmd			*cmd;
+
 }					t_stock;
 
+void				print_args(t_cmd *cmd);
+void				stock_cmd_lst(t_stock *stock);
 int					ft_prompt(t_stock *stock, char *input);
 //QUOTES
 int					ft_quotes(char *str);
@@ -120,7 +138,8 @@ char				*bool_expand(t_stock *stock, char *str);
 char				*find_value(t_envp *env, char *key_start);
 char				*all_dollar(char *str, int *i);
 char				*ft_quotes_expand(t_stock *stock, char *str, int *i);
-//
+//CMD
+void				ft_cmd(t_stock *stock);
 //ENV
 int					chr_equal(char *str);
 t_envp				*ft_lstnew_envp(char *env_str);
@@ -130,7 +149,6 @@ void				print_lst_envp(t_stock *stock);
 //FREE
 void				free_envp(t_envp *env);
 void				ft_free_envp_list(t_envp *envp);
-
 //BUILTINS
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
@@ -154,6 +172,21 @@ int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
 void				tok_to_tab(t_stock *stock);
+
+// PARSE
+int					nbr_malloc_word_cmd(t_token *token, int pipe);
+int					stock_args_cmd(t_token *token, int pipe, t_cmd *cmd);
+t_cmd				*ft_lstnew_cmd(t_token *token, int pipe);
+void				ft_lstadd_back_cmd(t_cmd **token, t_cmd *new);
+int					nb_pipe(t_token *token);
+void   				print_args(t_cmd *cmd);
+void				stock_cmd_lst(t_stock *stock);
+int   				stock_files_cmd(t_token *token, int pipe, t_cmd *new);
+int	stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new);
+int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
+int	stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
+int	stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
+
 #endif
 
 // #define RESET "\033[0m"
