@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 17:27:14 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:32:19 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,15 @@ typedef struct s_exec
 }					t_exec;
 typedef struct s_cmd
 {
-	char **args;       
-		// Tableau de chaînes pour stocker les arguments de la commande
-	char **infile;      // Fichier pour la redirection d'entrée (`<`)
-	char **outfile;     // Fichier pour la redirection de sortie (`>`)
-	char **appendfile; 
-		// Fichier pour la redirection de sortie en mode append (`>>`)
-	char **heredoc;     // Fichier ou contenu pour un heredoc (`<<`)
-	struct s_cmd *next;
-		// Pointeur vers la prochaine commande (chaîne de commandes)
+	char			**args;
+	// Tableau de chaînes pour stocker les arguments de la commande
+	char **infile;  // Fichier pour la redirection d'entrée (`<`)
+	char **outfile; // Fichier pour la redirection de sortie (`>`)
+	char			**appendfile;
+	// Fichier pour la redirection de sortie en mode append (`>>`)
+	char **heredoc; // Fichier ou contenu pour un heredoc (`<<`)
+	struct s_cmd	*next;
+	// Pointeur vers la prochaine commande (chaîne de commandes)
 }					t_cmd;
 
 typedef struct s_stock
@@ -194,6 +194,7 @@ char				*path_to_cmd(t_exec *exec, t_envp *envp);
 void				ft_exec(t_stock *stock);
 void				free_split(char **split);
 char				**tab_env(t_exec *exec, t_envp *envp);
+void				init_struct_exec(t_stock *stock);
 // void				tok_to_tab(t_stock *stock);
 
 // PARSE
