@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/31 19:40:32 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:34:59 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_joinstr(char *s1, char *s2)
 	char	*res;
 
 	if (!s1)
-		return(ft_strdup(s2));
+		return (ft_strdup(s2));
 	i = 0;
 	res = malloc(ft_len_mini(s1) + ft_len_mini(s2) + 1);
 	if (!res)
@@ -77,7 +77,7 @@ void	print_tab(t_token *token)
 }
 int	ft_strlen_check(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (str[i])

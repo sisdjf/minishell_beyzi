@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/31 23:30:33 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 17:27:14 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@
 # define ERROR_PIPE_MSG "bash: syntax error near unexpected token `|'\n"
 
 # include "libft/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
 
 # define DQUOTE '"'
 # define SQUOTE '\''
@@ -67,19 +66,22 @@ typedef struct s_exec
 	char			*cmd;
 	char			**env;
 	int				fd_pipe[2];
-	int				pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
 typedef struct s_cmd
 {
-    char    **args;          // Tableau de chaînes pour stocker les arguments de la commande
-    char    **infile;         // Fichier pour la redirection d'entrée (`<`)
-	char    **outfile;        // Fichier pour la redirection de sortie (`>`)
-    char    **appendfile;     // Fichier pour la redirection de sortie en mode append (`>>`)
-    char    **heredoc;        // Fichier ou contenu pour un heredoc (`<<`)
-    struct s_cmd *next;      // Pointeur vers la prochaine commande (chaîne de commandes)
-} t_cmd;
+	char **args;       
+		// Tableau de chaînes pour stocker les arguments de la commande
+	char **infile;      // Fichier pour la redirection d'entrée (`<`)
+	char **outfile;     // Fichier pour la redirection de sortie (`>`)
+	char **appendfile; 
+		// Fichier pour la redirection de sortie en mode append (`>>`)
+	char **heredoc;     // Fichier ou contenu pour un heredoc (`<<`)
+	struct s_cmd *next;
+		// Pointeur vers la prochaine commande (chaîne de commandes)
+}					t_cmd;
 
 typedef struct s_stock
 {
@@ -101,7 +103,7 @@ int					ft_prompt(t_stock *stock, char *input);
 int					ft_quotes(char *str);
 char				*delete_quote(char *str);
 //GUILLEMETS
-int					ft_double_quotes(char str);
+// int					ft_double_quotes(char str);
 int					syntax_error(char *input);
 //GREATER
 int					ft_greater_right(char *str);
@@ -130,15 +132,14 @@ void				stock_heredoc(t_token *token, int *i);
 void				stock_redir_r(t_token *token);
 void				stock_pipe(t_token *token);
 void				stock_redir_l(t_token *token);
-//CHR_OPERATOR
-char				*ft_greats_right(char *input);
-char				*ft_greats_left(char *input);
-char				*ft_double_greats_right(char *input);
-char				*ft_double_greats_left(char *input);
-char				*ft_chr_pipe(char *input);
+// //CHR_OPERATOR
+// char				*ft_greats_right(char *input);
+// char				*ft_greats_left(char *input);
+// char				*ft_double_greats_right(char *input);
+// char				*ft_double_greats_left(char *input);
+// char				*ft_chr_pipe(char *input);
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
-char				*ft_strcat(char *dest, char *src);
 int					ft_len_mini(char *str);
 void				print_tab(t_token *token);
 //EXPAND
@@ -152,9 +153,7 @@ char				*ft_quotes_expand(t_stock *stock, char *str, int *i);
 char				*bool_not_expand(char *str);
 int					ft_strlen_check(char *str);
 int					norm_quote(char *str, int i);
-//
-//CMD
-void				ft_cmd(t_stock *stock);
+
 //ENV
 int					chr_equal(char *str);
 t_envp				*ft_lstnew_envp(char *env_str);
@@ -172,9 +171,7 @@ int					echo(char **cmd);
 int					print_echo(char **cmd, int start);
 int					arg_len(char **array);
 int					pwd(char **cmd);
-int					test_echo(t_stock *stock);
 int					builtins(char **cmd, t_envp *envp);
-int					cd_test(t_stock *stock);
 int					ft_cd(char **cmd, t_envp *envp);
 char				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
@@ -201,17 +198,17 @@ char				**tab_env(t_exec *exec, t_envp *envp);
 
 // PARSE
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
-int					stock_args_cmd(t_token *token, int pipe, t_cmd *cmd);
+int					stock_args_cmd(t_token *token, int pipe, t_cmd *new);
 t_cmd				*ft_lstnew_cmd(t_token *token, int pipe);
 void				ft_lstadd_back_cmd(t_cmd **token, t_cmd *new);
 int					nb_cmd(t_token *token);
-void   				print_args(t_cmd *cmd);
+void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
-int   				stock_files_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
+void				free_cmd(t_cmd *cmd);
 
 #endif
 

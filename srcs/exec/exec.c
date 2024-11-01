@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/31 23:43:05 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 16:31:31 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 
 void	ft_exec(t_stock *stock)
 {
+	int	i;
+
 	// utilise lynda struct recuperer dans ft_prompt
-	int i;
 	i = 0;
 	printf("nb cmd = %d\n", stock->exec.nb_cmd);
 	// WHILE (i < stock->exec.nb_cmd)
@@ -109,26 +110,26 @@ void	ft_exec(t_stock *stock)
 	// -> exec->pid[i] = fork()
 	// if (data->pid[i] == 0)
 	// {
-		// -> pipe redirections
-		// -> redirections fichiers (lynda)
-		// -> builtins
-		builtins(stock->cmd->args, stock->envp);
-		// -> recuperer cmd path (sirine) 
-		stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
-		stock->exec.cmd = stock->cmd->args[0];
-		stock->exec.env = tab_env(&stock->exec, stock->envp);
-		// -> execve
-		execve(stock->exec.path, stock->cmd->args, stock->exec.env);
-		// free
+	// -> pipe redirections
+	// -> redirections fichiers (lynda)
+	// -> builtins
+	builtins(stock->cmd->args, stock->envp);
+	// -> recuperer cmd path (sirine)
+	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
+	stock->exec.cmd = stock->cmd->args[0];
+	stock->exec.env = tab_env(&stock->exec, stock->envp);
+	// -> execve
+	execve(stock->exec.path, stock->cmd->args, stock->exec.env);
+	// free
 	// }
 	// else (parent)
-		// close pipe fds
+	// close pipe fds
 	// i++;
 	// }
 	// -> waitpid (attendre child processes)
 	// i = 0;
 	// while (i < nb_cmd)
-		// waitpid(exec->pid[i++], NULL, 0)
+	// waitpid(exec->pid[i++], NULL, 0)
 }
 
 // ordre des choses dans l'exec
@@ -139,6 +140,6 @@ void	ft_exec(t_stock *stock)
 // -> pipe redirections
 // -> redirections fichiers (lynda)
 // -> builtins
-// -> recuperer cmd path (sirine) 
+// -> recuperer cmd path (sirine)
 // -> execve
 // -> waitpid (attendre child processes) (modifié)

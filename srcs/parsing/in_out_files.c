@@ -3,50 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   in_out_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:28:56 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/31 22:17:14 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 16:31:38 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../minishell.h"
+#include "../../minishell.h"
 
 int	nbr_malloc_infile_cmd(t_token *token, int pipe)
 {
-	t_token *tmp;
-	int nb_malloc;
-	
+	t_token	*tmp;
+	int		nb_malloc;
+	int		compteur;
+
 	nb_malloc = 0;
 	tmp = token;
-	int compteur;
-	
 	compteur = 0;
-	while(compteur < pipe)
+	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
 			compteur++;
 		tmp = tmp->next;
 	}
-	while(tmp && tmp->type != PIPE)
+	while (tmp && tmp->type != PIPE)
 	{
-		if(tmp->type == REDIR_L)
-        {
+		if (tmp->type == REDIR_L)
+		{
 			tmp = tmp->next;
 			nb_malloc++;
-        }
-		tmp = tmp->next;	
+		}
+		tmp = tmp->next;
 	}
-	return(nb_malloc);
+	return (nb_malloc);
 }
 
 int	stock_infile_cmd(t_token *token, int pipe, t_cmd *new)
 {
-	t_token *tmp;
-	int nb_malloc;
-	int compteur;
-	int	i;
-	
+	t_token	*tmp;
+	int		nb_malloc;
+	int		compteur;
+	int		i;
+
 	tmp = token;
 	compteur = 0;
 	i = 0;
@@ -58,51 +57,50 @@ int	stock_infile_cmd(t_token *token, int pipe, t_cmd *new)
 	}
 	new->infile = malloc(sizeof(char *) * (nb_malloc + 1));
 	printf("ADRESSE MALLOC = %p\n", new->infile);
-	while(compteur < pipe)
+	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
 			compteur++;
 		tmp = tmp->next;
 	}
-	while(tmp && tmp->type != PIPE)
+	while (tmp && tmp->type != PIPE)
 	{
-		if(tmp->type == REDIR_L)
+		if (tmp->type == REDIR_L)
 		{
-            tmp = tmp->next;
+			tmp = tmp->next;
 			new->infile[i++] = ft_strdup(tmp->name);
 		}
 		tmp = tmp->next;
 	}
 	new->infile[i] = NULL;
-	return(0);
+	return (0);
 }
 
 int	nbr_malloc_outfile_cmd(t_token *token, int pipe)
 {
-	t_token *tmp;
-	int nb_malloc;
-	
+	t_token	*tmp;
+	int		nb_malloc;
+	int		compteur;
+
 	nb_malloc = 0;
 	tmp = token;
-	int compteur;
-	
 	compteur = 0;
-	while(compteur < pipe)
+	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
 			compteur++;
 		tmp = tmp->next;
 	}
-	while(tmp && tmp->type != PIPE)
+	while (tmp && tmp->type != PIPE)
 	{
-		if(tmp->type == REDIR_R)
-        {
+		if (tmp->type == REDIR_R)
+		{
 			tmp = tmp->next;
 			nb_malloc++;
-        }
-		tmp = tmp->next;	
+		}
+		tmp = tmp->next;
 	}
-	return(nb_malloc);
+	return (nb_malloc);
 }
 
 int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new)
@@ -110,8 +108,8 @@ int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new)
 	t_token *tmp;
 	int nb_malloc;
 	int compteur;
-	int	i;
-	
+	int i;
+
 	tmp = token;
 	compteur = 0;
 	i = 0;
@@ -122,21 +120,21 @@ int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new)
 		return (0);
 	}
 	new->outfile = malloc(sizeof(char *) * (nb_malloc + 1));
-	while(compteur < pipe)
+	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
 			compteur++;
 		tmp = tmp->next;
 	}
-	while(tmp && tmp->type != PIPE)
+	while (tmp && tmp->type != PIPE)
 	{
-		if(tmp->type == REDIR_R)
+		if (tmp->type == REDIR_R)
 		{
-            tmp = tmp->next;
+			tmp = tmp->next;
 			new->outfile[i++] = ft_strdup(tmp->name);
 		}
 		tmp = tmp->next;
 	}
 	new->outfile[i] = NULL;
-	return(0);
+	return (0);
 }
