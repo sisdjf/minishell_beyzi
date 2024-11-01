@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/31 23:43:05 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 20:32:01 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	char	*tmp;
 
 	exec->path = chr_path(envp);
-	printf("exec->cmd = %s\n", exec->cmd);
 	i = -1;
 	if (exec->path)
 	{
@@ -112,13 +111,14 @@ void	ft_exec(t_stock *stock)
 		// -> pipe redirections
 		// -> redirections fichiers (lynda)
 		// -> builtins
-		builtins(stock->cmd->args, stock->envp);
+		// builtins(stock->cmd->args, stock->envp);
 		// -> recuperer cmd path (sirine) 
-		stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
 		stock->exec.cmd = stock->cmd->args[0];
+		stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
 		stock->exec.env = tab_env(&stock->exec, stock->envp);
 		// -> execve
 		execve(stock->exec.path, stock->cmd->args, stock->exec.env);
+		// Mettre les message d'erreur cmd not found si execve echoue
 		// free
 	// }
 	// else (parent)

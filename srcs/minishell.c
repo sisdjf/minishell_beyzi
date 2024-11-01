@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/31 23:35:37 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 20:14:45 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	ft_prompt(t_stock *stock, char *input)
 		// lynda parsing ici (au lieu de tok to tab)
 		stock_cmd_lst(stock);
 		free_tokens(stock->token);
+		print_args(stock->cmd);
 		ft_exec(stock);
 		free(input);	
-		print_args(stock->cmd);
 		free_cmd(stock->cmd);
 	}
 	return (0);
@@ -84,6 +84,7 @@ int	ft_prompt(t_stock *stock, char *input)
 // {
 
 // }
+
 int	main(int argc, char **argv, char **env)
 {
 	static t_stock	stock = {0};

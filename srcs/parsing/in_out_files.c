@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:28:56 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/31 22:17:14 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 20:12:50 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	stock_infile_cmd(t_token *token, int pipe, t_cmd *new)
 	nb_malloc = nbr_malloc_infile_cmd(token, pipe);
 	if (nb_malloc == 0)
 	{
+		printf("JE NAI RIEN INFILE \n");
 		new->infile = NULL;
 		return (0);
 	}
@@ -118,6 +119,7 @@ int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new)
 	nb_malloc = nbr_malloc_outfile_cmd(token, pipe);
 	if (nb_malloc == 0)
 	{
+		printf("JE NAI RIEN INFILE \n");
 		new->outfile = NULL;
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:49:26 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/31 22:17:45 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 20:13:18 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new)
 	nb_malloc = nbr_malloc_appendfile_cmd(token, pipe);
 	if (nb_malloc == 0)
 	{
+		printf("JE NAI RIEN APPEND \n");
 		new->appendfile = NULL;
 		return (0);
 	}
@@ -117,6 +118,7 @@ int	stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new)
 	nb_malloc = nbr_malloc_herdoc_cmd(token, pipe);
 	if (nb_malloc == 0)
 	{
+		printf("JE NAI RIEN HEREDOC \n");
 		new->heredoc = NULL;
 		return (0);
 	}

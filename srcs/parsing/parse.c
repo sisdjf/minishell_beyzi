@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/31 23:35:23 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 20:20:19 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	nb_malloc = nbr_malloc_word_cmd(token, pipe);
 	if (nb_malloc == 0)
 	{
-		new->infile = NULL;
+		new->args = NULL;
 		return (0);
 	}
 	new->args = malloc(sizeof(char *) * (nb_malloc + 1));
@@ -137,43 +137,46 @@ int	nb_cmd(t_token *token)
 
 void   print_args(t_cmd *cmd)
 {
-    int i;
+	(void)cmd;
+    // int i;
 
-    i = 0;
-    while(cmd)
-    {
-		i = 0;
-        while(cmd->args[i])
-        {
-            printf("args ici = %s\n", cmd->args[i]);
-            i++;
-        }
-        i = 0;
-		// while(cmd->infile[i])
-		// {
-		// 	printf("infile ici = %s\n", cmd->infile[i]);
-		// 	i++;
-		// }
-		// i = 0;
-		// while(cmd->outfile[i])
-		// {
-		// 	printf("outfile ici = %s\n", cmd->outfile[i]);
-		// 	i++;
-		// }
-		// i = 0;
-		// while(cmd->appendfile[i])
-		// {
-		// 	printf("appendfile ici = %s\n", cmd->appendfile[i]);
-		// 	i++;
-		// }
-		// i = 0;
-		// while(cmd->heredoc[i])
-		// {
-		// 	printf("heredoc ici = %s\n", cmd->heredoc[i]);
-		// 	i++;
-		// }
-        cmd = cmd->next;
-    }
+    // i = 0;
+    // while(cmd)
+    // {
+	// 	i = 0;
+	// 		printf("dehors\n");
+    //     while(cmd && cmd->args[i])
+    //     {
+	// 		printf("dedans\n");
+    //         printf("args ici = %s\n", cmd->args[i]);
+    //         i++;
+    //     }
+    //     // i = 0;
+	// 	// while(cmd->infile[i])
+	// 	// {
+	// 	// 	printf("infile ici = %s\n", cmd->infile[i]);
+	// 	// 	i++;
+	// 	// }
+	// 	// i = 0;
+	// 	// while(cmd->outfile[i])
+	// 	// {
+	// 	// 	printf("outfile ici = %s\n", cmd->outfile[i]);
+	// 	// 	i++;
+	// 	// }
+	// 	// i = 0;
+	// 	// while(cmd->appendfile[i])
+	// 	// {
+	// 	// 	printf("appendfile ici = %s\n", cmd->appendfile[i]);
+	// 	// 	i++;
+	// 	// }
+	// 	// i = 0;
+	// 	// while(cmd->heredoc[i])
+	// 	// {
+	// 	// 	printf("heredoc ici = %s\n", cmd->heredoc[i]);
+	// 	// 	i++;
+	// 	// }
+    //     cmd = cmd->next;
+    // }
 }
 
 void	stock_cmd_lst(t_stock *stock)
