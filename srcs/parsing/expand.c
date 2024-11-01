@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/23 22:31:16 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/31 19:42:21 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,21 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 	char	*env;
 
 	(*i)++;
+	// if (!str[*i])
+	// 	return (ft_strdup("$"));
 	if (ft_isdigit(str[*i]))
 	{
 		(*i)++;
 		return (ft_strdup(""));
 	}
-	if (str[*i] == '\'' || str[*i] == '"')
+	// if (str[*i] == '\'' || str[*i] == '\"')
+	// 	return (ft_strdup("$"));
+	else if ((str[*i] == '\'' || str[*i] == '"') && !norm_quote(str, *i))
 		return (ft_strdup(""));
 	if ((!ft_isalpha(str[*i]) && str[*i] != '_'))
 		return (ft_strdup("$"));
 	env = find_value_new(stock, str, i);
 	return (env);
-}
-
-int ft_strlen_check(char *str)
-{
-	int i = 0;
-	while(str[i])
-		i++;
-	return (i);
 }
 
 char	*bool_expand(t_stock *stock, char *str)
@@ -112,16 +108,6 @@ char	*bool_expand(t_stock *stock, char *str)
 	return (test);
 }
 
-char	*bool_not_expand(char *str)
-{
-	char	*str_expand;
-
-	str_expand = delete_quote(str);
-	free(str);
-	return (str_expand);
-}
-
-
 void	ft_expand(t_stock *stock, t_token *token)
 {
 	t_token	*tmp;
@@ -142,6 +128,5 @@ void	ft_expand(t_stock *stock, t_token *token)
 			tmp->name = bool_not_expand(tmp->name);
 		}
 		tmp = tmp->next;
-		
 	}
 }

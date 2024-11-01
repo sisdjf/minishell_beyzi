@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/21 21:56:40 by lybey            ###   ########.fr       */
+/*   Updated: 2024/10/31 19:41:11 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,27 @@ char	*all_dollar(char *str, int *i)
 	while (str[*i] && str[*i] != '$')
 		(*i)++;
 	return (ft_substr(str, start, *i - start));
+}
+
+int	norm_quote(char *str, int i)
+{
+	int	count;
+
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '"')
+			count++;
+		i++;
+	}
+	return (count % 2);
+}
+
+char	*bool_not_expand(char *str)
+{
+	char	*str_expand;
+
+	str_expand = delete_quote(str);
+	free(str);
+	return (str_expand);
 }

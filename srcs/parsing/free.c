@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:20:51 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 17:20:17 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,39 @@ void	ft_free_envp_list(t_envp *envp)
 		tmp = envp->next;
 		free_envp(envp);
 		envp = tmp;
+	}
+}
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
+void	free_cmd(t_cmd *cmd)
+{
+	t_cmd *tmp;
+
+	while (cmd)
+	{
+		tmp = cmd->next;
+		if (cmd->args)
+			free_tab(cmd->args);
+		if (cmd->infile)
+			free_tab(cmd->infile);
+		if (cmd->outfile)
+			free_tab(cmd->outfile);
+		if (cmd->appendfile)
+			free_tab(cmd->appendfile);
+		if (cmd->heredoc)
+			free_tab(cmd->heredoc);
+		free(cmd);
+		cmd = tmp;
 	}
 }

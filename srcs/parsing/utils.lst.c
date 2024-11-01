@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:10:31 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:21:22 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/01 16:34:50 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ void	ft_lstadd_back(t_token **token, t_token *new)
 	else
 		*token = new;
 }
-
