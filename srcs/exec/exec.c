@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 20:34:05 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:32:36 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	init_struct_exec(t_stock *stock)
 {
-	printf("asdasdasd %s\n", stock->cmd->args[0]);
-	stock->exec.cmd = stock->cmd->args[0];
+	int	i;
+
+	i = 0;
+	stock->exec.cmd = ft_find_cmd_for_exec(stock, i);
 	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
 	stock->exec.env = tab_env(&stock->exec, stock->envp);
 }
@@ -110,17 +112,52 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 	return (env);
 }
 
+char	*ft_find_cmd_for_exec(t_stock *stock, int i)
+{
+	t_cmd	*tmp;
+	int		compteur;
+
+	compteur = 0;
+	tmp = stock->cmd;
+	while (tmp)
+	{
+		if (compteur == i)
+		{
+			return (tmp->args[0]);
+		}
+		compteur++;
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+char	**ft_find_tab(t_stock *stock, int i)
+{
+	int		compteur;
+	t_cmd	*tmp;
+
+	compteur = 0;
+	tmp = stock->cmd;
+	while (tmp)
+	{
+		if (compteur == i)
+			return (tmp->args);
+		compteur++;
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
 void	ft_exec(t_stock *stock)
 {
 	int	i;
 
-	// utilise lynda struct recuperer dans ft_prompt
 	i = 0;
 	init_struct_exec(stock);
-	printf("nb cmd = %d\n", stock->exec.nb_cmd);
-	// WHILE (i < stock->exec.nb_cmd)
-	// {
-	// -> pipe(exec->fd_pipe)
+	// printf("nb cmd = %d\n", stock->exec.nb_cmd);
+	while (++i < stock->exec.nb_cmd)
+	{
+		pipe(stock->exec.fd_pipe);
+	}
 	// -> exec->pid[i] = fork()
 	// if (data->pid[i] == 0)
 	// {
@@ -130,7 +167,7 @@ void	ft_exec(t_stock *stock)
 	// builtins(stock->cmd->args, stock->envp);
 	// -> recuperer cmd path (sirine)
 	// -> execve
-	execve(stock->exec.path, stock->cmd->args, stock->exec.env);
+	// execve(stock->exec.path, stock->cmd->args, stock->exec.env);
 	// apres execve mettre les message d'erreur cmd not found
 	// et quitter proprement (leak)
 	// free

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 20:32:19 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:25:58 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,17 +186,6 @@ int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
 // void				tok_to_tab(t_stock *stock);
 char				**tok_to_tab(t_token *token);
-
-//EXEC
-// void				env(t_envp *envp);
-char				*chr_path(t_envp *envp);
-char				*path_to_cmd(t_exec *exec, t_envp *envp);
-void				ft_exec(t_stock *stock);
-void				free_split(char **split);
-char				**tab_env(t_exec *exec, t_envp *envp);
-void				init_struct_exec(t_stock *stock);
-// void				tok_to_tab(t_stock *stock);
-
 // PARSE
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
 int					stock_args_cmd(t_token *token, int pipe, t_cmd *new);
@@ -210,7 +199,16 @@ int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
 void				free_cmd(t_cmd *cmd);
-
+//EXEC
+// void				env(t_envp *envp);
+char				*chr_path(t_envp *envp);
+char				*path_to_cmd(t_exec *exec, t_envp *envp);
+void				ft_exec(t_stock *stock);
+void				free_split(char **split);
+char				**tab_env(t_exec *exec, t_envp *envp);
+void				init_struct_exec(t_stock *stock);
+char				**ft_find_tab(t_stock *stock, int i);
+char				*ft_find_cmd_for_exec(t_stock *stock, int i);
 #endif
 
 // #define RESET "\033[0m"

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 19:07:52 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:34:28 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_prompt(t_stock *stock, char *input)
 		free_tokens(stock->token);
 		ft_exec(stock);
 		free(input);
-		// print_args(stock->cmd);
+		print_args(stock->cmd);
 		free_cmd(stock->cmd);
 	}
 	return (0);
