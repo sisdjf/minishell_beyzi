@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 16:31:31 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:42:11 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,40 +97,106 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 	return (env);
 }
 
+char *ft_find_cmd_for_exec(t_stock *stock, int i)
+{
+	t_cmd *tmp;
+	int compteur = 0;
+
+	tmp = stock->cmd;
+
+	while(tmp)
+	{
+		if (compteur == i)
+		{
+			return (tmp->args[0]);
+		}
+		compteur++;
+		tmp = tmp->next;	
+	}
+	return (NULL);
+}
+
+char **ft_find_tab(t_stock *stock, int i)
+{
+	int compteur = 0;
+	t_cmd *tmp;
+
+	tmp = stock->cmd;
+
+	while(tmp)
+	{
+		if (compteur == i)
+			return (tmp->args);
+		compteur++;
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
 void	ft_exec(t_stock *stock)
 {
 	int	i;
-
-	// utilise lynda struct recuperer dans ft_prompt
+	int pid;
 	i = 0;
-	printf("nb cmd = %d\n", stock->exec.nb_cmd);
-	// WHILE (i < stock->exec.nb_cmd)
-	// {
-	// -> pipe(exec->fd_pipe)
-	// -> exec->pid[i] = fork()
-	// if (data->pid[i] == 0)
-	// {
-	// -> pipe redirections
-	// -> redirections fichiers (lynda)
-	// -> builtins
-	builtins(stock->cmd->args, stock->envp);
-	// -> recuperer cmd path (sirine)
-	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
-	stock->exec.cmd = stock->cmd->args[0];
-	stock->exec.env = tab_env(&stock->exec, stock->envp);
-	// -> execve
-	execve(stock->exec.path, stock->cmd->args, stock->exec.env);
-	// free
-	// }
-	// else (parent)
-	// close pipe fds
-	// i++;
-	// }
-	// -> waitpid (attendre child processes)
-	// i = 0;
-	// while (i < nb_cmd)
-	// waitpid(exec->pid[i++], NULL, 0)
+	while (i < 4)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			stock->exec.cmd = ft_find_cmd_for_exec(stock, i);
+			stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
+			stock->exec.env = tab_env(&stock->exec, stock->envp);
+			execve(stock->exec.path, ft_find_tab(stock, i), stock->exec.env);
+			fprintf(stderr, "ERROR\n");
+			exit (0);
+		}
+		else
+		{
+			printf("PARENT\n");
+		}
+		i++;
+	}
+	exit (printf("ALL CMD FINISHED\n"));
 }
+
+
+
+
+
+// void	ft_exec(t_stock *stock)
+// {
+// 	int	i;
+
+// 	// utilise lynda struct recuperer dans ft_prompt
+// 	i = 0;
+// 	printf("nb cmd = %d\n", stock->exec.nb_cmd);
+// 	// WHILE (i < stock->exec.nb_cmd)
+// 	// {
+// 	// -> pipe(exec->fd_pipe)
+// 	// -> exec->pid[i] = fork()
+// 	// if (data->pid[i] == 0)
+// 	// {
+// 	// -> pipe redirections
+// 	// -> redirections fichiers (lynda)
+// 	// -> builtins
+// 	builtins(stock->cmd->args, stock->envp);
+// 	// -> recuperer cmd path (sirine)
+// 	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
+// 	stock->exec.cmd = stock->cmd->args[0];
+// 	stock->exec.env = tab_env(&stock->exec, stock->envp);
+// 	// -> execve
+// 	execve(stock->exec.path, stock->cmd->args, stock->exec.env);
+// 	// free
+// 	// }
+// 	// else (parent)
+// 	// close pipe fds
+// 	// i++;
+// 	// }
+// 	// -> waitpid (attendre child processes)
+// 	// i = 0;
+// 	// while (i < nb_cmd)
+// 	// waitpid(exec->pid[i++], NULL, 0)
+// }
 
 // ordre des choses dans l'exec
 // -> tok to tab/ lynda cmd parsing
