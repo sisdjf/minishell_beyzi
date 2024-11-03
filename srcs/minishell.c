@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/02 22:34:28 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/04 00:49:36 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,15 @@ int	ft_prompt(t_stock *stock, char *input)
 		// lynda parsing ici (au lieu de tok to tab)
 		stock_cmd_lst(stock);
 		free_tokens(stock->token);
+		if(stock->exec.nb_cmd == 1 && check_builtins(&stock->exec.cmd) == 1)
+		{
+			builtins(&stock->exec.cmd, stock->envp);
+			// free tt ce que tu dois free et continue la boucle;
+			// continue ;	
+		}
 		ft_exec(stock);
 		free(input);
-		print_args(stock->cmd);
+		// print_args(stock->cmd);
 		free_cmd(stock->cmd);
 	}
 	return (0);

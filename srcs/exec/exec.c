@@ -6,18 +6,16 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/02 22:32:36 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/04 00:50:30 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	init_struct_exec(t_stock *stock)
+void	init_struct_exec(t_stock *stock, int i)
 {
-	int	i;
-
-	i = 0;
 	stock->exec.cmd = ft_find_cmd_for_exec(stock, i);
+	stock->exec.cmd_tab = ft_find_tab(stock, i);
 	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
 	stock->exec.env = tab_env(&stock->exec, stock->envp);
 }
@@ -60,7 +58,7 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 		{
 			tmp = ft_strjoin(exec->split_path[i], "/");
 			cmd_path = ft_strjoin(tmp, exec->cmd);
-			printf("Lynda, ex: %s\n", exec->cmd);
+			// printf("Lynda, ex: %s\n", exec->cmd);
 			free(tmp);
 			if (access(cmd_path, X_OK) == 0)
 			{
@@ -68,11 +66,10 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 				printf("cmd_path = %s\n", cmd_path);
 				return (cmd_path);
 			}
-			else
-			{
-				printf("PAS D ACESS\n");
-				;
-			}
+			// else
+			// {
+			// 	printf("PAS D ACESS\n");
+			// }
 			free(cmd_path);
 			i++;
 		}
@@ -141,23 +138,66 @@ char	**ft_find_tab(t_stock *stock, int i)
 	while (tmp)
 	{
 		if (compteur == i)
+		{
+			printf("tmp->agsssssss --> %s\n", tmp->args[0]);
 			return (tmp->args);
+		}
 		compteur++;
 		tmp = tmp->next;
 	}
 	return (NULL);
 }
+
+void	pipe_redic(t_stock *stock, int i)
+{
+	if (i != 0)
+	{
+		dup2(stock->exec.fd_tmp, 0);
+		close(stock->exec.fd_tmp);
+	}
+	if (i != stock->exec.nb_cmd - 1)
+		dup2(stock->exec.fd_pipe[1], 1);
+	close(stock->exec.fd_pipe[0]);
+	close(stock->exec.fd_pipe[1]);	
+	// if(stock->exec.nb_cmd == 1)
+}
+
 void	ft_exec(t_stock *stock)
 {
 	int	i;
 
 	i = 0;
-	init_struct_exec(stock);
-	// printf("nb cmd = %d\n", stock->exec.nb_cmd);
-	while (++i < stock->exec.nb_cmd)
+	printf("nb cmd = [%d]\n", stock->exec.nb_cmd);
+	while (i < stock->exec.nb_cmd)
 	{
-		pipe(stock->exec.fd_pipe);
+		// printf("cmd [{%d}]\n", stock->exec.nb_cmd);
+		// pipe(stock->exec.fd_pipe);
+		if (pipe(stock->exec.fd_pipe) == -1)
+		{
+			printf("Error avec la fonction pipe\n");
+			exit(EXIT_FAILURE);
+		}
+		stock->exec.pid[i] = fork();
+		if (stock->exec.pid[i] < 0)
+		{
+			printf("ERROR FORK\n");
+			exit(EXIT_FAILURE);
+		}
+		if (stock->exec.pid[i] == 0)
+		{
+			init_struct_exec(stock, i);
+			pipe_redic(stock, i);
+			execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+		}
+		else
+		{
+			printf("PARENTS\n");
+			close(stock->exec.fd_pipe[1]);
+			stock->exec.fd_tmp = stock->exec.fd_pipe[0];
+		}
+		i++;
 	}
+		close(stock->exec.fd_pipe[0]);
 	// -> exec->pid[i] = fork()
 	// if (data->pid[i] == 0)
 	// {
@@ -173,7 +213,7 @@ void	ft_exec(t_stock *stock)
 	// free
 	// }
 	// else (parent)
-	// close pipe fds
+	// 	close pipe fds
 	// i++;
 	// }
 	// -> waitpid (attendre child processes)
@@ -181,41 +221,6 @@ void	ft_exec(t_stock *stock)
 	// while (i < nb_cmd)
 	// waitpid(exec->pid[i++], NULL, 0)
 }
-
-// void	ft_exec(t_stock *stock)
-// {
-// 	int	i;
-
-// 	// utilise lynda struct recuperer dans ft_prompt
-// 	i = 0;
-// 	printf("nb cmd = %d\n", stock->exec.nb_cmd);
-// 	// WHILE (i < stock->exec.nb_cmd)
-// 	// -> exec->pid[i] = fork()
-// 	// if (data->pid[i] == 0)
-// 	// {
-// 	// -> pipe redirections
-// 	// -> redirections fichiers (lynda)
-// 	// -> builtins
-// 	builtins(stock->cmd->args, stock->envp);
-// 	// -> recuperer cmd path (sirine)
-// 	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
-// 	stock->exec.cmd = stock->cmd->args[0];
-// 	stock->exec.env = tab_env(&stock->exec, stock->envp);
-// 	// -> execve
-// 	execve(stock->exec.path, stock->cmd->args, stock->exec.env);
-// 	// free
-// 	// }
-// 	// else (parent)
-// 	// close pipe fds
-// 	// close pipe fds
-// 	// i++;
-// 	// }
-// 	// -> waitpid (attendre child processes)
-// 	// i = 0;
-// 	// while (i < nb_cmd)
-// 	// waitpid(exec->pid[i++], NULL, 0)
-// 	// waitpid(exec->pid[i++], NULL, 0)
-// }
 
 // ordre des choses dans l'exec
 // -> tok to tab/ lynda cmd parsing

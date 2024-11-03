@@ -3,15 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/31 23:07:49 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/04 00:49:31 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int	check_builtins(char **cmd)
+{
+	if (!cmd || !cmd[0])
+		return (1);
+	if (!strcmp(cmd[0], "echo"))
+		return (1);
+	else if (!strcmp(cmd[0], "cd"))
+		return (1);
+	else if (!strcmp(cmd[0], "pwd"))
+		return (1);
+	else if (!strcmp(cmd[0], "export"))
+		return (1);
+	else if (!strcmp(cmd[0], "unset"))
+		return (1);
+	else if (!strcmp(cmd[0], "env"))
+		return (1);
+	else if (!strcmp(cmd[0], "exit"))
+		return (1);
+	return (0);
+}
 int	builtins(char **cmd, t_envp *envp)
 {
 	if (!cmd || !cmd[0])

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/02 22:25:58 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/04 00:49:42 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ typedef struct s_exec
 	char			**split_path;
 	char			*path;
 	char			*cmd;
+	char			**cmd_tab;
 	char			**env;
 	int				fd_pipe[2];
+	int				fd_tmp;
 	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
@@ -184,6 +186,7 @@ int					ft_exit(char **cmd);
 int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
+int					check_builtins(char **cmd);
 // void				tok_to_tab(t_stock *stock);
 char				**tok_to_tab(t_token *token);
 // PARSE
@@ -206,9 +209,10 @@ char				*path_to_cmd(t_exec *exec, t_envp *envp);
 void				ft_exec(t_stock *stock);
 void				free_split(char **split);
 char				**tab_env(t_exec *exec, t_envp *envp);
-void				init_struct_exec(t_stock *stock);
+void				init_struct_exec(t_stock *stock, int i);
 char				**ft_find_tab(t_stock *stock, int i);
 char				*ft_find_cmd_for_exec(t_stock *stock, int i);
+void				pipe_redic(t_stock *stock, int i);
 #endif
 
 // #define RESET "\033[0m"
