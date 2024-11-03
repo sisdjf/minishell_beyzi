@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/02 21:42:11 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/03 19:23:01 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,35 +167,35 @@ void	ft_exec(t_stock *stock)
 // {
 // 	int	i;
 
-// 	// utilise lynda struct recuperer dans ft_prompt
+	// utilise lynda struct recuperer dans ft_prompt
 // 	i = 0;
 // 	printf("nb cmd = %d\n", stock->exec.nb_cmd);
-// 	// WHILE (i < stock->exec.nb_cmd)
-// 	// {
-// 	// -> pipe(exec->fd_pipe)
-// 	// -> exec->pid[i] = fork()
-// 	// if (data->pid[i] == 0)
-// 	// {
-// 	// -> pipe redirections
-// 	// -> redirections fichiers (lynda)
-// 	// -> builtins
+	// WHILE (i < stock->exec.nb_cmd)
+	// {
+	// -> pipe(exec->fd_pipe)
+	// -> exec->pid[i] = fork()
+	// if (data->pid[i] == 0)
+	// {
+	// -> pipe redirections
+	// -> redirections fichiers (lynda)
+	// -> builtins
 // 	builtins(stock->cmd->args, stock->envp);
-// 	// -> recuperer cmd path (sirine)
+	// -> recuperer cmd path (sirine)
 // 	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
 // 	stock->exec.cmd = stock->cmd->args[0];
 // 	stock->exec.env = tab_env(&stock->exec, stock->envp);
-// 	// -> execve
+	// -> execve
 // 	execve(stock->exec.path, stock->cmd->args, stock->exec.env);
-// 	// free
-// 	// }
-// 	// else (parent)
-// 	// close pipe fds
-// 	// i++;
-// 	// }
-// 	// -> waitpid (attendre child processes)
-// 	// i = 0;
-// 	// while (i < nb_cmd)
-// 	// waitpid(exec->pid[i++], NULL, 0)
+	// free
+	// }
+	// else (parent)
+	// close pipe fds
+	// i++;
+	// }
+	// -> waitpid (attendre child processes)
+	// i = 0;
+	// while (i < nb_cmd)
+	// waitpid(exec->pid[i++], NULL, 0)
 // }
 
 // ordre des choses dans l'exec

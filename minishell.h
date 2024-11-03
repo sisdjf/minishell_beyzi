@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/02 21:12:47 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/04 00:32:57 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_exec
 	char			*path;
 	char			*cmd;
 	char			**env;
+	int				fd_tmp;
 	int				fd_pipe[2];
 	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
