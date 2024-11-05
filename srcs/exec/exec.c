@@ -6,11 +6,19 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/03 19:23:01 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/05 01:09:23 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	init_struct_exec(t_stock *stock, int i)
+{
+	stock->exec.cmd = ft_find_cmd_for_exec(stock, i);
+	stock->exec.cmd_tab = ft_find_tab(stock, i);
+	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
+	stock->exec.env = tab_env(&stock->exec, stock->envp);
+}
 
 char	*chr_path(t_envp *envp)
 {
@@ -136,67 +144,63 @@ char **ft_find_tab(t_stock *stock, int i)
 void	ft_exec(t_stock *stock)
 {
 	int	i;
-	int pid;
+
 	i = 0;
-	while (i < 4)
+	printf("nb cmd = [%d]\n", stock->exec.nb_cmd);
+	while (i < stock->exec.nb_cmd)
 	{
-		pid = fork();
-		if (pid == 0)
+		// printf("cmd [{%d}]\n", stock->exec.nb_cmd);
+		// pipe(stock->exec.fd_pipe);
+		if (pipe(stock->exec.fd_pipe) == -1)
 		{
-			stock->exec.cmd = ft_find_cmd_for_exec(stock, i);
-			stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
-			stock->exec.env = tab_env(&stock->exec, stock->envp);
-			execve(stock->exec.path, ft_find_tab(stock, i), stock->exec.env);
-			fprintf(stderr, "ERROR\n");
-			exit (0);
+			printf("Error avec la fonction pipe\n");
+			exit(EXIT_FAILURE);
+		}
+		stock->exec.pid[i] = fork();
+		if (stock->exec.pid[i] < 0)
+		{
+			printf("ERROR FORK\n");
+			exit(EXIT_FAILURE);
+		}
+		if (stock->exec.pid[i] == 0)
+		{
+			init_struct_exec(stock, i);
+			pipe_redic(stock, i);
+			redir_files(stock, i);
+			execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
 		}
 		else
 		{
-			printf("PARENT\n");
+			printf("PARENTS\n");
+			close(stock->exec.fd_pipe[1]);
+			stock->exec.fd_tmp = stock->exec.fd_pipe[0];
 		}
 		i++;
 	}
-	exit (printf("ALL CMD FINISHED\n"));
+	close_fds(stock);
 }
-
-
-
-
-
-// void	ft_exec(t_stock *stock)
-// {
-// 	int	i;
-
-	// utilise lynda struct recuperer dans ft_prompt
-// 	i = 0;
-// 	printf("nb cmd = %d\n", stock->exec.nb_cmd);
-	// WHILE (i < stock->exec.nb_cmd)
-	// {
-	// -> pipe(exec->fd_pipe)
 	// -> exec->pid[i] = fork()
 	// if (data->pid[i] == 0)
 	// {
 	// -> pipe redirections
 	// -> redirections fichiers (lynda)
 	// -> builtins
-// 	builtins(stock->cmd->args, stock->envp);
+	// builtins(stock->cmd->args, stock->envp);
 	// -> recuperer cmd path (sirine)
-// 	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
-// 	stock->exec.cmd = stock->cmd->args[0];
-// 	stock->exec.env = tab_env(&stock->exec, stock->envp);
 	// -> execve
-// 	execve(stock->exec.path, stock->cmd->args, stock->exec.env);
+	// execve(stock->exec.path, stock->cmd->args, stock->exec.env);
+	// apres execve mettre les message d'erreur cmd not found
+	// et quitter proprement (leak)
 	// free
 	// }
 	// else (parent)
-	// close pipe fds
+	// 	close pipe fds
 	// i++;
 	// }
 	// -> waitpid (attendre child processes)
 	// i = 0;
 	// while (i < nb_cmd)
 	// waitpid(exec->pid[i++], NULL, 0)
-// }
 
 // ordre des choses dans l'exec
 // -> tok to tab/ lynda cmd parsing

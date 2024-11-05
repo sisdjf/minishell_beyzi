@@ -6,11 +6,33 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/31 23:07:49 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/05 00:15:41 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	ckeck_builtins(char **cmd, t_envp *envp)
+{
+	(void)envp;
+	if (!cmd || !cmd[0])
+		return (1);
+	if (!strcmp(cmd[0], "echo"))
+		return (1);
+	else if (!strcmp(cmd[0], "cd"))
+		return (1);
+	else if (!strcmp(cmd[0], "pwd"))
+		return (1);
+	else if (!strcmp(cmd[0], "export"))
+		return (1);
+	else if (!strcmp(cmd[0], "unset"))
+		return (1);
+	else if (!strcmp(cmd[0], "env"))
+		return (1);
+	else if (!strcmp(cmd[0], "exit"))
+		return (1);
+	return (0);
+}
 
 int	builtins(char **cmd, t_envp *envp)
 {
@@ -63,8 +85,8 @@ int	builtins(char **cmd, t_envp *envp)
 // 	i = 0;
 // 	j = 0;
 // 	tmp = stock;
-// 	i = get_nb_words(stock->token);
-// 	// printf("iiiiiiiiiiiiiiii %d\n", i);
+	// i = get_nb_words(stock->token);
+	// printf("iiiiiiiiiiiiiiii %d\n", i);
 // 	tmp->tab = malloc(sizeof(char *) * (i + 1));
 // 	if (!tmp->tab)
 // 	{
@@ -75,19 +97,19 @@ int	builtins(char **cmd, t_envp *envp)
 // 	{
 // 		if (tmp->token->name)
 // 		{
-// 			// printf("--------- temp->name = %s\n", tmp->token->name);
+			// printf("--------- temp->name = %s\n", tmp->token->name);
 // 			if (tmp->token->type == WORD)
 // 			{
 // 				tmp->tab[j] = ft_strdup(tmp->token->name);
 // 				if (!tmp->tab[j])
 // 					printf("error tab\n");
-// 				// printf("---------- stock->tab[%d] = %s\n", j, stock->tab[j]);
+				// printf("---------- stock->tab[%d] = %s\n", j, stock->tab[j]);
 // 				j++;
 // 			}
 // 		}
 // 		tmp->token = tmp->token->next;
 // 	}
-// 	// printf("jjjjjjj = %d\n iiiii = %d\n", j, i);
+	// printf("jjjjjjj = %d\n iiiii = %d\n", j, i);
 // 	tmp->tab[j] = NULL;
 // }
 

@@ -6,24 +6,12 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 00:16:41 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/04 00:55:32 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/05 01:15:21 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../minishell.h"
 
-void	file_error(t_stock *stock, char *str)
-{
-	if (access(stock->exec.path, F_OK) == 0)
-	{
-		fprintf(stderr, "%s: Permission denied\n", stock->exec.path);
-	}
-	else
-	{
-		fprintf(stderr, "%s: No such file or directory\n", stock->exec.path);
-	}
-	close_fds(stock);
-}
 
 void	close_fds(t_stock *stock)
 {
@@ -35,48 +23,89 @@ void	close_fds(t_stock *stock)
 		close(stock->exec.fd_pipe[1]);
 }
 
-
-// int	ft_dup2_redir_files(int fd, t_token *tmp, t_token *tok, t_stock *stock)
+// int	ft_dup2_redir_files(int fd, t_stock *stock, t)
 // {
+// 	t_stock	*tmp;
+	
 // 	if (fd == -1)
 // 	{
-// 		file_error(tok,stock, tmp->next->str);
+// 		file_error(stock, tmp->token->name);
 // 		return (0);
 // 	}
-// 	if (tmp->type == REDIR_R || tmp->type == D_REDIR_R)
+// 	if (tmp->token->type == REDIR_R || tmp->token->type == D_REDIR_R)
 // 		dup2(fd, STDOUT_FILENO);
-// 	else if (tmp->type == REDIR_L || tmp->type == HERDOC)
+// 	else if (tmp->token->type == REDIR_L || tmp->token->type == HERDOC)
 // 		dup2(fd, STDIN_FILENO);
-// 	if (tmp->type != HERDOC)
+// 	if (tmp->token->type != HERDOC)
 // 		close(fd);
 // 	return (1);
 // }
 
-// int	redir_files(t_token *tok, int i, t_stock *sock)
-// {
-// 	int		fd;
-// 	t_token	*tmp;
 
-// 	tmp = find_curr_tok_pipe(&tok, i);
-// 	while (tmp && tmp->type != PIPE)
-// 	{
-// 		if (tmp->type == WORD)
-// 		{
-// 			tmp = tmp->next;
-// 			continue ;
-// 		}
-// 		if (tmp->type == REDIR_R)
-// 			fd = open(tmp->next->name, O_CREAT | O_RDWR | O_TRUNC, 0666);
-// 		else if (tmp->type == D_REDIR_R)
-// 			fd = open(tmp->next->name, O_CREAT | O_RDWR | O_APPEND, 0666);
-// 		else if (tmp->type == REDIR_L)
-// 			fd = open(tmp->next->name, O_RDONLY);
-// 		else if (tmp->type == HERDOC)
-// 			fd = find_heredoc(stock, tmp);
-// 		if (!ft_dup2_in_redir_files(fd, tmp, tok, stock))
-// 			return (0);
-// 		tmp = tmp->next;
-// 	}
-// 	close_heredocs(data,stock->nb_hd);
-// 	return (1);
-// }
+void	pipe_redic(t_stock *stock, int i)
+{
+	if (i != 0)
+	{
+		dup2(stock->exec.fd_tmp, 0);
+		close(stock->exec.fd_tmp);
+	}
+	if (i != stock->exec.nb_cmd - 1)
+		dup2(stock->exec.fd_pipe[1], 1);
+	close(stock->exec.fd_pipe[0]);
+	close(stock->exec.fd_pipe[1]);	
+	// if(stock->exec.nb_cmd == 1)
+}
+
+int	redir_files(t_stock *stock, int nb_cmd)
+{
+	int		fd;
+	int		j;
+	int		i;
+	t_cmd	*tmp_cmd;
+	
+	j = 0;
+	tmp_cmd = stock->cmd;
+		fprintf(stderr, "tmp_cmd======= = %d\n", nb_cmd);
+	while (tmp_cmd && j < nb_cmd)
+	{
+		j++;
+		tmp_cmd = tmp_cmd->next;
+	}
+	i = 0;
+	if (tmp_cmd && tmp_cmd->infile[i])
+	{
+		printf("ICIIIIIIIII\n");
+		while (tmp_cmd->infile[i])
+		{
+			fprintf(stderr, "j'ouvre le fichier : %s\n", tmp_cmd->infile[i]);
+			fd = open(tmp_cmd->infile[i], O_RDONLY);
+			if(fd == -1)
+			{
+				if (access(tmp_cmd->infile[i], F_OK) == 0)
+					fprintf(stderr, "%s: Permission denied\n", tmp_cmd->infile[i]);
+				else
+					fprintf(stderr, "%s: No such file or directory\n", tmp_cmd->infile[i]);
+				return (0);
+			}
+			i++;
+		}
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
+	else
+	{
+		fprintf(stderr, "Aucun fichier d'entrée défini pour la commande %d\n", nb_cmd);
+	}
+
+	return (1);
+}
+	// i = 0;
+	// while(tmp_cmd->outfile[i])
+	// {
+	// 	fd = open(outfile[i])
+	// 	i++;
+	// }
+		// // outfile trunc
+		// 	fd = open(tmp->token->name, O_CREAT | O_RDWR | O_TRUNC);
+		// // outfile append
+		// 	fd = open(tmp->token->type, O_CREAT | O_RDWR | O_APPEND);

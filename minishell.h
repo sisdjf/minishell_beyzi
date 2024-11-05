@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/04 00:32:57 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/05 00:22:25 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ typedef struct s_exec
 	char			**split_path;
 	char			*path;
 	char			*cmd;
+	char			**cmd_tab;
 	char			**env;
 	int				fd_tmp;
 	int				fd_pipe[2];
-	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int 			pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
@@ -196,7 +197,12 @@ char				*path_to_cmd(t_exec *exec, t_envp *envp);
 void				ft_exec(t_stock *stock);
 void				free_split(char **split);
 char				**tab_env(t_exec *exec, t_envp *envp);
-// void				tok_to_tab(t_stock *stock);
+void				pipe_redic(t_stock *stock, int i);
+int					redir_files(t_stock *stock, int i);
+void				init_struct_exec(t_stock *stock, int i);
+char 				*ft_find_cmd_for_exec(t_stock *stock, int i);
+char 				**ft_find_tab(t_stock *stock, int i);
+void				close_fds(t_stock *stock);
 
 // PARSE
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
