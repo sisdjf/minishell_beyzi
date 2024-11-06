@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 23:32:04 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/07 00:16:12 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
-#include <sys/wait.h>
 # include <unistd.h>
 
 # define DQUOTE '"'
@@ -31,10 +30,10 @@
 
 typedef enum s_sign
 {
-	D_REDIR_R, //>>
-	HERDOC,    //<<
-	REDIR_R,   //>
-	REDIR_L,   //<
+	D_REDIR_R,
+	HERDOC,
+	REDIR_R,
+	REDIR_L,
 	PIPE,
 	WORD,
 }					t_sign;
@@ -71,26 +70,22 @@ typedef struct s_exec
 	int				fd_tmp;
 	int				fd_pipe[2];
 	int				fd_tmp;
-	int 			pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
 typedef struct s_cmd
 {
 	char			**args;
-	// Tableau de chaînes pour stocker les arguments de la commande
-	char **infile;  // Fichier pour la redirection d'entrée (`<`)
-	char **outfile; // Fichier pour la redirection de sortie (`>`)
+	char			**infile;
+	char			**outfile;
 	char			**appendfile;
-	// Fichier pour la redirection de sortie en mode append (`>>`)
-	char **heredoc; // Fichier ou contenu pour un heredoc (`<<`)
+	char			**heredoc;
 	struct s_cmd	*next;
-	// Pointeur vers la prochaine commande (chaîne de commandes)
 }					t_cmd;
 
 typedef struct s_stock
 {
-	// char			**tab;
 	char			*key;
 	char			*value;
 	char			*new_str;
@@ -103,7 +98,6 @@ typedef struct s_stock
 
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
-int					ft_prompt(t_stock *stock, char *input);
 //QUOTES
 int					ft_quotes(char *str);
 char				*delete_quote(char *str);
@@ -137,12 +131,9 @@ void				stock_heredoc(t_token *token, int *i);
 void				stock_redir_r(t_token *token);
 void				stock_pipe(t_token *token);
 void				stock_redir_l(t_token *token);
-// //CHR_OPERATOR
-// char				*ft_greats_right(char *input);
-// char				*ft_greats_left(char *input);
-// char				*ft_double_greats_right(char *input);
-// char				*ft_double_greats_left(char *input);
-// char				*ft_chr_pipe(char *input);
+void	ft_negatif(char *input);
+char *ft_positif(char *input);
+
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
 int					ft_len_mini(char *str);
@@ -166,8 +157,8 @@ void				ft_lstadd_back_envp(t_envp **token, t_envp *new);
 void				stock_env_lst(char **env, t_stock *stock);
 void				print_lst_envp(t_stock *stock);
 //FREE
-void				free_envp(t_envp *env);
-void				ft_free_envp_list(t_envp *envp);
+void				free_envp(t_envp **env);
+void				ft_free_envp_list(t_envp **envp);
 void				free_tab(char **tab);
 //BUILTINS
 int					check_n_option(char **cmd);
@@ -185,12 +176,12 @@ t_envp				*search_envp(t_envp *envp, char *key);
 void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
 int					add_to_env(char *key, char *value, t_envp *envp);
 int					export(char **cmd, t_envp *envp);
+int					add_to_env(char *key, char *value, t_envp *envp);
 int					ft_exit(char **cmd);
 int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
 int					check_builtins(char **cmd);
-// void				tok_to_tab(t_stock *stock);
 char				**tok_to_tab(t_token *token);
 // PARSE
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
@@ -204,7 +195,7 @@ int					stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
-void				free_cmd(t_cmd *cmd);
+void				free_cmd(t_cmd **cmd);
 //EXEC
 // void				env(t_envp *envp);
 char				*chr_path(t_envp *envp);
@@ -216,6 +207,7 @@ void				init_struct_exec(t_stock *stock, int i);
 char				**ft_find_tab(t_stock *stock, int i);
 char				*ft_find_cmd_for_exec(t_stock *stock, int i);
 void				pipe_redic(t_stock *stock, int i);
+void				free_exec(t_stock *stock);
 #endif
 
 // #define RESET "\033[0m"

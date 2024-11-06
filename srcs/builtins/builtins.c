@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/06 23:21:18 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/07 00:17:33 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ int	builtins(char **cmd, t_envp *envp)
 // 	i = 0;
 // 	j = 0;
 // 	tmp = stock;
-	// i = get_nb_words(stock->token);
-	// printf("iiiiiiiiiiiiiiii %d\n", i);
+// 	i = get_nb_words(stock->token);
+// 	// printf("iiiiiiiiiiiiiiii %d\n", i);
 // 	tmp->tab = malloc(sizeof(char *) * (i + 1));
 // 	if (!tmp->tab)
 // 	{
@@ -97,19 +97,19 @@ int	builtins(char **cmd, t_envp *envp)
 // 	{
 // 		if (tmp->token->name)
 // 		{
-			// printf("--------- temp->name = %s\n", tmp->token->name);
+// 			// printf("--------- temp->name = %s\n", tmp->token->name);
 // 			if (tmp->token->type == WORD)
 // 			{
 // 				tmp->tab[j] = ft_strdup(tmp->token->name);
 // 				if (!tmp->tab[j])
 // 					printf("error tab\n");
-				// printf("---------- stock->tab[%d] = %s\n", j, stock->tab[j]);
+// 				// printf("---------- stock->tab[%d] = %s\n", j, stock->tab[j]);
 // 				j++;
 // 			}
 // 		}
 // 		tmp->token = tmp->token->next;
 // 	}
-	// printf("jjjjjjj = %d\n iiiii = %d\n", j, i);
+// 	// printf("jjjjjjj = %d\n iiiii = %d\n", j, i);
 // 	tmp->tab[j] = NULL;
 // }
 

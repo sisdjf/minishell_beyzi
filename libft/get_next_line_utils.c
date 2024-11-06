@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:18:34 by sizitout          #+#    #+#             */
-/*   Updated: 2024/01/24 16:44:37 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/07 00:15:11 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ size_t	ft_strlengnl(char *str)
 		i++;
 	return (i);
 }
-
 
 char	*ft_strjoingnl(char *s1, char *s2)
 {

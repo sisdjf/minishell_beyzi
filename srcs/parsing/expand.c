@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/31 19:42:21 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 19:54:26 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,11 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 	char	*env;
 
 	(*i)++;
-	// if (!str[*i])
-	// 	return (ft_strdup("$"));
 	if (ft_isdigit(str[*i]))
 	{
 		(*i)++;
 		return (ft_strdup(""));
 	}
-	// if (str[*i] == '\'' || str[*i] == '\"')
-	// 	return (ft_strdup("$"));
 	else if ((str[*i] == '\'' || str[*i] == '"') && !norm_quote(str, *i))
 		return (ft_strdup(""));
 	if ((!ft_isalpha(str[*i]) && str[*i] != '_'))
@@ -104,6 +100,7 @@ char	*bool_expand(t_stock *stock, char *str)
 	}
 	free(str);
 	test = delete_quote(str_env);
+	printf("je suis la\n");
 	free(str_env);
 	return (test);
 }

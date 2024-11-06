@@ -15,7 +15,7 @@ DIR_SRCS		=	srcs
 DIR_OBJS		=	objs
 
 SRCS_NAMES		=	minishell.c parsing/utils.c parsing/operator.c parsing/single_greater.c \
-                    parsing/double_greater.c parsing/token.c parsing/utils_token.c parsing/utils.lst.c parsing/cmd.c \
+                    parsing/double_greater.c parsing/token.c parsing/utils_token.c parsing/utils.lst.c \
                     parsing/expand.c parsing/utils_expand.c parsing/utils_env.c parsing/quotes.c parsing/free.c \
                     builtins/builtins.c builtins/cd.c builtins/echo.c builtins/env.c builtins/exit.c builtins/export.c \
                     builtins/pwd.c builtins/unset.c builtins/utils_exit.c parsing/parse.c parsing/in_out_files.c parsing/append_heredoc.c \
@@ -49,7 +49,7 @@ $(DIR_OBJS):
 
 
 leaks : all
-	valgrind --leak-check=full --track-fds=yes --suppressions=ignore.txt ./minishell
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt ./minishell
 
 clean :
 	${RM} ${OBJS} 
