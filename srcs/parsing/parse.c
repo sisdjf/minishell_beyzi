@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/06 01:31:29 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/06 23:28:24 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	print_args(t_cmd *cmd)
 			printf("args ici = %s\n", cmd->args[i]);
 			i++;
 		}
-		i = 0;
+		// i = 0;
 		// while(cmd->infile[i])
 		// {
 		// 	printf("infile ici = %s\n", cmd->infile[i]);

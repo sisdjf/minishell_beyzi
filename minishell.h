@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 02:11:29 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/06 23:32:04 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,24 +66,26 @@ typedef struct s_exec
 	char			*path;
 	char			*cmd;
 	char			**cmd_tab;
+	char			**cmd_tab;
 	char			**env;
 	int				fd_tmp;
 	int				fd_pipe[2];
+	int				fd_tmp;
 	int 			pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
 typedef struct s_cmd
 {
-	char **args;       
-		// Tableau de chaînes pour stocker les arguments de la commande
-	char **infile;      // Fichier pour la redirection d'entrée (`<`)
-	char **outfile;     // Fichier pour la redirection de sortie (`>`)
-	char **appendfile; 
-		// Fichier pour la redirection de sortie en mode append (`>>`)
-	char **heredoc;     // Fichier ou contenu pour un heredoc (`<<`)
-	struct s_cmd *next;
-		// Pointeur vers la prochaine commande (chaîne de commandes)
+	char			**args;
+	// Tableau de chaînes pour stocker les arguments de la commande
+	char **infile;  // Fichier pour la redirection d'entrée (`<`)
+	char **outfile; // Fichier pour la redirection de sortie (`>`)
+	char			**appendfile;
+	// Fichier pour la redirection de sortie en mode append (`>>`)
+	char **heredoc; // Fichier ou contenu pour un heredoc (`<<`)
+	struct s_cmd	*next;
+	// Pointeur vers la prochaine commande (chaîne de commandes)
 }					t_cmd;
 
 typedef struct s_stock
@@ -187,25 +189,9 @@ int					ft_exit(char **cmd);
 int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
+int					check_builtins(char **cmd);
 // void				tok_to_tab(t_stock *stock);
 char				**tok_to_tab(t_token *token);
-
-//EXEC
-// void				env(t_envp *envp);
-char				*chr_path(t_envp *envp);
-char				*path_to_cmd(t_exec *exec, t_envp *envp);
-void				ft_exec(t_stock *stock);
-void				free_split(char **split);
-char				**tab_env(t_exec *exec, t_envp *envp);
-void				pipe_redic(t_stock *stock, int i);
-int					redir_infile(t_stock *stock, int i);
-int					redir_outfile(t_stock *stock, int i);
-int					redir_appendfile(t_stock *stock, int nb_cmd);
-void				init_struct_exec(t_stock *stock, int i);
-char 				*ft_find_cmd_for_exec(t_stock *stock, int i);
-char 				**ft_find_tab(t_stock *stock, int i);
-void				close_fds(t_stock *stock);
-
 // PARSE
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
 int					stock_args_cmd(t_token *token, int pipe, t_cmd *new);
@@ -219,7 +205,17 @@ int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
 void				free_cmd(t_cmd *cmd);
-
+//EXEC
+// void				env(t_envp *envp);
+char				*chr_path(t_envp *envp);
+char				*path_to_cmd(t_exec *exec, t_envp *envp);
+void				ft_exec(t_stock *stock);
+void				free_split(char **split);
+char				**tab_env(t_exec *exec, t_envp *envp);
+void				init_struct_exec(t_stock *stock, int i);
+char				**ft_find_tab(t_stock *stock, int i);
+char				*ft_find_cmd_for_exec(t_stock *stock, int i);
+void				pipe_redic(t_stock *stock, int i);
 #endif
 
 // #define RESET "\033[0m"

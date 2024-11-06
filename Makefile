@@ -35,7 +35,7 @@ all : ${NAME}
 ${NAME} : ${DIR_OBJS} ${OBJS}
 		${MAKE} -C ${LIBFT}
 		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline
-		@echo "\033[31;5mminishell\033[0m"
+		# @echo "\033[31;5mminishell\033[0m"
 
 ${OBJS} : ${DIR_OBJS}/%.o : ${DIR_SRCS}/%.c
 	${CC} ${CFLAGS} ${HEAD} -c $< -o $@

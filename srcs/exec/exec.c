@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 03:20:27 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/06 23:27:29 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ void	init_struct_exec(t_stock *stock, int i)
 	stock->exec.env = tab_env(&stock->exec, stock->envp);
 }
 
+void	init_struct_exec(t_stock *stock, int i)
+{
+	stock->exec.cmd = ft_find_cmd_for_exec(stock, i);
+	stock->exec.cmd_tab = ft_find_tab(stock, i);
+	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
+	stock->exec.env = tab_env(&stock->exec, stock->envp);
+}
 char	*chr_path(t_envp *envp)
 {
 	t_envp	*tmp;
@@ -58,12 +65,17 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 		{
 			tmp = ft_strjoin(exec->split_path[i], "/");
 			cmd_path = ft_strjoin(tmp, exec->cmd);
+			// printf("Lynda, ex: %s\n", exec->cmd);
 			free(tmp);
 			if (access(cmd_path, X_OK) == 0)
 			{
 				free_split(exec->split_path);
 				return (cmd_path);
 			}
+			// else
+			// {
+			// 	printf("PAS D ACESS\n");
+			// }
 			free(cmd_path);
 			i++;
 		}
@@ -101,6 +113,59 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 	}
 	env[i] = NULL;
 	return (env);
+}
+
+char	*ft_find_cmd_for_exec(t_stock *stock, int i)
+{
+	t_cmd	*tmp;
+	int		compteur;
+
+	compteur = 0;
+	tmp = stock->cmd;
+	while (tmp)
+	{
+		if (compteur == i)
+		{
+			return (tmp->args[0]);
+		}
+		compteur++;
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+char	**ft_find_tab(t_stock *stock, int i)
+{
+	int		compteur;
+	t_cmd	*tmp;
+
+	compteur = 0;
+	tmp = stock->cmd;
+	while (tmp)
+	{
+		if (compteur == i)
+		{
+			printf("tmp->agsssssss --> %s\n", tmp->args[0]);
+			return (tmp->args);
+		}
+		compteur++;
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+void	pipe_redic(t_stock *stock, int i)
+{
+	if (i != 0)
+	{
+		dup2(stock->exec.fd_tmp, 0);
+		close(stock->exec.fd_tmp);
+	}
+	if (i != stock->exec.nb_cmd - 1)
+		dup2(stock->exec.fd_pipe[1], 1);
+	close(stock->exec.fd_pipe[0]);
+	close(stock->exec.fd_pipe[1]);	
+	// if(stock->exec.nb_cmd == 1)
 }
 
 char *ft_find_cmd_for_exec(t_stock *stock, int i)
@@ -143,6 +208,38 @@ void	ft_exec(t_stock *stock)
 {
 	int	i;
 
+	i = 0;
+	printf("nb cmd = [%d]\n", stock->exec.nb_cmd);
+	while (i < stock->exec.nb_cmd)
+	{
+		// printf("cmd [{%d}]\n", stock->exec.nb_cmd);
+		// pipe(stock->exec.fd_pipe);
+		if (pipe(stock->exec.fd_pipe) == -1)
+		{
+			printf("Error avec la fonction pipe\n");
+			exit(EXIT_FAILURE);
+		}
+		stock->exec.pid[i] = fork();
+		if (stock->exec.pid[i] < 0)
+		{
+			printf("ERROR FORK\n");
+			exit(EXIT_FAILURE);
+		}
+		if (stock->exec.pid[i] == 0)
+		{
+			init_struct_exec(stock, i);
+			pipe_redic(stock, i);
+			execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+		}
+		else
+		{
+			printf("PARENTS\n");
+			close(stock->exec.fd_pipe[1]);
+			stock->exec.fd_tmp = stock->exec.fd_pipe[0];
+		}
+		i++;
+	}
+		close(stock->exec.fd_pipe[0]);
 	i = 0;
 	while (i < stock->exec.nb_cmd)
 	{
