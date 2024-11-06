@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/07 00:16:12 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/07 00:16:20 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_exec
 	int				fd_tmp;
 	int				fd_pipe[2];
 	int				fd_tmp;
-	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int 			pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;

@@ -6,15 +6,14 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 20:08:21 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 00:34:35 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/07 00:10:53 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-
 int	ft_check(char c, va_list *args, int *len)
-{	
+{
 	if (c == 'c')
 		ft_putchar(va_arg(*args, int), len);
 	if (c == 's')
@@ -59,38 +58,3 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (len);
 }
-// int main(void)
-// {
-//     char c = 'S';
-// 	char *name = NULL;
-// 	int nmb = INT_MIN;
-// 	int nbrpo = -49999999;
-// 	int realres;
-// 	int myres;
-	
-//     realres = printf("%c mon prenom %s puis %% %i bla %u hexa %x HEXA %X enfin %p\n", c, name, nmb, nbrpo, nmb, nmb, NULL);
-// 	myres = ft_printf("%c mon prenom %s puis %% %i bla %u hexa %x HEXA %X enfin %p\n", c, name, nmb, nbrpo, nmb, nmb, NULL);
-// 	printf("real len : %d\n", realres);
-// 	printf("my len : %d\n", myres);
-// }
-
-
-// int main(void)
-// {
-// //     char c = 'S';
-// // 	char *name = NULL;
-// // 	int nmb = INT_MIN;
-// // 	int nbrpo = -49999999;
-// // 	int realres;
-// // 	int myres;
-// // 	//char	test[];
-	
-// //     realres = printf("%c mon prenom %s puis %% %i bla %u hexa %x HEXA %X enfin %p\n", c, name, nmb, nbrpo, nmb, nmb, NULL);
-// // 	myres = ft_printf("%c mon prenom %s puis %% %i bla %u hexa %x HEXA %X enfin %p\n", c, name, nmb, nbrpo, nmb, nmb, NULL);
-// // 	printf("real len : %d\n", realres);
-// //  	ft_printf("%c mon%1%2 prenom %s puis %% %%i bla %%%u hexa %%%x HEXA %%%X enfin %%%p\n", 'q', "Bonjour tout vas super bien", 2147483658, 4294967296, 2147483657, 128, -12);
-// // 	printf("my len : %d\n", myres);
-// // 	printf(NULL,NULL,NULL);
-// // }
-
-
