@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/24 15:47:04 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 22:03:15 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,11 @@ int	add_to_env(char *key, char *value, t_envp *envp)
 	{
 		str = ft_strjoin(key, "=");
 		mini = ft_strjoin(str, value);
+		printf("str %s\n", mini);
 		free(value);
 		free(str);
 		ft_lstadd_back_envp(&envp, ft_lstnew_envp(mini));
+		// print_lst_envp();
 	}
 	return (0);
 }
@@ -100,9 +102,13 @@ int	export(char **cmd, t_envp *envp)
 	{
 		key = get_key_export(cmd[1]);
 		value = get_value_export(cmd[1]);
+		printf("key = %s value = %s\n", key, value);
 		add_to_env(key, value, envp);
 		free(key);
 		i++;
 	}
 	return (0);
 }
+
+//export A==a
+//unset A apres ca aussi des pb surement lie au ==

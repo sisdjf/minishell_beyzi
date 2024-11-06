@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 02:46:36 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 21:49:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # define DQUOTE '"'
@@ -96,7 +97,6 @@ typedef struct s_stock
 
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
-int					ft_prompt(t_stock *stock, char *input);
 //QUOTES
 int					ft_quotes(char *str);
 char				*delete_quote(char *str);
@@ -130,6 +130,9 @@ void				stock_heredoc(t_token *token, int *i);
 void				stock_redir_r(t_token *token);
 void				stock_pipe(t_token *token);
 void				stock_redir_l(t_token *token);
+void	ft_negatif(char *input);
+char *ft_positif(char *input);
+
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
 int					ft_len_mini(char *str);
@@ -153,8 +156,8 @@ void				ft_lstadd_back_envp(t_envp **token, t_envp *new);
 void				stock_env_lst(char **env, t_stock *stock);
 void				print_lst_envp(t_stock *stock);
 //FREE
-void				free_envp(t_envp *env);
-void				ft_free_envp_list(t_envp *envp);
+void				free_envp(t_envp **env);
+void				ft_free_envp_list(t_envp **envp);
 void				free_tab(char **tab);
 //BUILTINS
 int					check_n_option(char **cmd);
@@ -172,6 +175,7 @@ t_envp				*search_envp(t_envp *envp, char *key);
 void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
 int					add_to_env(char *key, char *value, t_envp *envp);
 int					export(char **cmd, t_envp *envp);
+int					add_to_env(char *key, char *value, t_envp *envp);
 int					ft_exit(char **cmd);
 int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
@@ -190,7 +194,7 @@ int					stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
-void				free_cmd(t_cmd *cmd);
+void				free_cmd(t_cmd **cmd);
 //EXEC
 // void				env(t_envp *envp);
 char				*chr_path(t_envp *envp);
@@ -202,6 +206,7 @@ void				init_struct_exec(t_stock *stock, int i);
 char				**ft_find_tab(t_stock *stock, int i);
 char				*ft_find_cmd_for_exec(t_stock *stock, int i);
 void				pipe_redic(t_stock *stock, int i);
+void				free_exec(t_stock *stock);
 #endif
 
 // #define RESET "\033[0m"

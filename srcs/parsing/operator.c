@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/20 19:46:06 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 22:06:26 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,20 @@ void	ft_negatif(char *input)
 		i++;
 	}
 }
+// void	ft_posi(char *input)
+// {
+// 	int	i;
 
-void	ft_positif(char *input)
+// 	i = 0;
+// 	while (input[i])
+// 	{
+// 		if (input[i] < 0)
+// 			input[i] = -input[i];
+// 		i++;
+// 	}
+// }
+
+char *ft_positif(char *input)
 {
 	int	i;
 
@@ -87,9 +99,10 @@ void	ft_positif(char *input)
 	while (input[i])
 	{
 		if (input[i] < 0)
-			input[i] = -input[i];
+			input[i] *= -1;
 		i++;
 	}
+	return (input);
 }
 
 int	syntax_error(char *input)

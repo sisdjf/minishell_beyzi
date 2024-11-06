@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/24 23:57:21 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 21:45:35 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ void	stock_word(t_token *token, char *input, int *i)
 
 void	chr_operator(char *input, t_token *token, int *i, int j)
 {
-	int	cmpt;
-	int	index_str;
-
 	if (ft_strncmp(input + (*i), ">>", 2) == 0)
 		stock_redir_double_r(token, i);
 	else if (ft_strncmp(input + (*i), "<<", 2) == 0)
@@ -65,8 +62,6 @@ void	chr_operator(char *input, t_token *token, int *i, int j)
 	else
 	{
 		j = (*i);
-		cmpt = 0;
-		index_str = 0;
 		stock_word(token, input, i);
 		token->type = WORD;
 		token->next = NULL;
@@ -88,6 +83,8 @@ int	ft_token(t_stock *stock, char *input)
 		if (!new_token)
 			return (printf("error malloc token"), 1);
 		chr_operator(input, new_token, &i, 0);
+		fprintf(stderr,"my token is %s\n", new_token->name);
+		new_token->name = ft_positif(new_token->name);
 		ft_lstadd_back(&stock->token, new_token);
 		i++;
 	}

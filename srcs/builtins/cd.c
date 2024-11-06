@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/24 15:47:15 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 21:15:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_cd(char **cmd, t_envp *envp)
 	if (ret == -1)
 	{
 		printf("cd : [%s]: No such file or directory\n", cmd[1]);
-		return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }

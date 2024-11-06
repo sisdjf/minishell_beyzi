@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 03:16:42 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 21:13:16 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,16 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	return (NULL);
 }
 
+void	print_vraitab(char **tab)
+{
+	int i = 0;
+	while (tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
+}
+
 char	**tab_env(t_exec *exec, t_envp *envp)
 {
 	int		i;
@@ -94,6 +104,7 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 		i++;
 	}
 	env[i] = NULL;
+	// print_vraitab(env);
 	return (env);
 }
 
@@ -178,8 +189,12 @@ void	ft_exec(t_stock *stock)
 				execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
 			else
 			{
-				ft_printf("command not found\n");
-				exit (0);
+				ft_printf("%s: command not found\n", stock->exec.cmd);
+				free_exec(stock);
+				free_tokens(stock->token);
+				ft_free_envp_list(&stock->envp);
+				// free_cmd(&stock->cmd);
+				exit (127);
 			}
 			// exit ici si ya erreur avec un beau jolie msg derreur puis free
 		}
@@ -211,9 +226,12 @@ void	ft_exec(t_stock *stock)
 	// i++;
 	// }
 	// -> waitpid (attendre child processes)
-	// i = 0;
-	// while (i < nb_cmd)
-	// waitpid(exec->pid[i++], NULL, 0)
+	i = 0;
+	while (i < stock->exec.nb_cmd)
+	{
+		fprintf(stderr, "PID [%i]\n", stock->exec.pid[i]);
+		waitpid(stock->exec.pid[i++], NULL, 0);
+	}
 }
 
 // ordre des choses dans l'exec
