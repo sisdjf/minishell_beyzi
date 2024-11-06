@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:07 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/20 19:38:01 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 03:07:28 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	s_loop_right(char *str, int *i, int nb_greater, int word)
 		word = 0;
 		while (str[(*i)])
 		{
-			if ((*i) > 0 && str[(*i)] == '>'
-				&& str[(*i) + 1] != '>' && str[(*i) - 1] != '>')
+			if ((*i) > 0 && str[(*i)] == '>' && str[(*i) + 1] != '>' && str[(*i)
+				- 1] != '>')
 			{
 				nb_greater++;
 				break ;
@@ -77,8 +77,8 @@ int	s_loop_left(char *str, int *i, int nb_greater, int word)
 		word = 0;
 		while (str[(*i)])
 		{
-			if ((*i) > 0 && str[(*i)] == '<'
-				&& str[(*i) + 1] != '<' && str[(*i) - 1] != '<')
+			if ((*i) > 0 && str[(*i)] == '<' && str[(*i) + 1] != '<' && str[(*i)
+				- 1] != '<')
 			{
 				nb_greater++;
 				break ;

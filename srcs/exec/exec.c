@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/04 00:50:30 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 03:16:42 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*chr_path(t_envp *envp)
 	{
 		if (ft_strcmp(tmp->key, "PATH") == 0)
 		{
-			// printf("%s\n", tmp->key);
 			return (tmp->value);
 		}
 		tmp = tmp->next;
@@ -43,22 +42,15 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	char	*tmp;
 
 	exec->path = chr_path(envp);
-	printf("exec->cmd = %s\n", exec->cmd);
 	i = -1;
 	if (exec->path)
 	{
 		exec->split_path = ft_split(exec->path, ':');
-		// if (exec->split_path)
-		// {
-		// 	while (exec->split_path[++i])
-		// 		printf("%s\n", exec->split_path[i]);
-		// }
 		i = 0;
 		while (exec->split_path[i])
 		{
 			tmp = ft_strjoin(exec->split_path[i], "/");
 			cmd_path = ft_strjoin(tmp, exec->cmd);
-			// printf("Lynda, ex: %s\n", exec->cmd);
 			free(tmp);
 			if (access(cmd_path, X_OK) == 0)
 			{
@@ -66,10 +58,6 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 				printf("cmd_path = %s\n", cmd_path);
 				return (cmd_path);
 			}
-			// else
-			// {
-			// 	printf("PAS D ACESS\n");
-			// }
 			free(cmd_path);
 			i++;
 		}
@@ -139,7 +127,6 @@ char	**ft_find_tab(t_stock *stock, int i)
 	{
 		if (compteur == i)
 		{
-			printf("tmp->agsssssss --> %s\n", tmp->args[0]);
 			return (tmp->args);
 		}
 		compteur++;
@@ -158,7 +145,7 @@ void	pipe_redic(t_stock *stock, int i)
 	if (i != stock->exec.nb_cmd - 1)
 		dup2(stock->exec.fd_pipe[1], 1);
 	close(stock->exec.fd_pipe[0]);
-	close(stock->exec.fd_pipe[1]);	
+	close(stock->exec.fd_pipe[1]);
 	// if(stock->exec.nb_cmd == 1)
 }
 
@@ -170,8 +157,7 @@ void	ft_exec(t_stock *stock)
 	printf("nb cmd = [%d]\n", stock->exec.nb_cmd);
 	while (i < stock->exec.nb_cmd)
 	{
-		// printf("cmd [{%d}]\n", stock->exec.nb_cmd);
-		// pipe(stock->exec.fd_pipe);
+		// printf("cmd [{%d}]\n", stock->exec.nb_cmd)
 		if (pipe(stock->exec.fd_pipe) == -1)
 		{
 			printf("Error avec la fonction pipe\n");
@@ -187,7 +173,15 @@ void	ft_exec(t_stock *stock)
 		{
 			init_struct_exec(stock, i);
 			pipe_redic(stock, i);
-			execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+			//redic ficher
+			if (stock->exec.path)
+				execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+			else
+			{
+				ft_printf("command not found\n");
+				exit (0);
+			}
+			// exit ici si ya erreur avec un beau jolie msg derreur puis free
 		}
 		else
 		{
@@ -197,7 +191,7 @@ void	ft_exec(t_stock *stock)
 		}
 		i++;
 	}
-		close(stock->exec.fd_pipe[0]);
+	close(stock->exec.fd_pipe[0]);
 	// -> exec->pid[i] = fork()
 	// if (data->pid[i] == 0)
 	// {

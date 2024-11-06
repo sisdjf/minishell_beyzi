@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/01 18:42:22 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 03:06:37 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,10 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == WORD)
-		{
 			new->args[i++] = ft_strdup(tmp->name);
-		}
 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
 			|| tmp->type == REDIR_R || tmp->type == REDIR_L)
-		{
 			tmp = tmp->next;
-		}
 		tmp = tmp->next;
 	}
 	new->args[i] = NULL;

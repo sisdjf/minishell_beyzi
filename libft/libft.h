@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:22:11 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/15 22:52:37 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 02:48:39 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 # define LIBFT_H
 
 # include <ctype.h>
+# include <fcntl.h>
 # include <limits.h>
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 80
+
+# endif
 
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
@@ -55,5 +61,18 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
+void	ft_putchar(char c, int *len);
+void	ft_putnbr(int nb, int *len);
+void	ft_putnbrpo(unsigned int nb, int *len);
+int		ft_printf(const char *str, ...);
+int		ft_putstr(char *str, int *len);
+int		ft_putptr(void *ptr, int *len);
+int		ft_puthex(unsigned int nb, char c, int *len);
+size_t	ft_strlengnl(char *str);
+char	*ft_strjoingnl(char *s1, char *s2);
+int		check_line(char *bufs);
+char	*ft_extract_line(char *str);
+char	*get_next_line(int fd);
+int		get_index(char *str);
 
 #endif

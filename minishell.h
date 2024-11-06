@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/04 00:49:42 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 02:46:36 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@
 
 typedef enum s_sign
 {
-	D_REDIR_R, //>>
-	HERDOC,    //<<
-	REDIR_R,   //>
-	REDIR_L,   //<
+	D_REDIR_R,
+	HERDOC,
+	REDIR_R,
+	REDIR_L,
 	PIPE,
 	WORD,
 }					t_sign;
@@ -68,26 +68,22 @@ typedef struct s_exec
 	char			**env;
 	int				fd_pipe[2];
 	int				fd_tmp;
-	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int				pid[1024];
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
 typedef struct s_cmd
 {
 	char			**args;
-	// Tableau de chaînes pour stocker les arguments de la commande
-	char **infile;  // Fichier pour la redirection d'entrée (`<`)
-	char **outfile; // Fichier pour la redirection de sortie (`>`)
+	char			**infile;
+	char			**outfile;
 	char			**appendfile;
-	// Fichier pour la redirection de sortie en mode append (`>>`)
-	char **heredoc; // Fichier ou contenu pour un heredoc (`<<`)
+	char			**heredoc;
 	struct s_cmd	*next;
-	// Pointeur vers la prochaine commande (chaîne de commandes)
 }					t_cmd;
 
 typedef struct s_stock
 {
-	// char			**tab;
 	char			*key;
 	char			*value;
 	char			*new_str;
@@ -134,12 +130,6 @@ void				stock_heredoc(t_token *token, int *i);
 void				stock_redir_r(t_token *token);
 void				stock_pipe(t_token *token);
 void				stock_redir_l(t_token *token);
-// //CHR_OPERATOR
-// char				*ft_greats_right(char *input);
-// char				*ft_greats_left(char *input);
-// char				*ft_double_greats_right(char *input);
-// char				*ft_double_greats_left(char *input);
-// char				*ft_chr_pipe(char *input);
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
 int					ft_len_mini(char *str);
@@ -187,7 +177,6 @@ int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
 int					check_builtins(char **cmd);
-// void				tok_to_tab(t_stock *stock);
 char				**tok_to_tab(t_token *token);
 // PARSE
 int					nbr_malloc_word_cmd(t_token *token, int pipe);

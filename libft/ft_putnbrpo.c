@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_putnbrpo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 15:48:30 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 03:08:00 by sizitout         ###   ########.fr       */
+/*   Created: 2023/10/30 16:46:51 by sizitout          #+#    #+#             */
+/*   Updated: 2024/01/24 16:23:09 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-void	free_split(char **split)
+void	ft_putnbrpo(unsigned int nb, int *len)
 {
-	int	i;
-
-	i = 0;
-	if (!split)
-		return ;
-	while (split[i])
+	if (nb <= 9)
 	{
-		free(split[i]);
-		i++;
+		ft_putchar(nb + '0', len);
 	}
-	free(split);
+	else
+	{
+		ft_putnbrpo(nb / 10, len);
+		ft_putchar(nb % 10 + '0', len);
+	}
 }
+// int	main(void)
+// {
+// 	ft_putnbrpo(49999999);
+// 	return (0);
+// }

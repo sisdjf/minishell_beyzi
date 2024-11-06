@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 15:48:30 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 03:08:00 by sizitout         ###   ########.fr       */
+/*   Created: 2023/10/30 15:58:57 by sizitout          #+#    #+#             */
+/*   Updated: 2024/01/24 16:23:05 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-void	free_split(char **split)
+void	ft_putnbr(int nb, int *len)
 {
-	int	i;
+	long long int	nbr;
 
-	i = 0;
-	if (!split)
-		return ;
-	while (split[i])
+	nbr = nb;
+	if (nbr == INT_MIN)
 	{
-		free(split[i]);
-		i++;
+		ft_putstr("-2147483648", len);
+		return ;
 	}
-	free(split);
+	if (nb < 0)
+	{
+		nb = nb * -1;
+		ft_putchar('-', len);
+	}
+	if (nb > 9)
+	{
+		ft_putnbr(nb / 10, len);
+	}
+	ft_putchar((nb % 10) + '0', len);
 }

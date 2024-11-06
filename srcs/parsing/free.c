@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 19:22:33 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 02:51:47 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_tab(char **tab)
 
 void	free_cmd(t_cmd *cmd)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	while (cmd)
 	{
@@ -71,5 +71,3 @@ void	free_cmd(t_cmd *cmd)
 		cmd = tmp;
 	}
 }
-
-

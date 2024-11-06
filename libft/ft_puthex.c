@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 15:48:30 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 03:08:00 by sizitout         ###   ########.fr       */
+/*   Created: 2023/10/30 16:47:36 by sizitout          #+#    #+#             */
+/*   Updated: 2024/01/24 16:23:00 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-void	free_split(char **split)
+int	ft_puthex(unsigned int nb, char c, int *len)
 {
-	int	i;
+	char	*min;
+	char	*maj;
 
-	i = 0;
-	if (!split)
-		return ;
-	while (split[i])
+	min = "0123456789abcdef";
+	maj = "0123456789ABCDEF";
+	if (nb > 15)
 	{
-		free(split[i]);
-		i++;
+		ft_puthex(nb / 16, c, len);
+		ft_puthex(nb % 16, c, len);
 	}
-	free(split);
+	if (nb < 16)
+	{
+		if (c == 'x')
+		{
+			write(1, &min[nb], 1);
+			(*len)++;
+		}
+		else
+		{
+			write(1, &maj[nb], 1);
+			(*len)++;
+		}
+	}
+	return (1);
 }

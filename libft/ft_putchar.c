@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 15:48:30 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 03:08:00 by sizitout         ###   ########.fr       */
+/*   Created: 2023/10/30 15:56:24 by sizitout          #+#    #+#             */
+/*   Updated: 2024/01/24 16:22:53 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-void	free_split(char **split)
+void	ft_putchar(char c, int *len)
 {
-	int	i;
-
-	i = 0;
-	if (!split)
-		return ;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
+	write(1, &c, 1);
+	(*len)++;
 }

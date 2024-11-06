@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 15:48:30 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 03:08:00 by sizitout         ###   ########.fr       */
+/*   Created: 2023/10/30 15:57:52 by sizitout          #+#    #+#             */
+/*   Updated: 2024/11/06 02:47:09 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-void	free_split(char **split)
+int	ft_putstr(char *str, int *len)
 {
 	int	i;
 
 	i = 0;
-	if (!split)
-		return ;
-	while (split[i])
+	if (!str)
 	{
-		free(split[i]);
-		i++;
+		write(1, "(null)", 6);
+		(*len) = *len + 6;
+		return (0);
 	}
-	free(split);
+	write(1, str, strlen(str));
+	(*len) += strlen(str);
+	return (i);
 }
