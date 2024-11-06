@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_out_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:28:56 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/01 16:31:38 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 01:53:20 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	stock_infile_cmd(t_token *token, int pipe, t_cmd *new)
 		return (0);
 	}
 	new->infile = malloc(sizeof(char *) * (nb_malloc + 1));
-	printf("ADRESSE MALLOC = %p\n", new->infile);
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
@@ -131,7 +130,8 @@ int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new)
 		if (tmp->type == REDIR_R)
 		{
 			tmp = tmp->next;
-			new->outfile[i++] = ft_strdup(tmp->name);
+			new->outfile[i] = ft_strdup(tmp->name);
+			i++;
 		}
 		tmp = tmp->next;
 	}

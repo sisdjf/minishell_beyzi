@@ -6,7 +6,7 @@
 #    By: sizitout <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/05 13:47:01 by hauerbac          #+#    #+#              #
-#    Updated: 2024/10/22 20:46:19 by sizitout         ###   ########.fr        #
+#    Updated: 2024/11/06 00:26:00 by sizitout         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,15 @@ SRCS =  ft_isalpha.c \
 	ft_putstr_fd.c \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \
+	get_next_line_utils.c \
+	get_next_line.c \
+	ft_printf.c\
+	ft_putchar.c\
+	ft_puthex.c\
+	ft_putnbr.c\
+	ft_putnbrpo.c\
+	ft_putptr.c\
+	ft_putstr.c\
 
 OBJS = ${SRCS:.c=.o}
 

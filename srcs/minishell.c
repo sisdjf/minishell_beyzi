@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 17:01:04 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/06 03:19:27 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	ft_prompt(t_stock *stock, char *input)
 		free_tokens(stock->token);
 		ft_exec(stock);
 		free(input);
-		print_args(stock->cmd);
 		free_cmd(stock->cmd);
 	}
 	return (0);

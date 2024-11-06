@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/05 00:22:25 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/06 02:11:29 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,9 @@ void				ft_exec(t_stock *stock);
 void				free_split(char **split);
 char				**tab_env(t_exec *exec, t_envp *envp);
 void				pipe_redic(t_stock *stock, int i);
-int					redir_files(t_stock *stock, int i);
+int					redir_infile(t_stock *stock, int i);
+int					redir_outfile(t_stock *stock, int i);
+int					redir_appendfile(t_stock *stock, int nb_cmd);
 void				init_struct_exec(t_stock *stock, int i);
 char 				*ft_find_cmd_for_exec(t_stock *stock, int i);
 char 				**ft_find_tab(t_stock *stock, int i);

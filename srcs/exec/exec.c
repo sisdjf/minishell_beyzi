@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/05 01:09:23 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/06 03:20:27 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	char	*tmp;
 
 	exec->path = chr_path(envp);
-	printf("exec->cmd = %s\n", exec->cmd);
 	i = -1;
 	if (exec->path)
 	{
@@ -63,7 +62,6 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 			if (access(cmd_path, X_OK) == 0)
 			{
 				free_split(exec->split_path);
-				printf("cmd_path = %s\n", cmd_path);
 				return (cmd_path);
 			}
 			free(cmd_path);
@@ -146,7 +144,6 @@ void	ft_exec(t_stock *stock)
 	int	i;
 
 	i = 0;
-	printf("nb cmd = [%d]\n", stock->exec.nb_cmd);
 	while (i < stock->exec.nb_cmd)
 	{
 		// printf("cmd [{%d}]\n", stock->exec.nb_cmd);
@@ -166,17 +163,21 @@ void	ft_exec(t_stock *stock)
 		{
 			init_struct_exec(stock, i);
 			pipe_redic(stock, i);
-			redir_files(stock, i);
-			execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+			redir_infile(stock, i);
+			redir_outfile(stock, i);
+			redir_appendfile(stock, i);
+			if (stock->exec.path)
+				execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+			exit (0);
 		}
 		else
 		{
-			printf("PARENTS\n");
 			close(stock->exec.fd_pipe[1]);
 			stock->exec.fd_tmp = stock->exec.fd_pipe[0];
 		}
 		i++;
 	}
+	wait(NULL);
 	close_fds(stock);
 }
 	// -> exec->pid[i] = fork()

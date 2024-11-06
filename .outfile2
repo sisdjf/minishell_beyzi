@@ -1,0 +1,13 @@
+a.out
+ignore.txt
+libft
+Makefile
+minishell
+minishell.h
+objs
+outfile
+outfile1
+outfile2
+outfile3
+srcs
+test.c
