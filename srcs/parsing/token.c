@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 21:45:35 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/09 02:32:24 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_token(t_stock *stock, char *input)
 		if (!new_token)
 			return (printf("error malloc token"), 1);
 		chr_operator(input, new_token, &i, 0);
-		fprintf(stderr,"my token is %s\n", new_token->name);
+		// fprintf(stderr,"my token is %s\n", new_token->name);
 		new_token->name = ft_positif(new_token->name);
 		ft_lstadd_back(&stock->token, new_token);
 		i++;

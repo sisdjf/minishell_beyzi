@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 21:13:16 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/09 02:34:14 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 			if (access(cmd_path, X_OK) == 0)
 			{
 				free_split(exec->split_path);
-				printf("cmd_path = %s\n", cmd_path);
+				// printf("cmd_path = %s\n", cmd_path);
 				return (cmd_path);
 			}
 			free(cmd_path);
@@ -165,7 +165,7 @@ void	ft_exec(t_stock *stock)
 	int	i;
 
 	i = 0;
-	printf("nb cmd = [%d]\n", stock->exec.nb_cmd);
+	// printf("nb cmd = [%d]\n", stock->exec.nb_cmd);
 	while (i < stock->exec.nb_cmd)
 	{
 		// printf("cmd [{%d}]\n", stock->exec.nb_cmd)
@@ -195,12 +195,12 @@ void	ft_exec(t_stock *stock)
 				ft_free_envp_list(&stock->envp);
 				// free_cmd(&stock->cmd);
 				exit (127);
+				// exit ici si ya erreur avec un beau jolie msg derreur puis free
 			}
-			// exit ici si ya erreur avec un beau jolie msg derreur puis free
 		}
 		else
 		{
-			printf("PARENTS\n");
+			// printf("PARENTS\n");
 			close(stock->exec.fd_pipe[1]);
 			stock->exec.fd_tmp = stock->exec.fd_pipe[0];
 		}
@@ -229,7 +229,7 @@ void	ft_exec(t_stock *stock)
 	i = 0;
 	while (i < stock->exec.nb_cmd)
 	{
-		fprintf(stderr, "PID [%i]\n", stock->exec.pid[i]);
+		// fprintf(stderr, "PID [%i]\n", stock->exec.pid[i]);
 		waitpid(stock->exec.pid[i++], NULL, 0);
 	}
 }

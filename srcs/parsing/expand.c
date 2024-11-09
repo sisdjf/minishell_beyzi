@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 19:54:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/09 02:32:41 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*bool_expand(t_stock *stock, char *str)
 	}
 	free(str);
 	test = delete_quote(str_env);
-	printf("je suis la\n");
+	// printf("je suis la\n");
 	free(str_env);
 	return (test);
 }
