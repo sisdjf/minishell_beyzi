@@ -45,7 +45,6 @@ $(DIR_OBJS):
 	mkdir -p objs/parsing
 	mkdir -p objs/builtins
 	mkdir -p objs/exec
-	mkdir -p objs/builtins
 
 
 leaks : all

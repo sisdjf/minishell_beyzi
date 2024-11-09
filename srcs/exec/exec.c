@@ -6,19 +6,11 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/07 00:26:16 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/08 21:12:04 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	init_struct_exec(t_stock *stock, int i)
-{
-	stock->exec.cmd = ft_find_cmd_for_exec(stock, i);
-	stock->exec.cmd_tab = ft_find_tab(stock, i);
-	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
-	stock->exec.env = tab_env(&stock->exec, stock->envp);
-}
 
 void	init_struct_exec(t_stock *stock, int i)
 {
@@ -75,7 +67,9 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 
 void	print_vraitab(char **tab)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (tab[i])
 	{
 		printf("%s\n", tab[i]);
@@ -115,25 +109,6 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 	return (env);
 }
 
-char	*ft_find_cmd_for_exec(t_stock *stock, int i)
-{
-	t_cmd	*tmp;
-	int		compteur;
-
-	compteur = 0;
-	tmp = stock->cmd;
-	while (tmp)
-	{
-		if (compteur == i)
-		{
-			return (tmp->args[0]);
-		}
-		compteur++;
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
 char	**ft_find_tab(t_stock *stock, int i)
 {
 	int		compteur;
@@ -167,36 +142,19 @@ void	pipe_redic(t_stock *stock, int i)
 	// if(stock->exec.nb_cmd == 1)
 }
 
-char *ft_find_cmd_for_exec(t_stock *stock, int i)
+char	*ft_find_cmd_for_exec(t_stock *stock, int i)
 {
-	t_cmd *tmp;
-	int compteur = 0;
+	t_cmd	*tmp;
+	int		compteur;
 
+	compteur = 0;
 	tmp = stock->cmd;
-
-	while(tmp)
+	while (tmp)
 	{
 		if (compteur == i)
 		{
 			return (tmp->args[0]);
 		}
-		compteur++;
-		tmp = tmp->next;	
-	}
-	return (NULL);
-}
-
-char **ft_find_tab(t_stock *stock, int i)
-{
-	int compteur = 0;
-	t_cmd *tmp;
-
-	tmp = stock->cmd;
-
-	while(tmp)
-	{
-		if (compteur == i)
-			return (tmp->args);
 		compteur++;
 		tmp = tmp->next;
 	}
@@ -227,7 +185,9 @@ void	ft_exec(t_stock *stock)
 		{
 			init_struct_exec(stock, i);
 			pipe_redic(stock, i);
-			//redic ficher
+			redir_infile(stock, i);
+			redir_outfile(stock, i);
+			redir_appendfile(stock, i);
 			if (stock->exec.path)
 				execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
 			else
@@ -237,7 +197,7 @@ void	ft_exec(t_stock *stock)
 				free_tokens(stock->token);
 				ft_free_envp_list(&stock->envp);
 				// free_cmd(&stock->cmd);
-				exit (127);
+				exit(127);
 			}
 			// exit ici si ya erreur avec un beau jolie msg derreur puis free
 		}
@@ -249,29 +209,13 @@ void	ft_exec(t_stock *stock)
 		}
 		i++;
 	}
-		close(stock->exec.fd_pipe[0]);
-	// -> exec->pid[i] = fork()
-	// if (data->pid[i] == 0)
-	// {
-	// -> pipe redirections
-	// -> redirections fichiers (lynda)
-	// -> builtins
-	// builtins(stock->cmd->args, stock->envp);
-	// -> recuperer cmd path (sirine)
-	// -> execve
-	// execve(stock->exec.path, stock->cmd->args, stock->exec.env);
-	// apres execve mettre les message d'erreur cmd not found
-	// et quitter proprement (leak)
-	// free
-	// }
-	// else (parent)
-	// 	close pipe fds
-	// i++;
-	// }
-	// -> waitpid (attendre child processes)
-	// i = 0;
-	// while (i < nb_cmd)
-	// waitpid(exec->pid[i++], NULL, 0)
+	close(stock->exec.fd_pipe[0]);
+	i = 0;
+	while (i < stock->exec.nb_cmd)
+	{
+		fprintf(stderr, "PID [%i]\n", stock->exec.pid[i]);
+		waitpid(stock->exec.pid[i++], NULL, 0);
+	}
 }
 
 // ordre des choses dans l'exec

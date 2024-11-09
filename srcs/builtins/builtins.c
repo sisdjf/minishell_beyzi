@@ -6,15 +6,14 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/07 00:17:49 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/08 19:28:09 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ckeck_builtins(char **cmd, t_envp *envp)
+int	check_builtins(char **cmd)
 {
-	(void)envp;
 	if (!cmd || !cmd[0])
 		return (1);
 	if (!strcmp(cmd[0], "echo"))

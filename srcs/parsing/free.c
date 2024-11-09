@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 20:33:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/08 23:06:59 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void	free_tab(char **tab)
 	int	i;
 
 	i = 0;
+	
+	if(!tab[i])
+		return;
+	printf("tabbbb = '%s'\n", tab[i]);
 	while (tab[i])
 	{
 		free(tab[i]);

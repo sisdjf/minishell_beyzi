@@ -6,12 +6,24 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 00:16:41 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/06 03:11:03 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/08 22:27:41 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../minishell.h"
 
+int	ft_error(int fd, char *str)
+{
+	if(fd == -1)
+	{
+		if (access(str, F_OK) == 0)
+			ft_printf("%s: Permission denied\n", str);
+		else
+			ft_printf("%s: No such file or directory\n", str);
+		return (1);
+	}
+	return(0);
+}
 
 void	close_fds(t_stock *stock)
 {
@@ -26,7 +38,7 @@ void	close_fds(t_stock *stock)
 // int	ft_dup2_redir_files(int fd, t_stock *stock, t)
 // {
 // 	t_stock	*tmp;
-	
+
 // 	if (fd == -1)
 // 	{
 // 		file_error(stock, tmp->token->name);
@@ -41,22 +53,7 @@ void	close_fds(t_stock *stock)
 // 	return (1);
 // }
 
-
-void	pipe_redic(t_stock *stock, int i)
-{
-	if (i != 0)
-	{
-		dup2(stock->exec.fd_tmp, 0);
-		close(stock->exec.fd_tmp);
-	}
-	if (i != stock->exec.nb_cmd - 1)
-		dup2(stock->exec.fd_pipe[1], 1);
-	close(stock->exec.fd_pipe[0]);
-	close(stock->exec.fd_pipe[1]);	
-	// if(stock->exec.nb_cmd == 1)
-}
-
-int	redir_infile(t_stock *stock, int nb_cmd)
+int	redir_infile(t_stock *stock, int pos_cmd)
 {
 	int		fd;
 	int		j;
@@ -65,8 +62,7 @@ int	redir_infile(t_stock *stock, int nb_cmd)
 	
 	j = 0;
 	tmp_cmd = stock->cmd;
-	ft_printf("HERE\n = %d\n", nb_cmd);
-	while (tmp_cmd && j < nb_cmd)
+	while (tmp_cmd && j < pos_cmd)
 	{
 		j++;
 		tmp_cmd = tmp_cmd->next;
@@ -79,11 +75,8 @@ int	redir_infile(t_stock *stock, int nb_cmd)
 			fd = open(tmp_cmd->infile[i], O_RDONLY);
 			if(fd == -1)
 			{
-				if (access(tmp_cmd->infile[i], F_OK) == 0)
-					ft_printf("%s: Permission denied\n", tmp_cmd->infile[i]);
-				else
-					ft_printf("%s: No such file or directory\n", tmp_cmd->infile[i]);
-				return (0);
+				ft_error(fd, tmp_cmd->infile[i]);
+					return (1);
 			}
 			i++;
 		}
@@ -91,11 +84,8 @@ int	redir_infile(t_stock *stock, int nb_cmd)
 		close(fd);
 	}
 	else
-	{
-		ft_printf("Aucun fichier d'entrée défini pour la commande %d\n", nb_cmd);
-	}
-	ft_printf("HERE2\n");
-	return (1);
+		return(1);
+	return (0);
 }
 
 	// i = 0;
@@ -109,7 +99,7 @@ int	redir_infile(t_stock *stock, int nb_cmd)
 		// // outfile append
 		// 	fd = open(tmp->token->type, O_CREAT | O_RDWR | O_APPEND);
 
-int	redir_outfile(t_stock *stock, int nb_cmd)
+int	redir_outfile(t_stock *stock, int pos_cmd)
 {
 	int		fd;
 	int		j;
@@ -118,43 +108,30 @@ int	redir_outfile(t_stock *stock, int nb_cmd)
 	
 	j = 0;
 	tmp_cmd = stock->cmd;
-	while (tmp_cmd && j < nb_cmd)
+	while (tmp_cmd && j < pos_cmd)
 	{
 		j++;
 		tmp_cmd = tmp_cmd->next;
 	}
 	i = 0;
-	ft_printf("ICIIIIIIIII\n");
 	if (tmp_cmd && tmp_cmd->outfile)
 	{
-		ft_printf("ICIIIIIIIII\n");
-		while (tmp_cmd->outfile[i])
+		while (tmp_cmd->outfile[i++])
 		{
-			ft_printf("j'ouvre le fichier : %s\n", tmp_cmd->outfile[i]);
 			fd = open(tmp_cmd->outfile[i], O_CREAT | O_RDWR | O_TRUNC, 0666);
-			ft_printf("je suis la = %d\n", fd);
 			if(fd == -1)
 			{
-				if (access(tmp_cmd->outfile[i], F_OK) == 0)
-					ft_printf("%s: Permission denied\n", tmp_cmd->outfile[i]);
-				else
-					ft_printf("%s: No such file or directory\n", tmp_cmd->outfile[i]);
-				return (0);
+				ft_error(fd, tmp_cmd->outfile[i]);
+					return (1);
 			}
-			i++;
 		}
 		dup2(fd, STDOUT_FILENO);
-		close(fd);
+		close(fd);	
 	}
-	else
-	{
-		ft_printf("Aucun fichier de sortie défini pour la commande %d\n", nb_cmd);
-	}
-
-	return (1);
+	return (0);
 }
 
-int	redir_appendfile(t_stock *stock, int nb_cmd)
+int	redir_appendfile(t_stock *stock, int pos_cmd)
 {
 	int		fd;
 	int		j;
@@ -163,19 +140,16 @@ int	redir_appendfile(t_stock *stock, int nb_cmd)
 	
 	j = 0;
 	tmp_cmd = stock->cmd;
-	while (tmp_cmd && j < nb_cmd)
+	while (tmp_cmd && j < pos_cmd)
 	{
 		j++;
 		tmp_cmd = tmp_cmd->next;
 	}
 	i = 0;
-	ft_printf("ICIIIIIIIII\n");
 	if (tmp_cmd && tmp_cmd->appendfile)
 	{
-		ft_printf("ICIIIIIIIII\n");
 		while (tmp_cmd->appendfile[i])
 		{
-			ft_printf("j'ouvre le fichier : %s\n", tmp_cmd->appendfile[i]);
 			fd = open(tmp_cmd->appendfile[i], O_CREAT | O_RDWR | O_APPEND, 0666);
 			if(fd == -1)
 			{
@@ -190,10 +164,5 @@ int	redir_appendfile(t_stock *stock, int nb_cmd)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	else
-	{
-		ft_printf("Aucun fichier d'entrée défini pour la commande %d\n", nb_cmd);
-	}
-
-	return (1);
+	return (0);
 }

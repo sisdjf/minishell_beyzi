@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/07 00:16:20 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/08 23:11:51 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <unistd.h>
+#include <sys/wait.h>
 
 # define DQUOTE '"'
 # define SQUOTE '\''
@@ -65,11 +66,9 @@ typedef struct s_exec
 	char			*path;
 	char			*cmd;
 	char			**cmd_tab;
-	char			**cmd_tab;
 	char			**env;
 	int				fd_tmp;
 	int				fd_pipe[2];
-	int				fd_tmp;
 	int 			pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
@@ -208,6 +207,9 @@ char				**ft_find_tab(t_stock *stock, int i);
 char				*ft_find_cmd_for_exec(t_stock *stock, int i);
 void				pipe_redic(t_stock *stock, int i);
 void				free_exec(t_stock *stock);
+int					redir_infile(t_stock *stock, int nb_cmd);
+int					redir_outfile(t_stock *stock, int nb_cmd);
+int					redir_appendfile(t_stock *stock, int nb_cmd);
 #endif
 
 // #define RESET "\033[0m"
