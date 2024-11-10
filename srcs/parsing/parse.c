@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/08 23:16:42 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/10 18:52:20 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 		new->infile = NULL;
 		return (0);
 	}
-	new->args = malloc(sizeof(char *) * (nb_malloc + 1));
+	new->args = ft_calloc(sizeof(char *), nb_malloc + 1);
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
