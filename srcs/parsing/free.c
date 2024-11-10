@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/08 23:11:46 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:09:13 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,6 @@ void	free_cmd(t_cmd **cmd)
 		compteur++;
 	}
 }
+
+
+//COMMENTAIRE OUR LYNDA
