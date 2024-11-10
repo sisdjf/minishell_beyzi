@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/10 19:14:23 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/10 22:53:48 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,14 @@ static int	ft_prompt(t_stock *stock, char *input)
 			free(input);
 			continue ;
 		}
-		// to negatif
 		ft_negatif(input);
 		if (ft_token(stock, input) != 0)
 		{
 			return (free(input), 1);
 		}
 		input = ft_positif(input);
-		// to positif
 		ft_expand(stock, stock->token);
-		// print_tab(stock->token);
-		// si une seule cmd / builtin
-		// lynda parsing ici (au lieu de tok to tab)
+		print_tab(stock->token);
 		stock_cmd_lst(stock);
 		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 		{
@@ -60,11 +56,22 @@ static int	ft_prompt(t_stock *stock, char *input)
 		}
 		else
 			ft_exec(stock);
-		free_tokens(stock->token);
+		free_tokens(&stock->token);
 		// print_args(stock->cmd);
 		free(input);
 		free_cmd(&stock->cmd);
+		
 		free_exec(stock);
+	if (stock->cmd)
+		printf("je suis encire la 1!\n");
+	if (stock->token)
+		printf("je suis encire la 2!\n");
+	if (stock->new_str)
+		printf("je suis encire la 3!\n");
+	if (stock->value)
+		printf("je suis encire la 4!\n");
+	if (stock->key)
+		printf("je suis encire la 5!\n");
 	}
 	return (0);
 }
@@ -77,6 +84,7 @@ int	main(int argc, char **argv, char **env)
 	stock_env_lst(env, &stock);
 	ft_prompt(&stock, *argv);
 	// printf("JE SUIS A LA FIN\n");
+
 	ft_free_envp_list(&stock.envp);
 	// free_tokens(stock.token);
 	return (0);

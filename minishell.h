@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/08 23:11:51 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/10 22:53:33 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
-#include <sys/wait.h>
 
 # define DQUOTE '"'
 # define SQUOTE '\''
@@ -69,7 +69,7 @@ typedef struct s_exec
 	char			**env;
 	int				fd_tmp;
 	int				fd_pipe[2];
-	int 			pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
@@ -124,14 +124,14 @@ void				ft_lstadd_back(t_token **token, t_token *new);
 void				skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
 void				chr_operator(char *input, t_token *token, int *i, int j);
-void				free_tokens(t_token *token);
+void				free_tokens(t_token **token);
 void				stock_redir_double_r(t_token *token, int *i);
 void				stock_heredoc(t_token *token, int *i);
 void				stock_redir_r(t_token *token);
 void				stock_pipe(t_token *token);
 void				stock_redir_l(t_token *token);
-void	ft_negatif(char *input);
-char *ft_positif(char *input);
+void				ft_negatif(char *input);
+char				*ft_positif(char *input);
 
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
@@ -186,7 +186,7 @@ char				**tok_to_tab(t_token *token);
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
 int					stock_args_cmd(t_token *token, int pipe, t_cmd *new);
 t_cmd				*ft_lstnew_cmd(t_token *token, int pipe);
-void				ft_lstadd_back_cmd(t_cmd **token, t_cmd *new);
+void				ft_lstadd_back_cmd(t_cmd **cmd, t_cmd *new);
 int					nb_cmd(t_token *token);
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);

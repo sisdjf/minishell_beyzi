@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/10 19:14:53 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/10 23:04:38 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 			if (access(cmd_path, X_OK) == 0)
 			{
 				free_split(exec->split_path);
-				// printf("cmd_path = %s\n", cmd_path);
 				return (cmd_path);
 			}
 			free(cmd_path);
@@ -167,10 +166,8 @@ void	ft_exec(t_stock *stock)
 	int	i;
 
 	i = 0;
-	// printf("nb cmd = [%d]\n", stock->exec.nb_cmd);
 	while (i < stock->exec.nb_cmd)
 	{
-		// printf("cmd [{%d}]\n", stock->exec.nb_cmd)
 		if (pipe(stock->exec.fd_pipe) == -1)
 		{
 			printf("Error avec la fonction pipe\n");
@@ -195,16 +192,15 @@ void	ft_exec(t_stock *stock)
 			{
 				ft_printf("%s: command not found\n", stock->exec.cmd);
 				free_exec(stock);
-				free_tokens(stock->token);
+				free_tokens(&stock->token);
 				ft_free_envp_list(&stock->envp);
 				// free_cmd(&stock->cmd);
-				exit (127);
+				exit(127);
 				// exit ici si ya erreur avec un beau jolie msg derreur puis free
 			}
 		}
 		else
 		{
-			// printf("PARENTS\n");
 			close(stock->exec.fd_pipe[1]);
 			stock->exec.fd_tmp = stock->exec.fd_pipe[0];
 		}
@@ -219,14 +215,3 @@ void	ft_exec(t_stock *stock)
 	}
 }
 
-// ordre des choses dans l'exec
-// -> tok to tab/ lynda cmd parsing
-
-// -> pipe()
-// -> fork()
-// -> pipe redirections
-// -> redirections fichiers (lynda)
-// -> builtins
-// -> recuperer cmd path (sirine)
-// -> execve
-// -> waitpid (attendre child processes) (modifié)

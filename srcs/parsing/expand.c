@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/09 02:32:41 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/10 23:15:27 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,11 @@ char	*find_value_new(t_stock *stock, char *str, int *i)
 	stock->value = find_value(stock->envp, stock->key);
 	free(stock->key);
 	if (!stock->value)
-		return (ft_strdup(""));
-	return (ft_strdup(stock->value));
+		// return (ft_strdup(""));
+		return ((""));
+	// return (ft_strdup(stock->value));
+	return (stock->value);
+	
 }
 
 char	*after_env_str(t_stock *stock, char *str, int *i)
@@ -100,7 +103,6 @@ char	*bool_expand(t_stock *stock, char *str)
 	}
 	free(str);
 	test = delete_quote(str_env);
-	// printf("je suis la\n");
 	free(str_env);
 	return (test);
 }

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/09 02:32:24 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/10 23:11:41 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	stock_word(t_token *token, char *input, int *i)
 		j++;
 		cmpt++;
 	}
-	str = malloc(sizeof(char) * (cmpt + 1));
+	str = malloc(sizeof(char) * (cmpt + 1));//deja free
 	while (index_str < cmpt)
 	{
 		str[index_str] = input[(*i)];
@@ -83,7 +83,6 @@ int	ft_token(t_stock *stock, char *input)
 		if (!new_token)
 			return (printf("error malloc token"), 1);
 		chr_operator(input, new_token, &i, 0);
-		// fprintf(stderr,"my token is %s\n", new_token->name);
 		new_token->name = ft_positif(new_token->name);
 		ft_lstadd_back(&stock->token, new_token);
 		i++;
@@ -91,16 +90,16 @@ int	ft_token(t_stock *stock, char *input)
 	return (0);
 }
 
-void	free_tokens(t_token *token)
+void	free_tokens(t_token **token)
 {
 	t_token	*tmp;
 
-	while (token)
+	while (*token)
 	{
-		tmp = token->next;
-		if (token->name)
-			free(token->name);
-		free(token);
-		token = tmp;
+		tmp = (*token)->next;
+		if ((*token)->name)
+			free((*token)->name);
+		free(*token);
+		*token = tmp;
 	}
 }

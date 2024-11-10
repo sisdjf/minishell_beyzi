@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/10 19:14:03 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/10 21:24:20 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	}
 	while (tmp && tmp->type != PIPE)
 	{
-		printf("tmp === l%sa\n", tmp->name);
 		if (tmp->type == WORD)
 			new->args[i++] = ft_strdup(tmp->name);
 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
@@ -189,8 +188,8 @@ void	stock_cmd_lst(t_stock *stock)
 		{
 			ft_lstadd_back_cmd(&stock->cmd, new_node);
 		}
-		// free(new_node);
 		compteur++;
 	}
 	stock->exec.nb_cmd = cmds;
+	
 }
