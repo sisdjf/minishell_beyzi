@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/07 00:06:46 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/10 19:14:23 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	main(int argc, char **argv, char **env)
 	// (void)argv;
 	stock_env_lst(env, &stock);
 	ft_prompt(&stock, *argv);
-	printf("JE SUIS A LA FIN\n");
+	// printf("JE SUIS A LA FIN\n");
 	ft_free_envp_list(&stock.envp);
 	// free_tokens(stock.token);
 	return (0);
