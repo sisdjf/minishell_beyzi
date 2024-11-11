@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/10 23:15:27 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:09:23 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,8 @@ char	*find_value_new(t_stock *stock, char *str, int *i)
 	stock->value = find_value(stock->envp, stock->key);
 	free(stock->key);
 	if (!stock->value)
-		// return (ft_strdup(""));
-		return ((""));
-	// return (ft_strdup(stock->value));
-	return (stock->value);
-	
+		return (ft_strdup(""));
+	return (ft_strdup(stock->value));
 }
 
 char	*after_env_str(t_stock *stock, char *str, int *i)
@@ -86,13 +83,13 @@ char	*bool_expand(t_stock *stock, char *str)
 
 	i = 0;
 	str_env = NULL;
-	while (i < ft_strlen_check(str))
+	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
 			str_env = ft_joinstr(str_env, ft_quotes_expand(stock, str, &i));
 		}
-		if (str[i] && str[i] == '$')
+		else if (str[i] && str[i] == '$')
 		{
 			str_env = ft_joinstr(str_env, after_env_str(stock, str, &i));
 		}

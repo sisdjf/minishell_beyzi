@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/10 22:53:48 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:39:37 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	free_exec(t_stock *stock)
 {
-	if (stock->exec.cmd_tab)
-		free_tab(stock->exec.cmd_tab);
+	// if (stock->exec.cmd_tab)
+	// 	free_tab(stock->exec.cmd_tab);
 	if (stock->exec.env)
 		free_tab(stock->exec.env);
 	free(stock->exec.path);
@@ -62,16 +62,16 @@ static int	ft_prompt(t_stock *stock, char *input)
 		free_cmd(&stock->cmd);
 		
 		free_exec(stock);
-	if (stock->cmd)
-		printf("je suis encire la 1!\n");
-	if (stock->token)
-		printf("je suis encire la 2!\n");
-	if (stock->new_str)
-		printf("je suis encire la 3!\n");
-	if (stock->value)
-		printf("je suis encire la 4!\n");
-	if (stock->key)
-		printf("je suis encire la 5!\n");
+	// if (stock->cmd)
+	// 	printf("je suis encire la 1!\n");
+	// if (stock->token)
+	// 	printf("je suis encire la 2!\n");
+	// if (stock->new_str)
+	// 	printf("je suis encire la 3!\n");
+	// if (stock->value)
+	// 	printf("je suis encire la 4!\n");
+	// if (stock->key)
+	// 	printf("je suis encire la 5!\n");
 	}
 	return (0);
 }

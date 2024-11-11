@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/10 23:21:01 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:16:55 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,10 @@ void	free_tab(char **tab)
 	int	i;
 
 	i = 0;
-	if (!(*tab))
-	{
+	if (!tab)
 		return ;
-	}
 	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
+		free(tab[i++]);
 	free(tab);
 }
 // khalid cook stp

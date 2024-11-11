@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/10 21:24:20 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/11 15:36:04 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,13 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	compteur = 0;
 	i = 0;
 	nb_malloc = nbr_malloc_word_cmd(token, pipe);
-	if (nb_malloc == 0)
-	{
-		new->infile = NULL;
-		return (0);
-	}
+	// if (nb_malloc == 0)
+	// {
+	// 	new->infile = NULL;
+	// 	return (0);
+	// }
 	new->args = ft_calloc(sizeof(char *), nb_malloc + 1);
+	// fprintf(stderr, "nb to alloc %i\n", nb_malloc + 1);
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)

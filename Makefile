@@ -48,7 +48,7 @@ $(DIR_OBJS):
 
 
 leaks : all
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt ./minishell
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt --quiet ./minishell
 
 clean :
 	${RM} ${OBJS} 

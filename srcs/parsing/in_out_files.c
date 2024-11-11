@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_out_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:28:56 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/08 19:46:48 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/11 20:02:15 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ int	nbr_malloc_outfile_cmd(t_token *token, int pipe)
 
 int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new)
 {
-	t_token *tmp;
-	int nb_malloc;
-	int compteur;
-	int i;
+	t_token	*tmp;
+	int		nb_malloc;
+	int		compteur;
+	int		i;
 
 	tmp = token;
 	compteur = 0;
