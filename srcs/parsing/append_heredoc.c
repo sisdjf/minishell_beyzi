@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:49:26 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/01 16:37:20 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:14:14 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new)
 		new->appendfile = NULL;
 		return (0);
 	}
-	new->appendfile = malloc(sizeof(char *) * (nb_malloc + 1));
+	new->appendfile = ft_calloc((nb_malloc + 1), sizeof(char *));
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
@@ -67,7 +67,8 @@ int	stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new)
 		if (tmp->type == D_REDIR_R)
 		{
 			tmp = tmp->next;
-			new->appendfile[i++] = ft_strdup(tmp->name);
+			new->appendfile[i] = ft_strdup(tmp->name);
+			i++;
 		}
 		tmp = tmp->next;
 	}
@@ -118,7 +119,7 @@ int	stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new)
 		new->heredoc = NULL;
 		return (0);
 	}
-	new->heredoc = malloc(sizeof(char *) * (nb_malloc + 1));
+	new->heredoc = ft_calloc(nb_malloc + 1, sizeof(char *));
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)

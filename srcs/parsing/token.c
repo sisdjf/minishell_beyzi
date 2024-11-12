@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/09 02:32:24 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:56:43 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	stock_word(t_token *token, char *input, int *i)
 		j++;
 		cmpt++;
 	}
-	str = malloc(sizeof(char) * (cmpt + 1));
+	str = ft_calloc(cmpt + 1, sizeof(char));
 	while (index_str < cmpt)
 	{
 		str[index_str] = input[(*i)];
@@ -79,7 +79,7 @@ int	ft_token(t_stock *stock, char *input)
 	while (input[i])
 	{
 		skip_space(input, &i);
-		new_token = malloc(sizeof(t_token));
+		new_token = ft_calloc(1, sizeof(t_token));
 		if (!new_token)
 			return (printf("error malloc token"), 1);
 		chr_operator(input, new_token, &i, 0);

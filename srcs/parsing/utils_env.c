@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 00:29:49 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 21:56:56 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:57:03 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_envp	*ft_lstnew_envp(char *env_str)
 	int		equal;
 
 	equal = 0;
-	new = malloc(sizeof(t_envp));
+	new = ft_calloc(1, sizeof(t_envp));
 	if (!new)
 		return (NULL);
 	equal = chr_equal(env_str);
@@ -70,6 +70,7 @@ void	stock_env_lst(char **env, t_stock *stock)
 	t_envp	*new_node;
 
 	i = 0;
+	stock->envp = NULL;
 	while (env[i])
 	{
 		new_node = ft_lstnew_envp(env[i]);

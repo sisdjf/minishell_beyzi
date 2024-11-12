@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/10 19:14:23 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/12 19:34:20 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 	while (1)
 	{
 		stock->token = NULL;
+		stock->cmd = NULL;
 		input = readline("minishell$ ");
 		if (!input)
 			return (1);
@@ -53,8 +54,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 		stock_cmd_lst(stock);
 		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 		{
-			printf("sur le builtins {%s}\n", stock->cmd->args[0]);
-			builtins(stock->cmd->args, stock->envp);
+			builtins(stock->cmd->args, &stock->envp);
 			// free tt ce que tu dois free et continue la boucle;
 			// continue ;
 		}

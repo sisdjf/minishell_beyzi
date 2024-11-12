@@ -3,29 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 22:33:45 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/08 22:54:13 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:14:29 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_envp	*search_envp(t_envp *envp, char *key)
-{
-	t_envp	*tmp;
+// t_envp	*search_envp(t_envp *envp, char *key)
+// {
+// 	t_envp	*tmp;
 
-	tmp = envp;
-	while (tmp)
-	{
-		if ((ft_len_mini(key) == ft_len_mini(tmp->key)) && !ft_strncmp(tmp->key,
-				key, ft_len_mini(key)))
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
+// 	tmp = envp;
+// 	int i = 0;
+// 	printf("NUUUUUUUUUUUL\n");
+// 	while (tmp)
+// 	{
+// 		printf("i: %d\n", i);
+// 		if ((ft_len_mini(key) == ft_len_mini(tmp->key)) && !ft_strncmp(tmp->key,
+// 				key, ft_len_mini(key)))
+// 			return (tmp);
+// 		tmp = tmp->next;
+// 	}
+// 	printf("NUUUUUUUUUUUL\n");
+// 	return (NULL);
+// }
 
 void	ft_free_unset(t_envp *tmp)
 {

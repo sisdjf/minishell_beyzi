@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/08 23:05:39 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:04:07 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_joinstr(char *s1, char *s2)
 	if (!s1)
 		return (ft_strdup(s2));
 	i = 0;
-	res = malloc(ft_len_mini(s1) + ft_len_mini(s2) + 1);
+	res = ft_calloc(ft_len_mini(s1) + ft_len_mini(s2) + 1, sizeof(char));
 	if (!res)
 		return (NULL);
 	while (i < ft_len_mini(s1))

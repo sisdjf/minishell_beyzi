@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/10 19:14:03 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/12 20:24:33 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	}
 	while (tmp && tmp->type != PIPE)
 	{
-		printf("tmp === l%sa\n", tmp->name);
+		// printf("tmp === l%sa\n", tmp->name);
 		if (tmp->type == WORD)
 			new->args[i++] = ft_strdup(tmp->name);
 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
@@ -86,7 +86,7 @@ t_cmd	*ft_lstnew_cmd(t_token *token, int pipe)
 {
 	t_cmd	*new;
 
-	new = malloc(sizeof(t_cmd));
+	new = ft_calloc(1, sizeof(t_cmd));
 	if (!new)
 		return (NULL);
 	stock_args_cmd(token, pipe, new);

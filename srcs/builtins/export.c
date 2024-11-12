@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/06 22:03:15 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 21:53:36 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_value_export(char *str)
 	return (NULL);
 }
 
-int	add_to_env(char *key, char *value, t_envp *envp)
+int	add_to_env(char *key, char *value, t_envp **envp)
 {
 	int		i;
 	char	*str;
@@ -72,7 +72,7 @@ int	add_to_env(char *key, char *value, t_envp *envp)
 			return (printf("bash: export:`%s': not a valid idetifier\n", key),
 					1);
 	}
-	to_replace = search_envp(envp, key);
+	to_replace = search_envp(*envp, key);
 	if (to_replace && value)
 	{
 		free(to_replace->value);
@@ -80,18 +80,18 @@ int	add_to_env(char *key, char *value, t_envp *envp)
 	}
 	else if (!to_replace)
 	{
+		// printf("%s\n", to_replace->key);
 		str = ft_strjoin(key, "=");
 		mini = ft_strjoin(str, value);
 		printf("str %s\n", mini);
 		free(value);
 		free(str);
-		ft_lstadd_back_envp(&envp, ft_lstnew_envp(mini));
-		// print_lst_envp();
+		ft_lstadd_back_envp(envp, ft_lstnew_envp(mini));
 	}
 	return (0);
 }
 
-int	export(char **cmd, t_envp *envp)
+int	export(char **cmd, t_envp **envp)
 {
 	char *key;
 	char *value;
@@ -100,11 +100,13 @@ int	export(char **cmd, t_envp *envp)
 	i = 1;
 	while (cmd[i])
 	{
-		key = get_key_export(cmd[1]);
-		value = get_value_export(cmd[1]);
+		printf("i: %d\n", i);
+		key = get_key_export(cmd[i]);
+		value = get_value_export(cmd[i]);
 		printf("key = %s value = %s\n", key, value);
 		add_to_env(key, value, envp);
 		free(key);
+
 		i++;
 	}
 	return (0);

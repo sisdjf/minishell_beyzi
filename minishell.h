@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/08 23:11:51 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/12 19:30:05 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,16 +166,15 @@ int					echo(char **cmd);
 int					print_echo(char **cmd, int start);
 int					arg_len(char **array);
 int					pwd(char **cmd);
-int					builtins(char **cmd, t_envp *envp);
+int					builtins(char **cmd, t_envp **envp);
 int					ft_cd(char **cmd, t_envp *envp);
 char				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
 int					ft_unset(char **cmd, t_envp *envp);
 t_envp				*search_envp(t_envp *envp, char *key);
-void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
-int					add_to_env(char *key, char *value, t_envp *envp);
-int					export(char **cmd, t_envp *envp);
-int					add_to_env(char *key, char *value, t_envp *envp);
+void				unset_loop(char **cmd, t_envp *envp);
+int					add_to_env(char *key, char *value, t_envp **envp);
+int					export(char **cmd, t_envp **envp);
 int					ft_exit(char **cmd);
 int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);

@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/10 19:14:53 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/12 19:51:15 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 		tmp = tmp->next;
 		size++;
 	}
-	env = malloc(sizeof(char *) * (size + 1));
+	env = ft_calloc(size + 1, sizeof(char *));
 	if (!env)
 		return (NULL);
 	while (envp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 22:50:41 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/08 22:52:03 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:30:24 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@ t_envp	*search_envp(t_envp *envp, char *key)
 	while (tmp)
 	{
 		if ((ft_strlen(key) == ft_strlen(tmp->key)) && !ft_strncmp(tmp->key,
-				key, ft_strlen(key)))
+				key, ft_strlen(tmp->key)))
 			return (tmp);
 		tmp = tmp->next;
 	}
 	return (NULL);
 }
 
-void	unset_loop(char **cmd, t_envp *envp, int nb_cmd)
+void	unset_loop(char **cmd, t_envp *envp)
 {
 	t_envp	*to_unset;
 	t_envp	*tmp;
 	int		i;
 
 	i = 1;
-	while (i < nb_cmd)
+	while (cmd[i])
 	{
 		tmp = envp;
 		to_unset = search_envp(envp, cmd[i]);
@@ -48,8 +48,8 @@ void	unset_loop(char **cmd, t_envp *envp, int nb_cmd)
 			if (tmp->next && tmp->next == to_unset)
 			{
 				tmp->next = to_unset->next;
-				free(envp->key);
-				free(envp->value);
+				free(to_unset->key);
+				free(to_unset->value);
 				free(to_unset);
 				break ;
 			}
@@ -60,12 +60,9 @@ void	unset_loop(char **cmd, t_envp *envp, int nb_cmd)
 
 int	ft_unset(char **cmd, t_envp *envp)
 {
-	int nb_cmd;
-
-	nb_cmd = arg_len(cmd);
-	if (nb_cmd < 2)
+	if (arg_len(cmd) < 2)
 		return (printf("no variable to be deleted\n"), 0);
 	else
-		unset_loop(cmd, envp, nb_cmd);
+		unset_loop(cmd, envp);
 	return (0);
 }
