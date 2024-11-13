@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/13 20:58:15 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:20:25 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int	add_to_env(char *key, char *value, t_envp **envp)
 			return (printf("bash: export:`%s': not a valid moha\n", key),
 					1);
 	}
-	to_replace = search_envp(envp, key);
+	to_replace = search_envp(*envp, key);
 	if (to_replace && value)
 	{
 		free(to_replace->value);
