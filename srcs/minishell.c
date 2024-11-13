@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 16:30:50 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:11:48 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ static int	ft_prompt(t_stock *stock, char *input)
 		stock_cmd_lst(stock);
 		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 		{
+			printf("helloooooo\n");
+			// est-ce qu'on a des redirections (fichiers)
+			// est-ce qu'on est un builtins
 			builtins(stock->cmd->args, &stock->envp);
-			// free tt ce que tu dois free et continue la boucle;
-			// continue ;
+			// sinon est cmd normal --> execve
 		}
 		else
 			ft_exec(stock);

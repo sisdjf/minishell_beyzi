@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 20:37:35 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:52:17 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,6 @@ char	*bool_expand(t_stock *stock, char *str)
 	printf("len de str %zu\n", ft_strlen(str));
 	while (str[i])
 	{
-		printf("BOOL expand [%c]\n", str[i]);
-		printf("LE I expand [%d]\n", i);
-		
-		// if (str[i] == '\"')
-		// {
-		// 	str_env = ft_quotes_expand_dquote(stock, str, &i);
-		// }
 		if (str[i] == '\'')
 		{
 			printf("%s SINGLE QUOTE\n strenv avant :%s\n%s", BLUE, str_env, RESET);
@@ -142,7 +135,7 @@ char	*bool_expand(t_stock *stock, char *str)
 			printf("%s strenv apres :%s\n%s", GREEN, str_env, RESET);
 		}
 		printf(">>>> %i\n", i);
-		if (!str[i])
+		if (i > ft_strlen_check(str))
 			break ;
 	}
 	free(str);
