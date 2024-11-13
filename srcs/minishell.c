@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/11 16:39:37 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:30:50 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int	ft_prompt(t_stock *stock, char *input)
 			return (1);
 		if (!*input)
 			continue ;
-	
 		add_history(input);
 		if (syntax_error(input))
 		{
@@ -41,16 +40,17 @@ static int	ft_prompt(t_stock *stock, char *input)
 		ft_negatif(input);
 		if (ft_token(stock, input) != 0)
 		{
-			return (free(input), 1);
+			free(input);
+			free(stock);
+			return (1);
 		}
 		input = ft_positif(input);
 		ft_expand(stock, stock->token);
-		print_tab(stock->token);
+		// print_tab(stock->token);
 		stock_cmd_lst(stock);
 		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 		{
-			printf("sur le builtins {%s}\n", stock->cmd->args[0]);
-			builtins(stock->cmd->args, stock->envp);
+			builtins(stock->cmd->args, &stock->envp);
 			// free tt ce que tu dois free et continue la boucle;
 			// continue ;
 		}
@@ -60,18 +60,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 		// print_args(stock->cmd);
 		free(input);
 		free_cmd(&stock->cmd);
-		
 		free_exec(stock);
-	// if (stock->cmd)
-	// 	printf("je suis encire la 1!\n");
-	// if (stock->token)
-	// 	printf("je suis encire la 2!\n");
-	// if (stock->new_str)
-	// 	printf("je suis encire la 3!\n");
-	// if (stock->value)
-	// 	printf("je suis encire la 4!\n");
-	// if (stock->key)
-	// 	printf("je suis encire la 5!\n");
 	}
 	return (0);
 }

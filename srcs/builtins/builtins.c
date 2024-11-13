@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/08 19:28:09 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/12 18:40:36 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,26 @@ int	check_builtins(char **cmd)
 	return (0);
 }
 
-int	builtins(char **cmd, t_envp *envp)
+int	builtins(char **cmd, t_envp **envp)
 {
 	if (!cmd || !cmd[0])
 		return (1);
 	if (!strcmp(cmd[0], "echo"))
 		return (echo(cmd), 1);
 	else if (!strcmp(cmd[0], "cd"))
-		return (ft_cd(cmd, envp), 1);
+		return (ft_cd(cmd, *envp), 1);
 	else if (!strcmp(cmd[0], "pwd"))
 		return (pwd(cmd), 1);
 	else if (!strcmp(cmd[0], "export"))
 		return (export(cmd, envp), 1);
 	else if (!strcmp(cmd[0], "unset"))
-		return (ft_unset(cmd, envp), 1);
+		return (ft_unset(cmd, *envp), 1);
 	else if (!strcmp(cmd[0], "env"))
-		return (env(envp), 1);
+		return (env(*envp), 1);
 	else if (!strcmp(cmd[0], "exit"))
 		return (ft_exit(cmd), 1);
 	return (0);
 }
-
 
 int	get_nb_words(t_token *token)
 {

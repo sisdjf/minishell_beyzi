@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/06 21:15:56 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:52:03 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	check_args_cd(char **cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		printf("counting cmd/arg %d: %s\n", i, cmd[i]);
+		// printf("counting cmd/arg %d: %s\n", i, cmd[i]);
 		i++;
 	}
 	if (i > 2)
 	{
-		printf("cd : too many arguments: i = %d\n", i);
+		printf("bash: cd: too many arguments\n");
 		return (0);
 	}
 	return (1);
@@ -50,18 +50,19 @@ int	ft_cd(char **cmd, t_envp *envp)
 	char	*path;
 
 	if (!check_args_cd(cmd))
-		return (printf("error args cd\n"), 0);
+		return (0);
+	// return (printf("error args cd\n"), 0);
 	if (!cmd[1])
 	{
 		path = find_env_var(envp);
 		if (!path)
 			return (0);
-		printf("path = [%s]\n", path);
+		// printf("path = [%s]\n", path);
 	}
 	else
 	{
 		path = cmd[1];
-		printf("path = [%s]\n", cmd[1]);
+		// printf("path = [%s]\n", cmd[1]);
 	}
 	ret = chdir(path);
 	if (ret == -1)

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/11 21:31:34 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:27:39 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,10 +203,14 @@ void	ft_exec(t_stock *stock)
 					close(stock->exec.fd_tmp);
 				// close(stock->exec.fd_pipe[1]);
 				execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+				free_exec(stock);
+				free_tokens(&stock->token);
+				ft_free_envp_list(&stock->envp);
+				free_cmd(&stock->cmd);
 			}
 			else
 			{
-				ft_printf("%s: command not found\n", stock->exec.cmd);
+				ft_printf("bash: %s: command not found\n", stock->exec.cmd);
 				free_exec(stock);
 				free_tokens(&stock->token);
 				ft_free_envp_list(&stock->envp);

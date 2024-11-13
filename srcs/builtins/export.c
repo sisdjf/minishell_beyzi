@@ -6,11 +6,115 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/06 22:03:15 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 18:17:47 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+// void	print_export(t_envp *envp)
+// {
+// 	t_envp	*tmp;
+
+// 	tmp = envp;
+// 	while (tmp)
+// 	{
+// 		if (!(tmp->value))
+// 		{
+// 			printf("export %s\n", tmp->key);
+// 		}
+// 		else
+// 		{
+// 			printf("export %s=\"%s\"\n", tmp->key, tmp->value);
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
+
+// char	*get_key_export(char *str)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '=')
+// 			return (ft_substr(str, 0, i));
+// 		i++;
+// 	}
+// 	return (strdup(str));
+// }
+// char	*get_value_export(char *str)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '=')
+// 			return (ft_strdup(str + i + 1));
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
+
+// int	add_to_env(char *key, char *value, t_envp **envp)
+// {
+// 	int		i;
+// 	char	*str;
+// 	char	*mini;
+// 	t_envp	*to_replace;
+
+// 	i = 0;
+// 	if (!key[i] || (!ft_isalnum(key[i]) && key[i] != '_'))
+// 		return (printf("bash: export: `%s': not a valid identifier\n", key), 1);
+// 	while (key[i])
+// 	{
+// 		if (ft_isalnum(key[i]) || key[i] == '_')
+// 		{
+// 			i++;
+// 		}
+// 		else
+// 			return (printf("bash: export:`%s': not a valid idetifier\n", key),
+// 					1);
+// 	}
+// 	to_replace = search_envp(*envp, key);
+// 	if (to_replace && value)
+// 	{
+// 		printf("OK\n");
+// 		free(to_replace->value);
+// 		to_replace->value = value;
+// 	}
+// 	else if (!to_replace)
+// 	{
+// 		str = ft_strjoin(key, "=");
+// 		mini = ft_strjoin(str, value);
+// 		free(value);
+// 		free(str);
+// 		ft_lstadd_back_envp(envp, ft_lstnew_envp(mini));
+// 	}
+// 	return (0);
+// }
+
+// int	export(char **cmd, t_envp **envp)
+// {
+// 	char	*key;
+// 	char	*value;
+// 	int		i;
+
+// 	i = 1;
+// 	while (cmd[i])
+// 	{
+// 		key = get_key_export(cmd[i]);
+// 		value = get_value_export(cmd[i]);
+// 		// printf("key = %s value = %s\n", key, value);
+// 		add_to_env(key, value, envp);
+// 		// free(value);
+// 		free(key);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 void	print_export(t_envp *envp)
 {
@@ -54,7 +158,7 @@ char	*get_value_export(char *str)
 	return (NULL);
 }
 
-int	add_to_env(char *key, char *value, t_envp *envp)
+int	add_to_env(char *key, char *value, t_envp **envp)
 {
 	int		i;
 	char	*str;
@@ -62,17 +166,22 @@ int	add_to_env(char *key, char *value, t_envp *envp)
 	t_envp	*to_replace;
 
 	i = 0;
-	if (!key[i] || (!ft_isalnum(key[i]) && key[i] != '_'))
+	// si le premier char de la key est OK
+	if (!key[i] || (!ft_isalpha(key[i]) && key[i] != '_'))
 		return (printf("bash: export: `%s': not a valid identifier\n", key), 1);
+	
+	// verifier quil ya pas un char AUTRE que alphanum ou _
 	while (key[i])
 	{
 		if (ft_isalnum(key[i]) || key[i] == '_')
 			i++;
 		else
-			return (printf("bash: export:`%s': not a valid idetifier\n", key),
+			return (printf("bash: export:`%s': not a valid moha\n", key),
 					1);
 	}
-	to_replace = search_envp(envp, key);
+	if (!ft_strchr(key, '='))
+		return (0);
+	to_replace = search_envp(*envp, key);
 	if (to_replace && value)
 	{
 		free(to_replace->value);
@@ -80,18 +189,18 @@ int	add_to_env(char *key, char *value, t_envp *envp)
 	}
 	else if (!to_replace)
 	{
+		// printf("%s\n", to_replace->key);
 		str = ft_strjoin(key, "=");
 		mini = ft_strjoin(str, value);
 		printf("str %s\n", mini);
 		free(value);
 		free(str);
-		ft_lstadd_back_envp(&envp, ft_lstnew_envp(mini));
-		// print_lst_envp();
+		ft_lstadd_back_envp(envp, ft_lstnew_envp(mini));
 	}
 	return (0);
 }
 
-int	export(char **cmd, t_envp *envp)
+int	export(char **cmd, t_envp **envp)
 {
 	char *key;
 	char *value;
@@ -100,8 +209,9 @@ int	export(char **cmd, t_envp *envp)
 	i = 1;
 	while (cmd[i])
 	{
-		key = get_key_export(cmd[1]);
-		value = get_value_export(cmd[1]);
+		printf("i: %d\n", i);
+		key = get_key_export(cmd[i]);
+		value = get_value_export(cmd[i]);
 		printf("key = %s value = %s\n", key, value);
 		add_to_env(key, value, envp);
 		free(key);

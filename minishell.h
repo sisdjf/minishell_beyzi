@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/11 19:28:20 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:18:18 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,10 @@ int					ft_pipe(char *str);
 int					ft_lstsize(t_list *list);
 t_list				*ft_lstnew(int value);
 t_list				*lstend(t_list *list);
+char	*dd_quote(char *str, int *i);
 void				ft_lstadd_back(t_token **token, t_token *new);
 //TOKEN
-void				skip_space(char *str, int *i);
+int					skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
 void				chr_operator(char *input, t_token *token, int *i, int j);
 void				free_tokens(t_token **token);
@@ -167,16 +168,15 @@ int					echo(char **cmd);
 int					print_echo(char **cmd, int start);
 int					arg_len(char **array);
 int					pwd(char **cmd);
-int					builtins(char **cmd, t_envp *envp);
+int					builtins(char **cmd, t_envp **envp);
 int					ft_cd(char **cmd, t_envp *envp);
 char				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
 int					ft_unset(char **cmd, t_envp *envp);
 t_envp				*search_envp(t_envp *envp, char *key);
-void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
-int					add_to_env(char *key, char *value, t_envp *envp);
-int					export(char **cmd, t_envp *envp);
-int					add_to_env(char *key, char *value, t_envp *envp);
+void				unset_loop(char **cmd, t_envp *envp);
+int					add_to_env(char *key, char *value, t_envp **envp);
+int					export(char **cmd, t_envp **envp);
 int					ft_exit(char **cmd);
 int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
@@ -213,16 +213,16 @@ int					redir_outfile(t_stock *stock, int nb_cmd);
 int					redir_appendfile(t_stock *stock, int nb_cmd);
 #endif
 
-// #define RESET "\033[0m"
+#define RESET "\033[0m"
 
-// #define BLACK "\033[30m"
-// #define RED "\033[31m"
-// #define GREEN "\033[32m"
-// #define YELLOW "\033[33m"
-// #define BLUE "\033[34m"
-// #define MAGENTA "\033[35m"
-// #define CYAN "\033[36m"
-// #define WHITE "\033[37m"
+#define BLACK "\033[30m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define WHITE "\033[37m"
 
 // #define BBLACK "\033[40m"
 // #define BRED "\033[41m"

@@ -50,6 +50,19 @@ $(DIR_OBJS):
 leaks : all
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt --quiet ./minishell
 
+# leaks : all 
+# 	 valgrind --leak-check=full \
+#          --show-leak-kinds=all \
+#          --track-fds=yes \
+#          --track-origins=yes \
+#          --suppressions=ignore.txt \
+#          --quiet \
+#          --verbose \
+#          --malloc-fill=0xAA \
+#          --free-fill=0xBB \
+#          ./minishell
+
+
 clean :
 	${RM} ${OBJS} 
 	make clean -C libft

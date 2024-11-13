@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:07 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 03:07:28 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:52:02 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	s_loop_right(char *str, int *i, int nb_greater, int word)
 			}
 			(*i)++;
 		}
-		while (str[(*i)] && str[(*i)] == ' ')
+		while (str[(*i)] && (str[(*i)] == ' ' || str[(*i)] == '\t'))
 			(*i)++;
 		norm_great(str, word, i);
 		if (nb_greater == 1)
@@ -58,7 +58,7 @@ int	ft_greater_right(char *str)
 	i = 0;
 	word = 0;
 	nb_greater = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (s_loop_right(str, &i, nb_greater, word))
 		return (1);
@@ -85,7 +85,7 @@ int	s_loop_left(char *str, int *i, int nb_greater, int word)
 			}
 			(*i)++;
 		}
-		while (str[(*i)] && str[(*i)] == ' ')
+		while (str[(*i)] && (str[(*i)] == ' ' || str[(*i)] == '\t'))
 			(*i)++;
 		norm_great(str, word, i);
 		if (nb_greater == 1)
@@ -105,7 +105,7 @@ int	ft_greater_left(char *str)
 	i = 0;
 	word = 0;
 	nb_greater = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (s_loop_left(str, &i, nb_greater, word))
 		return (1);
