@@ -6,18 +6,21 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/12 19:56:43 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:07:15 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	skip_space(char *str, int *i)
+int	skip_space(char *str, int *i)
 {
 	while (str[(*i)] == ' ' || (str[(*i)] >= 9 && str[(*i)] <= 13))
 	{
 		(*i)++;
 	}
+	if (!str[*i])
+		return (1);
+	return (0);
 }
 
 void	stock_word(t_token *token, char *input, int *i)
@@ -30,8 +33,8 @@ void	stock_word(t_token *token, char *input, int *i)
 	j = (*i);
 	cmpt = 0;
 	index_str = 0;
-	while (input[j] && (input[j] != ' ' && input[j] != '|' && input[j] != '>'
-			&& input[j] != '<'))
+	while (input[j] && (input[j] != ' ' && input[j] != '\t' && input[j] != '|'
+			&& input[j] != '>' && input[j] != '<'))
 	{
 		j++;
 		cmpt++;
@@ -78,12 +81,13 @@ int	ft_token(t_stock *stock, char *input)
 	i = 0;
 	while (input[i])
 	{
-		skip_space(input, &i);
-		new_token = ft_calloc(1, sizeof(t_token));
+		// skip_space(input, &i);
+		if (skip_space(input, &i))
+			return (0);
+		new_token = malloc(sizeof(t_token));
 		if (!new_token)
 			return (printf("error malloc token"), 1);
 		chr_operator(input, new_token, &i, 0);
-		// fprintf(stderr,"my token is %s\n", new_token->name);
 		new_token->name = ft_positif(new_token->name);
 		ft_lstadd_back(&stock->token, new_token);
 		i++;
@@ -91,16 +95,16 @@ int	ft_token(t_stock *stock, char *input)
 	return (0);
 }
 
-void	free_tokens(t_token *token)
+void	free_tokens(t_token **token)
 {
 	t_token	*tmp;
 
-	while (token)
+	while (*token)
 	{
-		tmp = token->next;
-		if (token->name)
-			free(token->name);
-		free(token);
-		token = tmp;
+		tmp = (*token)->next;
+		if ((*token)->name)
+			free((*token)->name);
+		free(*token);
+		*token = tmp;
 	}
 }

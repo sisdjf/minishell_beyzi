@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/31 19:41:11 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:04:25 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ char	*dd_quote(char *str, int *i)
 	start = *i;
 	while (str[*i] && str[*i] != '\"' && str[*i] != '$')
 		(*i)++;
-	return (ft_substr(str, start, *i - start));
+	char * new = ft_substr(str, start, *i - start);
+	return (new);
+	
 }
-
 char	*ft_quotes_expand(t_stock *stock, char *str, int *i)
 {
 	char	*str_quote;
 	int		start;
 
+	(void)stock;
 	str_quote = NULL;
 	start = *i;
 	if (str[*i] == SQUOTE)
@@ -37,18 +39,8 @@ char	*ft_quotes_expand(t_stock *stock, char *str, int *i)
 		(*i)++;
 		return (ft_substr(str, start, *i - start));
 	}
-	while (str[*i] != DQUOTE)
-	{
-		if (str[*i] == '$')
-		{
-			str_quote = ft_joinstr(str_quote, after_env_str(stock, str, i));
-		}
-		else
-			str_quote = ft_joinstr(str_quote, dd_quote(str, i));
-		(*i)++;
-	}
 	(*i)++;
-	return (ft_joinstr(str_quote, ("\"")));
+	return (ft_joinstr(str_quote, ft_strdup("\"")));
 }
 
 char	*all_dollar(char *str, int *i)
@@ -81,5 +73,6 @@ char	*bool_not_expand(char *str)
 
 	str_expand = delete_quote(str);
 	free(str);
+	printf("apres 2eme del quote == %s\n", str_expand);
 	return (str_expand);
 }

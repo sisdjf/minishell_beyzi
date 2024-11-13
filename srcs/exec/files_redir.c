@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 00:16:41 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/12 22:35:22 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:02:52 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,6 @@ int	redir_infile(t_stock *stock, int pos_cmd)
 	return (0);
 }
 
-// i = 0;
-// while(tmp_cmd->outfile[i])
-// {
-// 	fd = open(outfile[i])
-// 	i++;
-// }
-// // outfile trunc
-// 	fd = open(tmp->token->name, O_CREAT | O_RDWR | O_TRUNC);
-// // outfile append
-// 	fd = open(tmp->token->type, O_CREAT | O_RDWR | O_APPEND);
-
 int	redir_outfile(t_stock *stock, int pos_cmd)
 {
 	int		fd;
@@ -102,8 +91,6 @@ int	redir_outfile(t_stock *stock, int pos_cmd)
 		while (tmp_cmd->outfile[i])
 		{
 			fd = open(tmp_cmd->outfile[i], O_CREAT | O_RDWR | O_TRUNC, 0666);
-			printf("outtt = %s\n", tmp_cmd->outfile[i]);
-			printf("fdddd = %d\n", fd);
 			if (fd == -1)
 			{
 				ft_error(fd, tmp_cmd->outfile[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   double_greater.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:13 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:20:47 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/12 19:50:52 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	d_loop_right(char *str, int *i, int nb_greater, int word)
 		}
 		if (str[*i])
 			(*i)++;
-		while (str[(*i)] && str[(*i)] == ' ')
+		while (str[(*i)] && (str[(*i)] == ' ' || str[(*i)] == '\t'))
 			(*i)++;
 		while (str[(*i)] && (str[(*i)] != '>' && str[(*i)] != '<'
 				&& str[(*i)] != '|'))
@@ -50,7 +50,7 @@ int	ft_double_greater_right(char *str)
 	i = 0;
 	word = 0;
 	nb_greater = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (d_loop_right(str, &i, nb_greater, word))
 		return (1);
@@ -77,7 +77,7 @@ int	d_loop_left(char *str, int *i, int nb_greater, int word)
 		}
 		if (str[*i])
 			(*i)++;
-		while (str[(*i)] && str[(*i)] == ' ')
+		while (str[(*i)] && (str[(*i)] == ' ' || str[(*i)] == '\t'))
 			(*i)++;
 		while (str[(*i)] && (str[(*i)] != '>' && str[(*i)] != '<'
 				&& str[(*i)] != '|'))
@@ -100,7 +100,7 @@ int	ft_double_greater_left(char *str)
 	i = 0;
 	word = 0;
 	nb_greater = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (d_loop_left(str, &i, nb_greater, word))
 		return (1);

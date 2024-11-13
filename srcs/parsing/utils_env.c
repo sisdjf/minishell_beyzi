@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 00:29:49 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/12 19:57:03 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:07:57 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ void	ft_lstadd_back_envp(t_envp **token, t_envp *new)
 		last->next = new;
 	}
 	else
+	{
 		*token = new;
+	}
 }
 
 void	stock_env_lst(char **env, t_stock *stock)

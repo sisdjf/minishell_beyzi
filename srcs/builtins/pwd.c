@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 22:11:36 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/06 21:08:27 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:52:33 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int	pwd(char **cmd)
 	if (!str)
 	{
 		printf("pwd: error retrieving current directory: getcwd:");             
-			// message d'erreur sur bash
 		printf("cannot access parent directories: No such file or directory\n");
-			// message d'erreur sur bash
 	}
 	else
 	{

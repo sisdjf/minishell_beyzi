@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/12 19:50:18 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 20:54:34 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	builtins(char **cmd, t_envp **envp)
 		return (ft_exit(cmd), 1);
 	return (0);
 }
-
 
 int	get_nb_words(t_token *token)
 {

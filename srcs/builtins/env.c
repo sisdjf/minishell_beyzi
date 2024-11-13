@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:55:07 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/12 18:09:43 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 20:54:52 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	env(t_envp *envp)
 	while (tmp)
 	{
 		if (tmp->value)
-			printf("[[[[[[[%s=%s]]]]]]]\n", tmp->key, tmp->value);
+			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 }

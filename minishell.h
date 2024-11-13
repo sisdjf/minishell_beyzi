@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/12 19:30:05 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:08:54 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
-#include <sys/wait.h>
 
 # define DQUOTE '"'
 # define SQUOTE '\''
@@ -69,10 +69,11 @@ typedef struct s_exec
 	char			**env;
 	int				fd_tmp;
 	int				fd_pipe[2];
-	int 			pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
+
 typedef struct s_cmd
 {
 	char			**args;
@@ -119,19 +120,20 @@ int					ft_pipe(char *str);
 int					ft_lstsize(t_list *list);
 t_list				*ft_lstnew(int value);
 t_list				*lstend(t_list *list);
+char	*dd_quote(char *str, int *i);
 void				ft_lstadd_back(t_token **token, t_token *new);
 //TOKEN
-void				skip_space(char *str, int *i);
+int					skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
 void				chr_operator(char *input, t_token *token, int *i, int j);
-void				free_tokens(t_token *token);
+void				free_tokens(t_token **token);
 void				stock_redir_double_r(t_token *token, int *i);
 void				stock_heredoc(t_token *token, int *i);
 void				stock_redir_r(t_token *token);
 void				stock_pipe(t_token *token);
 void				stock_redir_l(t_token *token);
-void	ft_negatif(char *input);
-char *ft_positif(char *input);
+void				ft_negatif(char *input);
+char				*ft_positif(char *input);
 
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
@@ -185,7 +187,7 @@ char				**tok_to_tab(t_token *token);
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
 int					stock_args_cmd(t_token *token, int pipe, t_cmd *new);
 t_cmd				*ft_lstnew_cmd(t_token *token, int pipe);
-void				ft_lstadd_back_cmd(t_cmd **token, t_cmd *new);
+void				ft_lstadd_back_cmd(t_cmd **cmd, t_cmd *new);
 int					nb_cmd(t_token *token);
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
@@ -211,16 +213,16 @@ int					redir_outfile(t_stock *stock, int nb_cmd);
 int					redir_appendfile(t_stock *stock, int nb_cmd);
 #endif
 
-// #define RESET "\033[0m"
+#define RESET "\033[0m"
 
-// #define BLACK "\033[30m"
-// #define RED "\033[31m"
-// #define GREEN "\033[32m"
-// #define YELLOW "\033[33m"
-// #define BLUE "\033[34m"
-// #define MAGENTA "\033[35m"
-// #define CYAN "\033[36m"
-// #define WHITE "\033[37m"
+#define BLACK "\033[30m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define WHITE "\033[37m"
 
 // #define BBLACK "\033[40m"
 // #define BRED "\033[41m"

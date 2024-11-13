@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/10 19:13:20 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/12 17:57:05 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 void	ft_free_envp_list(t_envp **envp)
 {
@@ -36,27 +35,19 @@ void	free_tab(char **tab)
 	int	i;
 
 	i = 0;
-	if (!*tab)
-	{
+	if (!tab)
 		return ;
-	}
 	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
+		free(tab[i++]);
 	free(tab);
 }
 
 void	free_cmd(t_cmd **cmd)
 {
 	t_cmd	*tmp;
-	int compteur = 0;
+
 	while (*cmd)
 	{
-		// khalid cook stp
-		// if (i == compteur)
-			// tmp = tmp->next;
 		tmp = (*cmd)->next;
 		if ((*cmd)->args)
 			free_tab((*cmd)->args);
@@ -70,9 +61,5 @@ void	free_cmd(t_cmd **cmd)
 			free_tab((*cmd)->heredoc);
 		free(*cmd);
 		*cmd = tmp;
-		compteur++;
 	}
 }
-
-
-//COMMENTAIRE OUR LYNDA

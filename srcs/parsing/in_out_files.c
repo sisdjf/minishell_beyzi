@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:28:56 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/12 21:28:00 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:04:39 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,6 @@ int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new)
 		{
 			tmp = tmp->next;
 			new->outfile[i] = ft_strdup(tmp->name);
-			printf("new = %s\n", new->outfile[i]);
 			i++;
 		}
 		tmp = tmp->next;
@@ -179,28 +178,3 @@ int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new)
 	// stock_outfile_norm(token, new, i);
 	return (0);
 }
-
-// while (tmp && tmp->type != PIPE)
-	// {
-	// 	if (tmp->type == REDIR_R)
-	// 	{
-	// 		tmp = tmp->next;
-	// 		new->outfile[i] = ft_strdup(tmp->name);
-	// 		printf("new = %s\n", new->outfile[i]);
-	// 		i++;
-	// 	}
-	// 	tmp = tmp->next;
-	// }
-	// new->outfile[i] = NULL;
-
-
-	// while (tmp && tmp->type != PIPE)
-	// {
-	// 	if (tmp->type == REDIR_L)
-	// 	{
-	// 		tmp = tmp->next;
-	// 		new->infile[i++] = ft_strdup(tmp->name);
-	// 	}
-	// 	tmp = tmp->next;
-	// }
-	// new->infile[i] = NULL;

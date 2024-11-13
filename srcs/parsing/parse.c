@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/12 20:24:33 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:05:57 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,13 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	compteur = 0;
 	i = 0;
 	nb_malloc = nbr_malloc_word_cmd(token, pipe);
-	if (nb_malloc == 0)
-	{
-		new->infile = NULL;
-		return (0);
-	}
+	// if (nb_malloc == 0)
+	// {
+	// 	new->infile = NULL;
+	// 	return (0);
+	// }
 	new->args = ft_calloc(sizeof(char *), nb_malloc + 1);
+	// fprintf(stderr, "nb to alloc %i\n", nb_malloc + 1);
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
@@ -70,7 +71,6 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	}
 	while (tmp && tmp->type != PIPE)
 	{
-		// printf("tmp === l%sa\n", tmp->name);
 		if (tmp->type == WORD)
 			new->args[i++] = ft_strdup(tmp->name);
 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
@@ -189,8 +189,8 @@ void	stock_cmd_lst(t_stock *stock)
 		{
 			ft_lstadd_back_cmd(&stock->cmd, new_node);
 		}
-		// free(new_node);
 		compteur++;
 	}
 	stock->exec.nb_cmd = cmds;
+	
 }

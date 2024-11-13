@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/12 19:54:14 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:03:36 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 	char	*env;
 
 	(*i)++;
+	if (!str[*i])
+		return (ft_strdup("$"));
 	if (ft_isdigit(str[*i]))
 	{
 		(*i)++;
@@ -74,6 +76,34 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 	env = find_value_new(stock, str, i);
 	return (env);
 }
+// char	*all_dollar2(char *str, int *i)
+// {
+// 	int	start;
+
+// 	start = *i;
+// 	while (str[*i] && str[*i] != '$' && str[*i] != '"')
+// 		(*i)++;
+// 	return (ft_substr(str, start, *i - start));
+// }
+
+// char	*ft_quotes_expand_dquote(t_stock *stock, char *str, int *i)
+// {
+// 	char *str_quote = NULL;
+
+// 	(void)stock;
+// 	str_quote = ft_joinstr(str_quote, ft_strdup("\""));
+// 	(*i)++;
+// 	while (str[*i] && str[*i] != DQUOTE)
+// 	{
+// 		if (str[*i] != '$')
+// 			str_quote = ft_joinstr(str_quote,  dd_quote(str, i));
+// 		else
+// 			str_quote = ft_joinstr(str_quote,  after_env_str(stock, str, i));
+// 	}
+// 	str_quote = ft_joinstr(str_quote, ft_strdup("\""));
+// 	(*i)++;
+// 	return (str_quote);
+// }
 
 char	*bool_expand(t_stock *stock, char *str)
 {
@@ -83,24 +113,41 @@ char	*bool_expand(t_stock *stock, char *str)
 
 	i = 0;
 	str_env = NULL;
-	while (i < ft_strlen_check(str))
+	printf("len de str %zu\n", ft_strlen(str));
+	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		printf("BOOL expand [%c]\n", str[i]);
+		printf("LE I expand [%d]\n", i);
+		
+		// if (str[i] == '\"')
+		// {
+		// 	str_env = ft_quotes_expand_dquote(stock, str, &i);
+		// }
+		if (str[i] == '\'')
 		{
+			printf("%s SINGLE QUOTE\n strenv avant :%s\n%s", BLUE, str_env, RESET);
 			str_env = ft_joinstr(str_env, ft_quotes_expand(stock, str, &i));
+			printf("%s strenv apres :%s\n%s", BLUE, str_env, RESET);
 		}
-		if (str[i] && str[i] == '$')
+		else if (str[i] && str[i] == '$')
 		{
+			printf("%s AFTER ENV\n strenv avant :%s\n%s", RED, str_env, RESET);
 			str_env = ft_joinstr(str_env, after_env_str(stock, str, &i));
+			printf("%s strenv apres :%s\n%s", RED, str_env, RESET);
 		}
 		else
 		{
+			printf("%s ALL DOLLAR\n strenv avant :%s\n%s", GREEN, str_env, RESET);
 			str_env = ft_joinstr(str_env, all_dollar(str, &i));
+			printf("%s strenv apres :%s\n%s", GREEN, str_env, RESET);
 		}
+		printf(">>>> %i\n", i);
+		if (!str[i])
+			break ;
 	}
 	free(str);
 	test = delete_quote(str_env);
-	// printf("je suis la\n");
+	printf("apres 1er del quote %s\n", str_env);
 	free(str_env);
 	return (test);
 }
