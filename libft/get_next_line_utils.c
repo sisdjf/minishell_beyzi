@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:18:34 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/07 00:15:11 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/12 19:46:57 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strjoingnl(char *s1, char *s2)
 	j = -1;
 	if (!s1 && !s2)
 		return (NULL);
-	s = malloc(sizeof(char) * (ft_strlengnl(s1) + ft_strlengnl(s2)) + 1);
+	s = ft_calloc((ft_strlengnl(s1) + ft_strlengnl(s2)) + 1, sizeof(char));
 	if (!s)
 		return (NULL);
 	if (s2)

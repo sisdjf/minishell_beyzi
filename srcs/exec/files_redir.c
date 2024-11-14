@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 00:16:41 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/11 20:05:05 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:02:52 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	redir_outfile(t_stock *stock, int pos_cmd)
 		tmp_cmd = tmp_cmd->next;
 	}
 	i = 0;
+	printf("je suis la \n");
 	if (tmp_cmd && tmp_cmd->outfile)
 	{
 		while (tmp_cmd->outfile[i])

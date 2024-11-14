@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 23:18:12 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:02:08 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 		tmp = tmp->next;
 		size++;
 	}
-	env = malloc(sizeof(char *) * (size + 1));
+	env = ft_calloc(size + 1, sizeof(char *));
 	if (!env)
 		return (NULL);
 	while (envp)

@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/14 01:55:51 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 20:54:34 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**tok_to_tab(t_token *token)
 	}
 	token_tmp = token;
 	i = get_nb_words(token_tmp);
-	res = malloc(sizeof(char *) * (i + 1));
+	res = ft_calloc((i + 1), sizeof(char *));
 	if (!res)
 	{
 		printf("Error: tab malloc failed\n");

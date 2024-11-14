@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/14 02:46:31 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:20:25 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	add_to_env(char *key, char *value, t_envp **envp)
 			return (printf("bash: export:`%s': not a valid idetifier\n", key),
 					1);
 	}
-	printf("%s%s\n%s", RED, key, RESET);
 	to_replace = search_envp(*envp, key);
 	if (to_replace && value)
 	{
@@ -110,6 +109,7 @@ int	export(char **cmd, t_envp **envp)
 		add_to_env(key, value, envp);
 		// free(value);
 		free(key);
+
 		i++;
 	}
 	return (0);
