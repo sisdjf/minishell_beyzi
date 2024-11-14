@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 21:08:54 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/13 23:12:25 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_cmd
 
 typedef struct s_stock
 {
+	int				fd_std[2];
 	char			*key;
 	char			*value;
 	char			*new_str;
@@ -120,7 +121,7 @@ int					ft_pipe(char *str);
 int					ft_lstsize(t_list *list);
 t_list				*ft_lstnew(int value);
 t_list				*lstend(t_list *list);
-char	*dd_quote(char *str, int *i);
+char				*dd_quote(char *str, int *i);
 void				ft_lstadd_back(t_token **token, t_token *new);
 //TOKEN
 int					skip_space(char *str, int *i);
@@ -206,7 +207,8 @@ char				**tab_env(t_exec *exec, t_envp *envp);
 void				init_struct_exec(t_stock *stock, int i);
 char				**ft_find_tab(t_stock *stock, int i);
 char				*ft_find_cmd_for_exec(t_stock *stock, int i);
-void				pipe_redic(t_stock *stock, int i);
+void				pipe_redir(t_stock *stock, int i);
+int					all_redir(t_stock *stock, int i);
 void				free_exec(t_stock *stock);
 int					redir_infile(t_stock *stock, int nb_cmd);
 int					redir_outfile(t_stock *stock, int nb_cmd);

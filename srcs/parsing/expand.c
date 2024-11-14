@@ -113,41 +113,25 @@ char	*bool_expand(t_stock *stock, char *str)
 
 	i = 0;
 	str_env = NULL;
-	printf("len de str %zu\n", ft_strlen(str));
 	while (str[i])
 	{
-		printf("BOOL expand [%c]\n", str[i]);
-		printf("LE I expand [%d]\n", i);
-		
-		// if (str[i] == '\"')
-		// {
-		// 	str_env = ft_quotes_expand_dquote(stock, str, &i);
-		// }
 		if (str[i] == '\'')
 		{
-			printf("%s SINGLE QUOTE\n strenv avant :%s\n%s", BLUE, str_env, RESET);
 			str_env = ft_joinstr(str_env, ft_quotes_expand(stock, str, &i));
-			printf("%s strenv apres :%s\n%s", BLUE, str_env, RESET);
 		}
 		else if (str[i] && str[i] == '$')
 		{
-			printf("%s AFTER ENV\n strenv avant :%s\n%s", RED, str_env, RESET);
 			str_env = ft_joinstr(str_env, after_env_str(stock, str, &i));
-			printf("%s strenv apres :%s\n%s", RED, str_env, RESET);
 		}
 		else
 		{
-			printf("%s ALL DOLLAR\n strenv avant :%s\n%s", GREEN, str_env, RESET);
 			str_env = ft_joinstr(str_env, all_dollar(str, &i));
-			printf("%s strenv apres :%s\n%s", GREEN, str_env, RESET);
 		}
-		printf(">>>> %i\n", i);
-		if (!str[i])
+		if (i > ft_strlen_check(str))
 			break ;
 	}
 	free(str);
 	test = delete_quote(str_env);
-	printf("apres 1er del quote %s\n", str_env);
 	free(str_env);
 	return (test);
 }

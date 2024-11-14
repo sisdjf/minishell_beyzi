@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 20:04:25 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:58:30 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,5 @@ char	*bool_not_expand(char *str)
 
 	str_expand = delete_quote(str);
 	free(str);
-	printf("apres 2eme del quote == %s\n", str_expand);
 	return (str_expand);
 }

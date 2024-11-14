@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:13 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/12 19:50:52 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:57:36 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	ft_double_greater_right(char *str)
 		return (1);
 	if (i > 2 && (str[i - 1] == '>' && str[i - 2] != '>'))
 	{
-		printf("E\n");
 		return (printf(ERROR_NL), 1);
 	}
 	return (0);
@@ -106,7 +105,6 @@ int	ft_double_greater_left(char *str)
 		return (1);
 	if (i > 2 && (str[i - 1] == '<' && str[i - 2] != '<'))
 	{
-		printf("F\n");
 		return (printf(ERROR_NL), 1);
 	}
 	return (0);
