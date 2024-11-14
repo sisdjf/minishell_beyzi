@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/12 18:40:36 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 01:55:51 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_builtins(char **cmd)
 {
 	if (!cmd || !cmd[0])
-		return (1);
+		return (0);
 	if (!strcmp(cmd[0], "echo"))
 		return (1);
 	else if (!strcmp(cmd[0], "cd"))

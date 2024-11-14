@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/13 18:17:47 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 01:22:41 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@
 // 	{
 // 		key = get_key_export(cmd[i]);
 // 		value = get_value_export(cmd[i]);
-// 		// printf("key = %s value = %s\n", key, value);
+		// printf("key = %s value = %s\n", key, value);
 // 		add_to_env(key, value, envp);
-// 		// free(value);
+		// free(value);/
 // 		free(key);
 // 		i++;
 // 	}
