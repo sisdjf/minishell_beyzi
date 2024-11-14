@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 23:18:12 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 02:41:45 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,13 +170,23 @@ char	*ft_find_cmd_for_exec(t_stock *stock, int i)
 	}
 	return (NULL);
 }
+
+// void	exit_clear(t_stock *stock)
+// {
+// 	je fais free tt les variables SI la variable != NULL
+// 	je ferme les FD SI fd open
+// }
+
 int	all_redir(t_stock *stock, int i)
 {
-	redir_infile(stock, i);
-	redir_outfile(stock, i);
-	redir_appendfile(stock, i);
+	if (redir_infile(stock, i))
+		exit(EXIT_FAILURE);
+	if (redir_outfile(stock, i))
+		exit(EXIT_FAILURE);
+	if (redir_appendfile(stock, i))
+		exit(EXIT_FAILURE);
 	// close stock->fd_std...
-	return(0);
+	return (0);
 }
 void	ft_exec(t_stock *stock)
 {
