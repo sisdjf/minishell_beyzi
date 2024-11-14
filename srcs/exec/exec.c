@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 17:27:39 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 23:18:12 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ char	**ft_find_tab(t_stock *stock, int i)
 	return (NULL);
 }
 
-void	pipe_redic(t_stock *stock, int i)
+void	pipe_redir(t_stock *stock, int i)
 {
 	if (i != 0)
 	{
@@ -170,7 +170,14 @@ char	*ft_find_cmd_for_exec(t_stock *stock, int i)
 	}
 	return (NULL);
 }
-
+int	all_redir(t_stock *stock, int i)
+{
+	redir_infile(stock, i);
+	redir_outfile(stock, i);
+	redir_appendfile(stock, i);
+	// close stock->fd_std...
+	return(0);
+}
 void	ft_exec(t_stock *stock)
 {
 	int	i;
@@ -192,10 +199,11 @@ void	ft_exec(t_stock *stock)
 		if (stock->exec.pid[i] == 0)
 		{
 			init_struct_exec(stock, i);
-			pipe_redic(stock, i);
-			redir_infile(stock, i);
-			redir_outfile(stock, i);
-			redir_appendfile(stock, i);
+			pipe_redir(stock, i);
+			// redir_infile(stock, i);
+			// redir_outfile(stock, i);
+			// redir_appendfile(stock, i);
+			all_redir(stock, i);
 			if (stock->exec.path)
 			{
 				close(stock->exec.fd_pipe[0]);
