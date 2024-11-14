@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 21:11:48 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 01:08:21 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,28 @@ static int	ft_prompt(t_stock *stock, char *input)
 		ft_expand(stock, stock->token);
 		// print_tab(stock->token);
 		stock_cmd_lst(stock);
+		// un builtin seul
 		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 		{
-			printf("helloooooo\n");
-			// est-ce qu'on a des redirections (fichiers)
-			// est-ce qu'on est un builtins
+			stock->fd_std[0] = dup(STDIN_FILENO);
+			stock->fd_std[1] = dup(STDOUT_FILENO);
+
+			init_struct_exec(stock, 0);
+			all_redir(stock, 0);
 			builtins(stock->cmd->args, &stock->envp);
-			// sinon est cmd normal --> execve
+			dup2(stock->fd_std[0], STDIN_FILENO);
+			dup2(stock->fd_std[1], STDOUT_FILENO);
+			close(stock->fd_std[0]);
+			close(stock->fd_std[1]);
 		}
+		// REVENIR SUR LE DUP2
 		else
 			ft_exec(stock);
 		free_tokens(&stock->token);
 		// print_args(stock->cmd);
 		free(input);
 		free_cmd(&stock->cmd);
-		free_exec(stock);
+		//free_exec(stock);
 	}
 	return (0);
 }
@@ -74,8 +81,6 @@ int	main(int argc, char **argv, char **env)
 	// (void)argv;
 	stock_env_lst(env, &stock);
 	ft_prompt(&stock, *argv);
-	// printf("JE SUIS A LA FIN\n");
-
 	ft_free_envp_list(&stock.envp);
 	// free_tokens(stock.token);
 	return (0);
