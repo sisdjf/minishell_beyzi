@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:34:19 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/11 21:45:12 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:30:35 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	ft_exit(char **cmd)
 	int	i;
 
 	i = nb_args_exit(cmd);
-	printf("i = %d\n", i);
 	if (i == 0)
 		printf("exit\n");
 	if (i == 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/14 02:16:39 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/14 19:54:32 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	add_to_env(char *key, char *value, t_envp **envp)
 		free(value);
 		free(str);
 		ft_lstadd_back_envp(envp, ft_lstnew_envp(mini)); //ici
+		free(mini);
 	}
 	return (0);
 }

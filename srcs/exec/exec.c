@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/14 02:41:45 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:46:53 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	char	*cmd_path;
 	char	*tmp;
 
+	if (ft_strchr(exec->cmd, '/'))
+	{
+		if (access(exec->cmd, F_OK | X_OK) != 0)
+			return (fprintf(stderr, "ERROR KHALID YOUHOU\n"),
+				ft_strdup(exec->cmd));
+		return (ft_strdup(exec->cmd));
+	}
 	exec->path = chr_path(envp);
 	// if (!exec->path)
 	// {
@@ -171,23 +178,66 @@ char	*ft_find_cmd_for_exec(t_stock *stock, int i)
 	return (NULL);
 }
 
-// void	exit_clear(t_stock *stock)
-// {
-// 	je fais free tt les variables SI la variable != NULL
-// 	je ferme les FD SI fd open
-// }
-
 int	all_redir(t_stock *stock, int i)
 {
 	if (redir_infile(stock, i))
-		exit(EXIT_FAILURE);
+		return (1);
 	if (redir_outfile(stock, i))
-		exit(EXIT_FAILURE);
+		return (1);
 	if (redir_appendfile(stock, i))
-		exit(EXIT_FAILURE);
+		return (1);
 	// close stock->fd_std...
 	return (0);
 }
+void	ft_child(t_stock *stock, int i)
+{
+	init_struct_exec(stock, i);
+	pipe_redir(stock, i);
+	if (all_redir(stock, i) == 1)
+	{
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+		exit(EXIT_FAILURE);
+	}
+	if (check_builtins(stock->exec.cmd_tab))
+	{
+		builtins(stock->exec.cmd_tab, &stock->envp);
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+		close(stock->exec.fd_pipe[0]);
+		close(stock->exec.fd_pipe[1]);
+		exit(127);
+	}
+	if (stock->exec.path)
+	{
+		close(stock->exec.fd_pipe[0]);
+		if (i > 0)
+			close(stock->exec.fd_tmp);
+		// close(stock->exec.fd_pipe[1]);
+		execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+	}
+	else
+	{
+		ft_printf("bash: %s: command not found\n", stock->exec.cmd);
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+		close(stock->exec.fd_pipe[0]);
+		close(stock->exec.fd_pipe[1]);
+		exit(127);
+		// exit ici si ya erreur avec un beau jolie msg derreur puis free
+	}
+}
+
 void	ft_exec(t_stock *stock)
 {
 	int	i;
@@ -208,36 +258,7 @@ void	ft_exec(t_stock *stock)
 		}
 		if (stock->exec.pid[i] == 0)
 		{
-			init_struct_exec(stock, i);
-			pipe_redir(stock, i);
-			// redir_infile(stock, i);
-			// redir_outfile(stock, i);
-			// redir_appendfile(stock, i);
-			all_redir(stock, i);
-			if (stock->exec.path)
-			{
-				close(stock->exec.fd_pipe[0]);
-				if (i > 0)
-					close(stock->exec.fd_tmp);
-				// close(stock->exec.fd_pipe[1]);
-				execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
-				free_exec(stock);
-				free_tokens(&stock->token);
-				ft_free_envp_list(&stock->envp);
-				free_cmd(&stock->cmd);
-			}
-			else
-			{
-				ft_printf("bash: %s: command not found\n", stock->exec.cmd);
-				free_exec(stock);
-				free_tokens(&stock->token);
-				ft_free_envp_list(&stock->envp);
-				free_cmd(&stock->cmd);
-				close(stock->exec.fd_pipe[0]);
-				close(stock->exec.fd_pipe[1]);
-				exit(127);
-				// exit ici si ya erreur avec un beau jolie msg derreur puis free
-			}
+			ft_child(stock, i);
 		}
 		close(stock->exec.fd_pipe[1]);
 		if (i > 0)

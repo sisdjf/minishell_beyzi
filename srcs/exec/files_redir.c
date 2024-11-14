@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 00:16:41 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/14 02:45:28 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 18:37:52 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	redir_infile(t_stock *stock, int pos_cmd)
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
-	else
-		return (1);
 	return (0);
 }
 
@@ -132,7 +130,7 @@ int	redir_appendfile(t_stock *stock, int pos_cmd)
 				else
 					ft_printf("%s: No such file or directory\n",
 							tmp_cmd->appendfile[i]);
-				return (0);
+				return (1);
 			}
 			i++;
 		}
