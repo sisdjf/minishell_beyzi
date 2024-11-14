@@ -6,28 +6,11 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:34:19 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/24 15:47:07 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:45:12 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// char **cmd, cmd[0] == "exit"
-
-// combien d'arguments apres?
-
-// 0 args --> ft_printf("exit"), exit(0)
-
-// 1 arg --> atoi
-// test exit 1 arg non-numeric --> fait bon message d'erreur, exit(2)
-// exit(atoi(cmd[1]))
-
-// 2 args ou plus, RETURN bon printf
-
-// creer variable dans stock -> stock->exit_status
-
-// rajoute free pour quitter proprement (free tout ce que minishell a
-// alloue justqu'a ici)
 
 int	nb_args_exit(char **cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/06 22:06:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:50:21 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	loop_pipe(char *str, int *i, int nb_pipe, int word)
 		}
 		if (nb_pipe > 1 || (nb_pipe == 1 && word == 0 && str[(*i)] == '\0'))
 			return (printf(ERROR_PIPE_MSG), 1);
-		while (str[(*i)] && str[(*i)] == ' ')
+		while (str[(*i)] && (str[(*i)] == ' ' || str[(*i)] == '\t'))
 			(*i)++;
 		while (str[(*i)] && str[(*i)] != '|')
 		{
@@ -47,7 +47,7 @@ int	ft_pipe(char *str)
 	i = 0;
 	word = 0;
 	nb_pipe = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (str[i] == '|')
 		return (printf(ERROR_PIPE_MSG), 1);
@@ -78,20 +78,8 @@ void	ft_negatif(char *input)
 		i++;
 	}
 }
-// void	ft_posi(char *input)
-// {
-// 	int	i;
 
-// 	i = 0;
-// 	while (input[i])
-// 	{
-// 		if (input[i] < 0)
-// 			input[i] = -input[i];
-// 		i++;
-// 	}
-// }
-
-char *ft_positif(char *input)
+char	*ft_positif(char *input)
 {
 	int	i;
 

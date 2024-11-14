@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:28:56 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/11 20:02:15 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:11:59 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ int	stock_outfile_cmd(t_token *token, int pipe, t_cmd *new)
 		{
 			tmp = tmp->next;
 			new->outfile[i] = ft_strdup(tmp->name);
-			printf("new = %s\n", new->outfile[i]);
 			i++;
 		}
 		tmp = tmp->next;

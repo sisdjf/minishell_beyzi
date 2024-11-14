@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/11 19:16:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:57:05 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,6 @@ void	free_tab(char **tab)
 		free(tab[i++]);
 	free(tab);
 }
-// khalid cook stp
-// if (i == compteur)
-// tmp = tmp->next;
-//LA FONCTION DU BAS
 
 void	free_cmd(t_cmd **cmd)
 {
