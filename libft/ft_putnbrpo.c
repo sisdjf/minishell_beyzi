@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_putnbrpo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 17:55:07 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/13 20:54:52 by lybey            ###   ########.fr       */
+/*   Created: 2023/10/30 16:46:51 by sizitout          #+#    #+#             */
+/*   Updated: 2024/01/24 16:23:09 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-void	env(t_envp *envp)
+void	ft_putnbrpo(unsigned int nb, int *len)
 {
-	t_envp *tmp;
-
-	tmp = envp;
-	while (tmp)
+	if (nb <= 9)
 	{
-		if (tmp->value)
-			printf("%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
+		ft_putchar(nb + '0', len);
+	}
+	else
+	{
+		ft_putnbrpo(nb / 10, len);
+		ft_putchar(nb % 10 + '0', len);
 	}
 }
+// int	main(void)
+// {
+// 	ft_putnbrpo(49999999);
+// 	return (0);
+// }

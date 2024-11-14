@@ -3,21 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/04 00:49:36 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:08:40 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_prompt(t_stock *stock, char *input)
+void	free_exec(t_stock *stock)
+{
+	// if (stock->exec.cmd_tab)
+	// 	free_tab(stock->exec.cmd_tab);
+	if (stock->exec.env)
+		free_tab(stock->exec.env);
+	free(stock->exec.path);
+}
+
+static int	ft_prompt(t_stock *stock, char *input)
 {
 	while (1)
 	{
 		stock->token = NULL;
-		input = readline("minishell ");
+		stock->cmd = NULL;
+		input = readline("minishell$ ");
 		if (!input)
 			return (1);
 		if (!*input)
@@ -28,43 +38,51 @@ int	ft_prompt(t_stock *stock, char *input)
 			free(input);
 			continue ;
 		}
+		ft_negatif(input);
 		if (ft_token(stock, input) != 0)
 		{
-			return (free(input), 1);
+			free(input);
+			free(stock);
+			return (1);
 		}
+		input = ft_positif(input);
 		ft_expand(stock, stock->token);
-		print_tab(stock->token);
-		// si une seule cmd / builtin
-		// lynda parsing ici (au lieu de tok to tab)
+		// print_tab(stock->token);
 		stock_cmd_lst(stock);
-		free_tokens(stock->token);
-		if(stock->exec.nb_cmd == 1 && check_builtins(&stock->exec.cmd) == 1)
+		// un builtin seul
+		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 		{
-			builtins(&stock->exec.cmd, stock->envp);
-			// free tt ce que tu dois free et continue la boucle;
-			// continue ;	
+			stock->fd_std[0] = dup(STDIN_FILENO);
+			stock->fd_std[1] = dup(STDOUT_FILENO);
+
+			init_struct_exec(stock, 0);
+			all_redir(stock, 0);
+			builtins(stock->cmd->args, &stock->envp);
+			dup2(stock->fd_std[0], STDIN_FILENO);
+			dup2(stock->fd_std[1], STDOUT_FILENO);
+			close(stock->fd_std[0]);
+			close(stock->fd_std[1]);
 		}
-		ft_exec(stock);
-		free(input);
+		// REVENIR SUR LE DUP2
+		else
+			ft_exec(stock);
+		free_tokens(&stock->token);
 		// print_args(stock->cmd);
-		free_cmd(stock->cmd);
+		free(input);
+		free_cmd(&stock->cmd);
+		//free_exec(stock);
 	}
 	return (0);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	static t_stock	stock = {0};
+	static t_stock stock = {0};
 	(void)argc;
+	// (void)argv;
 	stock_env_lst(env, &stock);
-	// while (stock.envp)
-	// {
-	// 	printf("%s\n", stock.envp->key);
-	// 	stock.envp = stock.envp->next;
-	// }
-	// printf("ICI 13\n");
 	ft_prompt(&stock, *argv);
-	ft_free_envp_list(stock.envp);
+	ft_free_envp_list(&stock.envp);
 	// free_tokens(stock.token);
 	return (0);
 }

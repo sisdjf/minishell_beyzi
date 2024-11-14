@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   exec_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 17:55:07 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/13 20:54:52 by lybey            ###   ########.fr       */
+/*   Created: 2024/10/24 15:48:30 by sizitout          #+#    #+#             */
+/*   Updated: 2024/11/11 20:05:10 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	env(t_envp *envp)
+void	free_split(char **split)
 {
-	t_envp *tmp;
+	int	i;
 
-	tmp = envp;
-	while (tmp)
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
 	{
-		if (tmp->value)
-			printf("%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
+		free(split[i]);
+		i++;
 	}
+	free(split);
 }

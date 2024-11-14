@@ -3,21 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/24 23:57:21 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:07:15 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	skip_space(char *str, int *i)
+int	skip_space(char *str, int *i)
 {
 	while (str[(*i)] == ' ' || (str[(*i)] >= 9 && str[(*i)] <= 13))
 	{
 		(*i)++;
 	}
+	if (!str[*i])
+		return (1);
+	return (0);
 }
 
 void	stock_word(t_token *token, char *input, int *i)
@@ -30,13 +33,13 @@ void	stock_word(t_token *token, char *input, int *i)
 	j = (*i);
 	cmpt = 0;
 	index_str = 0;
-	while (input[j] && (input[j] != ' ' && input[j] != '|' && input[j] != '>'
-			&& input[j] != '<'))
+	while (input[j] && (input[j] != ' ' && input[j] != '\t' && input[j] != '|'
+			&& input[j] != '>' && input[j] != '<'))
 	{
 		j++;
 		cmpt++;
 	}
-	str = malloc(sizeof(char) * (cmpt + 1));
+	str = ft_calloc(cmpt + 1, sizeof(char));
 	while (index_str < cmpt)
 	{
 		str[index_str] = input[(*i)];
@@ -49,9 +52,6 @@ void	stock_word(t_token *token, char *input, int *i)
 
 void	chr_operator(char *input, t_token *token, int *i, int j)
 {
-	int	cmpt;
-	int	index_str;
-
 	if (ft_strncmp(input + (*i), ">>", 2) == 0)
 		stock_redir_double_r(token, i);
 	else if (ft_strncmp(input + (*i), "<<", 2) == 0)
@@ -65,8 +65,6 @@ void	chr_operator(char *input, t_token *token, int *i, int j)
 	else
 	{
 		j = (*i);
-		cmpt = 0;
-		index_str = 0;
 		stock_word(token, input, i);
 		token->type = WORD;
 		token->next = NULL;
@@ -83,27 +81,30 @@ int	ft_token(t_stock *stock, char *input)
 	i = 0;
 	while (input[i])
 	{
-		skip_space(input, &i);
+		// skip_space(input, &i);
+		if (skip_space(input, &i))
+			return (0);
 		new_token = malloc(sizeof(t_token));
 		if (!new_token)
 			return (printf("error malloc token"), 1);
 		chr_operator(input, new_token, &i, 0);
+		new_token->name = ft_positif(new_token->name);
 		ft_lstadd_back(&stock->token, new_token);
 		i++;
 	}
 	return (0);
 }
 
-void	free_tokens(t_token *token)
+void	free_tokens(t_token **token)
 {
 	t_token	*tmp;
 
-	while (token)
+	while (*token)
 	{
-		tmp = token->next;
-		if (token->name)
-			free(token->name);
-		free(token);
-		token = tmp;
+		tmp = (*token)->next;
+		if ((*token)->name)
+			free((*token)->name);
+		free(*token);
+		*token = tmp;
 	}
 }

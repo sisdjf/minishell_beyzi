@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/29 19:10:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/12 19:43:51 by lybey            ###   ########.fr       */
+/*   Created: 2024/11/08 19:19:33 by lybey             #+#    #+#             */
+/*   Updated: 2024/11/08 21:13:06 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+# include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+int    ft_putstr(char *str, int *len)
 {
-	unsigned int	i;
-	char			*str;
+    int    i;
 
-	i = 0;
-	str = ft_calloc(ft_strlen(s) + 1, sizeof(char));
-	if (str == NULL || f == NULL || s == NULL)
-		return (NULL);
-	while (s[i] != '\0')
-	{
-		str[i] = s[i];
-		str[i] = (*f)(i, str[i]);
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+    i = 0;
+    if (!str)
+    {
+        write(2, "(null)", 6);
+        (*len) = *len + 6;
+        return (0);
+    }
+    write(1, str, ft_strlen(str));
+    (*len) += ft_strlen(str);
+    return (i);
 }

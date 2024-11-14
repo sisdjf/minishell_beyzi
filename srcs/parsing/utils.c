@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 16:34:59 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:08:10 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,13 @@ char	*ft_joinstr(char *s1, char *s2)
 	char	*res;
 
 	if (!s1)
-		return (ft_strdup(s2));
+	{
+		res = ft_strdup(s2);
+		free(s2);
+		return (res);
+	}
 	i = 0;
-	res = malloc(ft_len_mini(s1) + ft_len_mini(s2) + 1);
+	res = ft_calloc(ft_len_mini(s1) + ft_len_mini(s2) + 1, sizeof(char));
 	if (!res)
 		return (NULL);
 	while (i < ft_len_mini(s1))
@@ -62,6 +66,7 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (s1[i] - s2[i]);
 }
+
 
 void	print_tab(t_token *token)
 {

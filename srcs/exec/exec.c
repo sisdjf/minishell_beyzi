@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/04 00:50:30 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 02:53:51 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*chr_path(t_envp *envp)
 	{
 		if (ft_strcmp(tmp->key, "PATH") == 0)
 		{
-			// printf("%s\n", tmp->key);
 			return (tmp->value);
 		}
 		tmp = tmp->next;
@@ -43,39 +42,51 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	char	*tmp;
 
 	exec->path = chr_path(envp);
-	printf("exec->cmd = %s\n", exec->cmd);
+	// if (!exec->path)
+	// {
+	// 	free(exec->path);
+	// 	return (free(exec->path), NULL);
+	// }
 	i = -1;
 	if (exec->path)
 	{
 		exec->split_path = ft_split(exec->path, ':');
-		// if (exec->split_path)
-		// {
-		// 	while (exec->split_path[++i])
-		// 		printf("%s\n", exec->split_path[i]);
-		// }
 		i = 0;
 		while (exec->split_path[i])
 		{
 			tmp = ft_strjoin(exec->split_path[i], "/");
 			cmd_path = ft_strjoin(tmp, exec->cmd);
-			// printf("Lynda, ex: %s\n", exec->cmd);
+			if (!cmd_path)
+			{
+				free(exec->split_path);
+				free(cmd_path);
+				free(tmp);
+				return (NULL);
+			}
 			free(tmp);
 			if (access(cmd_path, X_OK) == 0)
 			{
 				free_split(exec->split_path);
-				printf("cmd_path = %s\n", cmd_path);
 				return (cmd_path);
 			}
-			// else
-			// {
-			// 	printf("PAS D ACESS\n");
-			// }
 			free(cmd_path);
 			i++;
 		}
 	}
 	free_split(exec->split_path);
 	return (NULL);
+}
+
+void	print_vraitab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
 }
 
 char	**tab_env(t_exec *exec, t_envp *envp)
@@ -94,7 +105,7 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 		tmp = tmp->next;
 		size++;
 	}
-	env = malloc(sizeof(char *) * (size + 1));
+	env = ft_calloc(size + 1, sizeof(char *));
 	if (!env)
 		return (NULL);
 	while (envp)
@@ -107,6 +118,38 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 	}
 	env[i] = NULL;
 	return (env);
+}
+
+char	**ft_find_tab(t_stock *stock, int i)
+{
+	int		compteur;
+	t_cmd	*tmp;
+
+	compteur = 0;
+	tmp = stock->cmd;
+	while (tmp)
+	{
+		if (compteur == i)
+		{
+			return (tmp->args);
+		}
+		compteur++;
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+void	pipe_redir(t_stock *stock, int i)
+{
+	if (i != 0)
+	{
+		dup2(stock->exec.fd_tmp, 0);
+		close(stock->exec.fd_tmp);
+	}
+	if (i != stock->exec.nb_cmd - 1)
+		dup2(stock->exec.fd_pipe[1], 1);
+	close(stock->exec.fd_pipe[0]);
+	close(stock->exec.fd_pipe[1]);
 }
 
 char	*ft_find_cmd_for_exec(t_stock *stock, int i)
@@ -128,50 +171,30 @@ char	*ft_find_cmd_for_exec(t_stock *stock, int i)
 	return (NULL);
 }
 
-char	**ft_find_tab(t_stock *stock, int i)
+// void	exit_clear(t_stock *stock)
+// {
+// 	je fais free tt les variables SI la variable != NULL
+// 	je ferme les FD SI fd open
+// }
+
+int	all_redir(t_stock *stock, int i)
 {
-	int		compteur;
-	t_cmd	*tmp;
-
-	compteur = 0;
-	tmp = stock->cmd;
-	while (tmp)
-	{
-		if (compteur == i)
-		{
-			printf("tmp->agsssssss --> %s\n", tmp->args[0]);
-			return (tmp->args);
-		}
-		compteur++;
-		tmp = tmp->next;
-	}
-	return (NULL);
+	if (redir_infile(stock, i))
+		exit(EXIT_FAILURE);
+	if (redir_outfile(stock, i))
+		exit(EXIT_FAILURE);
+	if (redir_appendfile(stock, i))
+		exit(EXIT_FAILURE);
+	// close stock->fd_std...
+	return (0);
 }
-
-void	pipe_redic(t_stock *stock, int i)
-{
-	if (i != 0)
-	{
-		dup2(stock->exec.fd_tmp, 0);
-		close(stock->exec.fd_tmp);
-	}
-	if (i != stock->exec.nb_cmd - 1)
-		dup2(stock->exec.fd_pipe[1], 1);
-	close(stock->exec.fd_pipe[0]);
-	close(stock->exec.fd_pipe[1]);	
-	// if(stock->exec.nb_cmd == 1)
-}
-
 void	ft_exec(t_stock *stock)
 {
 	int	i;
 
 	i = 0;
-	printf("nb cmd = [%d]\n", stock->exec.nb_cmd);
 	while (i < stock->exec.nb_cmd)
 	{
-		// printf("cmd [{%d}]\n", stock->exec.nb_cmd);
-		// pipe(stock->exec.fd_pipe);
 		if (pipe(stock->exec.fd_pipe) == -1)
 		{
 			printf("Error avec la fonction pipe\n");
@@ -186,50 +209,63 @@ void	ft_exec(t_stock *stock)
 		if (stock->exec.pid[i] == 0)
 		{
 			init_struct_exec(stock, i);
-			pipe_redic(stock, i);
-			execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+			pipe_redir(stock, i);
+			// redir_infile(stock, i);
+			// redir_outfile(stock, i);
+			// redir_appendfile(stock, i);
+			all_redir(stock, i);
+			if (stock->exec.path)
+			{
+				close(stock->exec.fd_pipe[0]);
+				if (i > 0)
+					close(stock->exec.fd_tmp);
+				// close(stock->exec.fd_pipe[1]);
+				execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+				free_exec(stock);
+				free_tokens(&stock->token);
+				ft_free_envp_list(&stock->envp);
+				free_cmd(&stock->cmd);
+			}
+			else
+			{
+				ft_printf("bash: %s: command not found\n", stock->exec.cmd);
+				free_exec(stock);
+				free_tokens(&stock->token);
+				ft_free_envp_list(&stock->envp);
+				free_cmd(&stock->cmd);
+				close(stock->exec.fd_pipe[0]);
+				close(stock->exec.fd_pipe[1]);
+				exit(127);
+				// exit ici si ya erreur avec un beau jolie msg derreur puis free
+			}
 		}
-		else
-		{
-			printf("PARENTS\n");
-			close(stock->exec.fd_pipe[1]);
-			stock->exec.fd_tmp = stock->exec.fd_pipe[0];
-		}
+		close(stock->exec.fd_pipe[1]);
+		if (i > 0)
+			close(stock->exec.fd_tmp);
+		stock->exec.fd_tmp = stock->exec.fd_pipe[0];
 		i++;
 	}
-		close(stock->exec.fd_pipe[0]);
-	// -> exec->pid[i] = fork()
-	// if (data->pid[i] == 0)
-	// {
-	// -> pipe redirections
-	// -> redirections fichiers (lynda)
-	// -> builtins
-	// builtins(stock->cmd->args, stock->envp);
-	// -> recuperer cmd path (sirine)
-	// -> execve
-	// execve(stock->exec.path, stock->cmd->args, stock->exec.env);
-	// apres execve mettre les message d'erreur cmd not found
-	// et quitter proprement (leak)
-	// free
-	// }
-	// else (parent)
-	// 	close pipe fds
-	// i++;
-	// }
-	// -> waitpid (attendre child processes)
-	// i = 0;
-	// while (i < nb_cmd)
-	// waitpid(exec->pid[i++], NULL, 0)
+	close(stock->exec.fd_pipe[1]);
+	close(stock->exec.fd_pipe[0]);
+	i = 0;
+	while (i < stock->exec.nb_cmd)
+	{
+		// fprintf(stderr, "PID [%i]\n", stock->exec.pid[i]);
+		waitpid(stock->exec.pid[i++], NULL, 0);
+	}
 }
 
-// ordre des choses dans l'exec
-// -> tok to tab/ lynda cmd parsing
-
-// -> pipe()
-// -> fork()
-// -> pipe redirections
-// -> redirections fichiers (lynda)
-// -> builtins
-// -> recuperer cmd path (sirine)
-// -> execve
-// -> waitpid (attendre child processes) (modifié)
+// void	waiter(t_stock *stock, t_exec *exec)
+// {
+// 	while (exec->cmd)
+// 	{
+// 		waitpid(exec->cmd->pid, &minishell->state, 0);
+// 		if (WIFEXITED(minishell->state))
+// 			minishell->state = WEXITSTATUS(minishell->state);
+// 		else if (WIFSIGNALED(minishell->state))
+// 			minishell->state = 128 + WTERMSIG(minishell->state);
+// 		else if (WIFSTOPPED(minishell->state))
+// 			minishell->state = 128 + WSTOPSIG(minishell->state);
+// 		cmd = cmd->next;
+// 	}
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/04 00:49:42 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 23:12:25 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # define DQUOTE '"'
@@ -30,10 +31,10 @@
 
 typedef enum s_sign
 {
-	D_REDIR_R, //>>
-	HERDOC,    //<<
-	REDIR_R,   //>
-	REDIR_L,   //<
+	D_REDIR_R,
+	HERDOC,
+	REDIR_R,
+	REDIR_L,
 	PIPE,
 	WORD,
 }					t_sign;
@@ -66,28 +67,26 @@ typedef struct s_exec
 	char			*cmd;
 	char			**cmd_tab;
 	char			**env;
-	int				fd_pipe[2];
 	int				fd_tmp;
+	int				fd_pipe[2];
 	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
+
 typedef struct s_cmd
 {
 	char			**args;
-	// Tableau de chaînes pour stocker les arguments de la commande
-	char **infile;  // Fichier pour la redirection d'entrée (`<`)
-	char **outfile; // Fichier pour la redirection de sortie (`>`)
+	char			**infile;
+	char			**outfile;
 	char			**appendfile;
-	// Fichier pour la redirection de sortie en mode append (`>>`)
-	char **heredoc; // Fichier ou contenu pour un heredoc (`<<`)
+	char			**heredoc;
 	struct s_cmd	*next;
-	// Pointeur vers la prochaine commande (chaîne de commandes)
 }					t_cmd;
 
 typedef struct s_stock
 {
-	// char			**tab;
+	int				fd_std[2];
 	char			*key;
 	char			*value;
 	char			*new_str;
@@ -100,7 +99,6 @@ typedef struct s_stock
 
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
-int					ft_prompt(t_stock *stock, char *input);
 //QUOTES
 int					ft_quotes(char *str);
 char				*delete_quote(char *str);
@@ -123,23 +121,21 @@ int					ft_pipe(char *str);
 int					ft_lstsize(t_list *list);
 t_list				*ft_lstnew(int value);
 t_list				*lstend(t_list *list);
+char				*dd_quote(char *str, int *i);
 void				ft_lstadd_back(t_token **token, t_token *new);
 //TOKEN
-void				skip_space(char *str, int *i);
+int					skip_space(char *str, int *i);
 int					ft_token(t_stock *stock, char *input);
 void				chr_operator(char *input, t_token *token, int *i, int j);
-void				free_tokens(t_token *token);
+void				free_tokens(t_token **token);
 void				stock_redir_double_r(t_token *token, int *i);
 void				stock_heredoc(t_token *token, int *i);
 void				stock_redir_r(t_token *token);
 void				stock_pipe(t_token *token);
 void				stock_redir_l(t_token *token);
-// //CHR_OPERATOR
-// char				*ft_greats_right(char *input);
-// char				*ft_greats_left(char *input);
-// char				*ft_double_greats_right(char *input);
-// char				*ft_double_greats_left(char *input);
-// char				*ft_chr_pipe(char *input);
+void				ft_negatif(char *input);
+char				*ft_positif(char *input);
+
 //UTILS
 int					ft_strcmp(char *s1, char *s2);
 int					ft_len_mini(char *str);
@@ -163,8 +159,8 @@ void				ft_lstadd_back_envp(t_envp **token, t_envp *new);
 void				stock_env_lst(char **env, t_stock *stock);
 void				print_lst_envp(t_stock *stock);
 //FREE
-void				free_envp(t_envp *env);
-void				ft_free_envp_list(t_envp *envp);
+void				free_envp(t_envp **env);
+void				ft_free_envp_list(t_envp **envp);
 void				free_tab(char **tab);
 //BUILTINS
 int					check_n_option(char **cmd);
@@ -173,27 +169,26 @@ int					echo(char **cmd);
 int					print_echo(char **cmd, int start);
 int					arg_len(char **array);
 int					pwd(char **cmd);
-int					builtins(char **cmd, t_envp *envp);
+int					builtins(char **cmd, t_envp **envp);
 int					ft_cd(char **cmd, t_envp *envp);
 char				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
 int					ft_unset(char **cmd, t_envp *envp);
 t_envp				*search_envp(t_envp *envp, char *key);
-void				unset_loop(char **cmd, t_envp *envp, int nb_cmd);
-int					add_to_env(char *key, char *value, t_envp *envp);
-int					export(char **cmd, t_envp *envp);
+void				unset_loop(char **cmd, t_envp *envp);
+int					add_to_env(char *key, char *value, t_envp **envp);
+int					export(char **cmd, t_envp **envp);
 int					ft_exit(char **cmd);
 int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
 int					check_builtins(char **cmd);
-// void				tok_to_tab(t_stock *stock);
 char				**tok_to_tab(t_token *token);
 // PARSE
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
 int					stock_args_cmd(t_token *token, int pipe, t_cmd *new);
 t_cmd				*ft_lstnew_cmd(t_token *token, int pipe);
-void				ft_lstadd_back_cmd(t_cmd **token, t_cmd *new);
+void				ft_lstadd_back_cmd(t_cmd **cmd, t_cmd *new);
 int					nb_cmd(t_token *token);
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
@@ -201,7 +196,7 @@ int					stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
-void				free_cmd(t_cmd *cmd);
+void				free_cmd(t_cmd **cmd);
 //EXEC
 // void				env(t_envp *envp);
 char				*chr_path(t_envp *envp);
@@ -212,19 +207,24 @@ char				**tab_env(t_exec *exec, t_envp *envp);
 void				init_struct_exec(t_stock *stock, int i);
 char				**ft_find_tab(t_stock *stock, int i);
 char				*ft_find_cmd_for_exec(t_stock *stock, int i);
-void				pipe_redic(t_stock *stock, int i);
+void				pipe_redir(t_stock *stock, int i);
+int					all_redir(t_stock *stock, int i);
+void				free_exec(t_stock *stock);
+int					redir_infile(t_stock *stock, int nb_cmd);
+int					redir_outfile(t_stock *stock, int nb_cmd);
+int					redir_appendfile(t_stock *stock, int nb_cmd);
 #endif
 
-// #define RESET "\033[0m"
+#define RESET "\033[0m"
 
-// #define BLACK "\033[30m"
-// #define RED "\033[31m"
-// #define GREEN "\033[32m"
-// #define YELLOW "\033[33m"
-// #define BLUE "\033[34m"
-// #define MAGENTA "\033[35m"
-// #define CYAN "\033[36m"
-// #define WHITE "\033[37m"
+#define BLACK "\033[30m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define WHITE "\033[37m"
 
 // #define BBLACK "\033[40m"
 // #define BRED "\033[41m"

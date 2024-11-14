@@ -1,43 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 18:34:19 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/11 21:45:12 by sizitout         ###   ########.fr       */
+/*   Created: 2023/10/30 16:47:36 by sizitout          #+#    #+#             */
+/*   Updated: 2024/01/24 16:23:00 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-int	nb_args_exit(char **cmd)
+int	ft_puthex(unsigned int nb, char c, int *len)
 {
-	int	i;
+	char	*min;
+	char	*maj;
 
-	i = 0;
-	while (cmd[i])
+	min = "0123456789abcdef";
+	maj = "0123456789ABCDEF";
+	if (nb > 15)
 	{
-		i++;
+		ft_puthex(nb / 16, c, len);
+		ft_puthex(nb % 16, c, len);
 	}
-	return (i - 1);
-}
-
-int	ft_exit(char **cmd)
-{
-	int	i;
-
-	i = nb_args_exit(cmd);
-	printf("i = %d\n", i);
-	if (i == 0)
-		printf("exit\n");
-	if (i == 1)
-		check_atoi_exit(cmd);
-	if (i == 2)
+	if (nb < 16)
 	{
-		printf("exit :  too many arguments\n");
-		return (1);
+		if (c == 'x')
+		{
+			write(1, &min[nb], 1);
+			(*len)++;
+		}
+		else
+		{
+			write(1, &maj[nb], 1);
+			(*len)++;
+		}
 	}
-	return (0);
+	return (1);
 }
