@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/14 21:33:15 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/15 23:11:09 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_builtins(char **cmd)
 	return (0);
 }
 
-int	builtins(char **cmd, t_envp **envp)
+int	builtins(t_stock *stock, char **cmd, t_envp **envp)
 {
 	if (!cmd || !cmd[0])
 		return (1);
@@ -50,7 +50,7 @@ int	builtins(char **cmd, t_envp **envp)
 	else if (!ft_strcmp(cmd[0], "env"))
 		return (env(*envp), 1);
 	else if (!ft_strcmp(cmd[0], "exit"))
-		return (ft_exit(cmd), 1);
+		return (ft_exit(stock, cmd), 1);
 	return (0);
 }
 

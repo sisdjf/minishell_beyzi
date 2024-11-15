@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/14 21:46:53 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/16 00:27:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,29 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	// 	return (free(exec->path), NULL);
 	// }
 	i = -1;
-	if (exec->path)
+	if (!exec->path)
+		return (NULL);
+	exec->split_path = ft_split(exec->path, ':');
+	i = 0;
+	while (exec->split_path[i])
 	{
-		exec->split_path = ft_split(exec->path, ':');
-		i = 0;
-		while (exec->split_path[i])
+		tmp = ft_strjoin(exec->split_path[i], "/");
+		cmd_path = ft_strjoin(tmp, exec->cmd);
+		if (!cmd_path)
 		{
-			tmp = ft_strjoin(exec->split_path[i], "/");
-			cmd_path = ft_strjoin(tmp, exec->cmd);
-			if (!cmd_path)
-			{
-				free(exec->split_path);
-				free(cmd_path);
-				free(tmp);
-				return (NULL);
-			}
-			free(tmp);
-			if (access(cmd_path, X_OK) == 0)
-			{
-				free_split(exec->split_path);
-				return (cmd_path);
-			}
+			free(exec->split_path);
 			free(cmd_path);
-			i++;
+			free(tmp);
+			return (NULL);
 		}
+		free(tmp);
+		if (access(cmd_path, X_OK) == 0)
+		{
+			free_split(exec->split_path);
+			return (cmd_path);
+		}
+		free(cmd_path);
+		i++;
 	}
 	free_split(exec->split_path);
 	return (NULL);
@@ -157,6 +156,7 @@ void	pipe_redir(t_stock *stock, int i)
 		dup2(stock->exec.fd_pipe[1], 1);
 	close(stock->exec.fd_pipe[0]);
 	close(stock->exec.fd_pipe[1]);
+	// close_fds(stock);
 }
 
 char	*ft_find_cmd_for_exec(t_stock *stock, int i)
@@ -203,7 +203,7 @@ void	ft_child(t_stock *stock, int i)
 	}
 	if (check_builtins(stock->exec.cmd_tab))
 	{
-		builtins(stock->exec.cmd_tab, &stock->envp);
+		builtins(stock, stock->exec.cmd_tab, &stock->envp);
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
@@ -223,6 +223,7 @@ void	ft_child(t_stock *stock, int i)
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
+		exit(127);
 	}
 	else
 	{

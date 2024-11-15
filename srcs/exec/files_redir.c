@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 00:16:41 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/14 18:37:52 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/15 23:14:09 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ void	close_fds(t_stock *stock)
 		close(stock->exec.fd_pipe[0]);
 	if (stock->exec.fd_pipe[1] > 0)
 		close(stock->exec.fd_pipe[1]);
+	if (stock->fd_std[0] > 0)
+		close(stock->fd_std[0]);
+	if (stock->fd_std[1] > 0)
+		close(stock->fd_std[1]);
 }
 
 int	redir_infile(t_stock *stock, int pos_cmd)
@@ -126,10 +130,10 @@ int	redir_appendfile(t_stock *stock, int pos_cmd)
 			{
 				if (access(tmp_cmd->appendfile[i], F_OK) == 0)
 					ft_printf("%s: Permission denied\n",
-							tmp_cmd->appendfile[i]);
+								tmp_cmd->appendfile[i]);
 				else
 					ft_printf("%s: No such file or directory\n",
-							tmp_cmd->appendfile[i]);
+								tmp_cmd->appendfile[i]);
 				return (1);
 			}
 			i++;

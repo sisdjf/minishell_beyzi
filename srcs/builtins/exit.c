@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:34:19 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/14 21:30:35 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/15 23:14:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,32 @@ int	nb_args_exit(char **cmd)
 	return (i - 1);
 }
 
-int	ft_exit(char **cmd)
+int	ft_exit(t_stock *stock, char **cmd)
 {
 	int	i;
 
 	i = nb_args_exit(cmd);
 	if (i == 0)
+	{
 		printf("exit\n");
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+		close_fds(stock);
+		exit(0);
+	}
 	if (i == 1)
+	{
 		check_atoi_exit(cmd);
-	if (i == 2)
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+		close_fds(stock);
+		exit(check_atoi_exit(cmd));
+	}
+	if (i > 2)
 	{
 		printf("exit :  too many arguments\n");
 		return (1);
