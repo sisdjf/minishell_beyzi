@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/16 00:27:56 by sizitout         ###   ########.fr       */
-/*   Updated: 2024/11/14 02:53:51 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/17 00:32:09 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../minishell.h"
 
@@ -179,17 +179,17 @@ char	*ft_find_cmd_for_exec(t_stock *stock, int i)
 	return (NULL);
 }
 
-int	all_redir(t_stock *stock, int i)
-{
-	if (redir_infile(stock, i))
-		return (1);
-	if (redir_outfile(stock, i))
-		return (1);
-	if (redir_appendfile(stock, i))
-		return (1);
-	// close stock->fd_std...
-	return (0);
-}
+// int	all_redir(t_stock *stock, int i)
+// {
+// 	if (redir_infile(stock, i))
+// 		return (1);
+// 	if (redir_outfile(stock, i))
+// 		return (1);
+// 	if (redir_appendfile(stock, i))
+// 		return (1);
+// 	// close stock->fd_std...
+// 	return (0);
+// }
 void	ft_child(t_stock *stock, int i)
 {
 	init_struct_exec(stock, i);
@@ -242,7 +242,7 @@ void	ft_child(t_stock *stock, int i)
 // {
 // 	je fais free tt les variables SI la variable != NULL
 // 	je ferme les FD SI fd open
-// }
+}
 
 int	all_redir(t_stock *stock, int i)
 {

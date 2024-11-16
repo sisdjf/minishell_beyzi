@@ -6,10 +6,10 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:34:19 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/16 18:45:25 by sizitout         ###   ########.fr       */
-/*   Updated: 2024/11/16 22:12:51 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/17 00:27:59 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../minishell.h"
 
@@ -33,7 +33,7 @@ int	nb_args_exit(char **cmd)
 
 
 
-int	ft_exit(char **cmd)
+int	ft_exit(t_stock *stock, char **cmd)
 {
 	int	nb_args;
 
