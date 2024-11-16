@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/15 23:11:30 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/16 18:44:55 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_cmd
 
 typedef struct s_stock
 {
+	int				exit_status;
 	int				fd_std[2];
 	char			*key;
 	char			*value;
