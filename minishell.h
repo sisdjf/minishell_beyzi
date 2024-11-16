@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
 /*   Updated: 2024/11/16 18:44:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/16 22:21:09 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +70,7 @@ typedef struct s_exec
 	char			**env;
 	int				fd_tmp;
 	int				fd_pipe[2];
-	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int 			pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
@@ -164,6 +165,7 @@ void				free_envp(t_envp **env);
 void				ft_free_envp_list(t_envp **envp);
 void				free_tab(char **tab);
 //BUILTINS
+void				clear_exit(t_stock *stock, char **cmd, int i);
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
 int					echo(char **cmd);
