@@ -7,8 +7,6 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
 /*   Updated: 2024/11/15 23:11:09 by sizitout         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../minishell.h"
 
@@ -86,7 +84,7 @@ char	**tok_to_tab(t_token *token)
 	}
 	token_tmp = token;
 	i = get_nb_words(token_tmp);
-	res = malloc(sizeof(char *) * (i + 1));
+	res = ft_calloc((i + 1), sizeof(char *));
 	if (!res)
 	{
 		printf("Error: tab malloc failed\n");

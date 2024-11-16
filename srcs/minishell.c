@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
 /*   Updated: 2024/11/15 23:11:38 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:08:40 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +27,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 	while (1)
 	{
 		stock->token = NULL;
+		stock->cmd = NULL;
 		input = readline("minishell$ ");
 		if (!input)
 			return (1);

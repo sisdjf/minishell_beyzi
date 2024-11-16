@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
 /*   Updated: 2024/11/16 00:27:56 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 02:53:51 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +112,7 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 		tmp = tmp->next;
 		size++;
 	}
-	env = malloc(sizeof(char *) * (size + 1));
+	env = ft_calloc(size + 1, sizeof(char *));
 	if (!env)
 		return (NULL);
 	while (envp)
@@ -237,6 +238,22 @@ void	ft_child(t_stock *stock, int i)
 		exit(127);
 		// exit ici si ya erreur avec un beau jolie msg derreur puis free
 	}
+// void	exit_clear(t_stock *stock)
+// {
+// 	je fais free tt les variables SI la variable != NULL
+// 	je ferme les FD SI fd open
+// }
+
+int	all_redir(t_stock *stock, int i)
+{
+	if (redir_infile(stock, i))
+		exit(EXIT_FAILURE);
+	if (redir_outfile(stock, i))
+		exit(EXIT_FAILURE);
+	if (redir_appendfile(stock, i))
+		exit(EXIT_FAILURE);
+	// close stock->fd_std...
+	return (0);
 }
 
 void	ft_exec(t_stock *stock)

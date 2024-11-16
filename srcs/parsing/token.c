@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 16:31:29 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:07:15 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ void	stock_word(t_token *token, char *input, int *i)
 		j++;
 		cmpt++;
 	}
-	str = ft_calloc(sizeof(char), (cmpt + 1));
-	if (!str)  
-		return;
+	str = ft_calloc(cmpt + 1, sizeof(char));
 	while (index_str < cmpt)
 	{
 		str[index_str] = input[(*i)];

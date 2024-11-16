@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/13 22:46:10 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 22:01:05 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	nbr_malloc_word_cmd(t_token *token, int pipe)
 		}
 		tmp = tmp->next;
 	}
+	printf("nb_malloc dans nbr mallo : %d\n", nb_malloc);
 	return (nb_malloc);
 }
 
@@ -56,12 +57,15 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	compteur = 0;
 	i = 0;
 	nb_malloc = nbr_malloc_word_cmd(token, pipe);
-	// if (nb_malloc == 0)
-	// {
-	// 	new->infile = NULL;
-	// 	return (0);
-	// }
-	new->args = ft_calloc(sizeof(char *), nb_malloc + 1);
+	if (nb_malloc == 0)
+	{
+		new->infile = NULL;
+		return (0);
+	}
+	new->args = ft_calloc(nb_malloc + 1, sizeof(char *));
+	// printf("arg name : %s\n", tmp->name);
+	// printf("arg type : %u\n", tmp->type);
+	// printf("size nb malloc = %d\n", nb_malloc);
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
@@ -70,8 +74,9 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	}
 	while (tmp && tmp->type != PIPE)
 	{
+		printf("tmp === %s\n", tmp->name);
 		if (tmp->type == WORD)
-			new->args[i++] = ft_strdup(tmp->name);
+			new->args[i++] = ft_strdup(tmp->name); // "out" 
 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
 			|| tmp->type == REDIR_R || tmp->type == REDIR_L)
 			tmp = tmp->next;
@@ -85,7 +90,7 @@ t_cmd	*ft_lstnew_cmd(t_token *token, int pipe)
 {
 	t_cmd	*new;
 
-	new = malloc(sizeof(t_cmd));
+	new = ft_calloc(1, sizeof(t_cmd));
 	if (!new)
 		return (NULL);
 	stock_args_cmd(token, pipe, new);

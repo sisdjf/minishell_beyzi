@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 00:16:41 by lybey             #+#    #+#             */
 /*   Updated: 2024/11/15 23:14:09 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/14 02:54:10 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +88,7 @@ int	redir_outfile(t_stock *stock, int pos_cmd)
 		tmp_cmd = tmp_cmd->next;
 	}
 	i = 0;
+	printf("je suis la \n");
 	if (tmp_cmd && tmp_cmd->outfile)
 	{
 		while (tmp_cmd->outfile[i])
