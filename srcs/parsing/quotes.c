@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 23:05:27 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 20:00:12 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:58:03 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*delete_quote(char *str)
 		while (str[i] == '\'' || str[i] == '\"')
 		{
 			c = str[i++];
-			printf("c ===== %c\n", c);
 			while (str[i] != c)
 				new[n++] = str[i++];
 			i++;

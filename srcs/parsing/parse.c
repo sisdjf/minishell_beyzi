@@ -196,5 +196,5 @@ void	stock_cmd_lst(t_stock *stock)
 		compteur++;
 	}
 	stock->exec.nb_cmd = cmds;
-	
+
 }

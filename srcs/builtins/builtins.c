@@ -15,7 +15,7 @@
 int	check_builtins(char **cmd)
 {
 	if (!cmd || !cmd[0])
-		return (1);
+		return (0);
 	if (!strcmp(cmd[0], "echo"))
 		return (1);
 	else if (!strcmp(cmd[0], "cd"))

@@ -1,9 +1,0 @@
-ignore.txt
-libft
-Makefile
-minishell
-minishell.h
-minishell_tester
-objs
-out
-srcs
