@@ -6,6 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
+/*   Updated: 2024/11/16 18:40:54 by sizitout         ###   ########.fr       */
 /*   Updated: 2024/11/13 21:03:36 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -69,6 +70,10 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 		(*i)++;
 		return (ft_strdup(""));
 	}
+	if(str[*i] == ft_strcmp(str, "$?") == 0)
+	{
+		printf("a gerer \n");
+	}
 	else if ((str[*i] == '\'' || str[*i] == '"') && !norm_quote(str, *i))
 		return (ft_strdup(""));
 	if ((!ft_isalpha(str[*i]) && str[*i] != '_'))
@@ -76,39 +81,11 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 	env = find_value_new(stock, str, i);
 	return (env);
 }
-// char	*all_dollar2(char *str, int *i)
-// {
-// 	int	start;
-
-// 	start = *i;
-// 	while (str[*i] && str[*i] != '$' && str[*i] != '"')
-// 		(*i)++;
-// 	return (ft_substr(str, start, *i - start));
-// }
-
-// char	*ft_quotes_expand_dquote(t_stock *stock, char *str, int *i)
-// {
-// 	char *str_quote = NULL;
-
-// 	(void)stock;
-// 	str_quote = ft_joinstr(str_quote, ft_strdup("\""));
-// 	(*i)++;
-// 	while (str[*i] && str[*i] != DQUOTE)
-// 	{
-// 		if (str[*i] != '$')
-// 			str_quote = ft_joinstr(str_quote,  dd_quote(str, i));
-// 		else
-// 			str_quote = ft_joinstr(str_quote,  after_env_str(stock, str, i));
-// 	}
-// 	str_quote = ft_joinstr(str_quote, ft_strdup("\""));
-// 	(*i)++;
-// 	return (str_quote);
-// }
 
 char	*bool_expand(t_stock *stock, char *str)
 {
 	char	*str_env;
-	char	*test;
+	char	*str_final_not_quote;
 	int		i;
 
 	i = 0;
@@ -116,24 +93,18 @@ char	*bool_expand(t_stock *stock, char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-		{
 			str_env = ft_joinstr(str_env, ft_quotes_expand(stock, str, &i));
-		}
 		else if (str[i] && str[i] == '$')
-		{
 			str_env = ft_joinstr(str_env, after_env_str(stock, str, &i));
-		}
 		else
-		{
 			str_env = ft_joinstr(str_env, all_dollar(str, &i));
-		}
 		if (i > ft_strlen_check(str))
 			break ;
 	}
 	free(str);
-	test = delete_quote(str_env);
+	str_final_not_quote = delete_quote(str_env);
 	free(str_env);
-	return (test);
+	return (str_final_not_quote);
 }
 
 void	ft_expand(t_stock *stock, t_token *token)

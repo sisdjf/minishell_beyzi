@@ -6,6 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 22:50:41 by sizitout          #+#    #+#             */
+/*   Updated: 2024/11/15 20:36:10 by sizitout         ###   ########.fr       */
 /*   Updated: 2024/11/13 21:01:15 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -106,6 +107,7 @@ void	unset_loop(char **cmd, t_envp *envp)
 			if (tmp->next && tmp->next == to_unset)
 			{
 				tmp->next = to_unset->next;
+				free(to_unset->env_str);
 				free(to_unset->key);
 				free(to_unset->value);
 				free(to_unset);

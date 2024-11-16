@@ -3,12 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/13 20:54:34 by lybey            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*   Updated: 2024/11/15 23:11:09 by sizitout         ###   ########.fr       */
 
 #include "../../minishell.h"
 
@@ -16,41 +14,41 @@ int	check_builtins(char **cmd)
 {
 	if (!cmd || !cmd[0])
 		return (0);
-	if (!strcmp(cmd[0], "echo"))
+	if (!ft_strcmp(cmd[0], "echo"))
 		return (1);
-	else if (!strcmp(cmd[0], "cd"))
+	else if (!ft_strcmp(cmd[0], "cd"))
 		return (1);
-	else if (!strcmp(cmd[0], "pwd"))
+	else if (!ft_strcmp(cmd[0], "pwd"))
 		return (1);
-	else if (!strcmp(cmd[0], "export"))
+	else if (!ft_strcmp(cmd[0], "export"))
 		return (1);
-	else if (!strcmp(cmd[0], "unset"))
+	else if (!ft_strcmp(cmd[0], "unset"))
 		return (1);
-	else if (!strcmp(cmd[0], "env"))
+	else if (!ft_strcmp(cmd[0], "env"))
 		return (1);
-	else if (!strcmp(cmd[0], "exit"))
+	else if (!ft_strcmp(cmd[0], "exit"))
 		return (1);
 	return (0);
 }
 
-int	builtins(char **cmd, t_envp **envp)
+int	builtins(t_stock *stock, char **cmd, t_envp **envp)
 {
 	if (!cmd || !cmd[0])
 		return (1);
-	if (!strcmp(cmd[0], "echo"))
+	if (!ft_strcmp(cmd[0], "echo"))
 		return (echo(cmd), 1);
-	else if (!strcmp(cmd[0], "cd"))
+	else if (!ft_strcmp(cmd[0], "cd"))
 		return (ft_cd(cmd, *envp), 1);
-	else if (!strcmp(cmd[0], "pwd"))
+	else if (!ft_strcmp(cmd[0], "pwd"))
 		return (pwd(cmd), 1);
-	else if (!strcmp(cmd[0], "export"))
+	else if (!ft_strcmp(cmd[0], "export"))
 		return (export(cmd, envp), 1);
-	else if (!strcmp(cmd[0], "unset"))
+	else if (!ft_strcmp(cmd[0], "unset"))
 		return (ft_unset(cmd, *envp), 1);
-	else if (!strcmp(cmd[0], "env"))
+	else if (!ft_strcmp(cmd[0], "env"))
 		return (env(*envp), 1);
-	else if (!strcmp(cmd[0], "exit"))
-		return (ft_exit(cmd), 1);
+	else if (!ft_strcmp(cmd[0], "exit"))
+		return (ft_exit(stock, cmd), 1);
 	return (0);
 }
 

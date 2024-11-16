@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 23:12:25 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/16 18:44:55 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_cmd
 
 typedef struct s_stock
 {
+	int				exit_status;
 	int				fd_std[2];
 	char			*key;
 	char			*value;
@@ -169,7 +170,7 @@ int					echo(char **cmd);
 int					print_echo(char **cmd, int start);
 int					arg_len(char **array);
 int					pwd(char **cmd);
-int					builtins(char **cmd, t_envp **envp);
+int					builtins(t_stock *stock, char **cmd, t_envp **envp);
 int					ft_cd(char **cmd, t_envp *envp);
 char				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
@@ -178,7 +179,7 @@ t_envp				*search_envp(t_envp *envp, char *key);
 void				unset_loop(char **cmd, t_envp *envp);
 int					add_to_env(char *key, char *value, t_envp **envp);
 int					export(char **cmd, t_envp **envp);
-int					ft_exit(char **cmd);
+int					ft_exit(t_stock *stock, char **cmd);
 int					check_atoi_exit(char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
@@ -213,6 +214,8 @@ void				free_exec(t_stock *stock);
 int					redir_infile(t_stock *stock, int nb_cmd);
 int					redir_outfile(t_stock *stock, int nb_cmd);
 int					redir_appendfile(t_stock *stock, int nb_cmd);
+void				close_fds(t_stock *stock);
+
 #endif
 
 #define RESET "\033[0m"
