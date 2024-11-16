@@ -6,6 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
+/*   Updated: 2024/11/15 23:11:38 by sizitout         ###   ########.fr       */
 /*   Updated: 2024/11/13 21:08:40 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -54,14 +55,14 @@ static int	ft_prompt(t_stock *stock, char *input)
 		{
 			stock->fd_std[0] = dup(STDIN_FILENO);
 			stock->fd_std[1] = dup(STDOUT_FILENO);
-
 			init_struct_exec(stock, 0);
 			all_redir(stock, 0);
-			builtins(stock->cmd->args, &stock->envp);
+			builtins(stock, stock->cmd->args, &stock->envp);
 			dup2(stock->fd_std[0], STDIN_FILENO);
 			dup2(stock->fd_std[1], STDOUT_FILENO);
 			close(stock->fd_std[0]);
 			close(stock->fd_std[1]);
+			free_exec(stock);
 		}
 		// REVENIR SUR LE DUP2
 		else
