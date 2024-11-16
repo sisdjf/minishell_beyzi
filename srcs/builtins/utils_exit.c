@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:40:06 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/24 15:46:48 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/16 22:11:46 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_atoi_exit(char **cmd)
 		if (!ft_isdigit(cmd[1][i]))
 		{
 			printf("{%c}\n i = {%d}\n", cmd[1][i], i);
-			printf("exit : %s :  numeric argument required7474\n", cmd[1]);
+			printf("exit : %s :  numeric argument required\n", cmd[1]);
 			exit(2);
 		}
 		i++;
@@ -63,3 +63,10 @@ int	check_atoi_exit(char **cmd)
 	}
 	return (0);
 }
+
+void	ft_free_exit_no_fork(t_stock *stock)
+{
+	close(stock->fd_std[0]);
+	close(stock->fd_std[1]);
+}
+

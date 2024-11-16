@@ -6,7 +6,7 @@
 /*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 21:08:54 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/16 20:51:57 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_exec
 	char			**env;
 	int				fd_tmp;
 	int				fd_pipe[2];
-	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int 			pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
@@ -86,6 +86,8 @@ typedef struct s_cmd
 
 typedef struct s_stock
 {
+	int				exit_status;
+	int				fd_std[2];
 	char			*key;
 	char			*value;
 	char			*new_str;
@@ -162,6 +164,7 @@ void				free_envp(t_envp **env);
 void				ft_free_envp_list(t_envp **envp);
 void				free_tab(char **tab);
 //BUILTINS
+void				clear_exit(t_stock *stock, char **cmd, int i);
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
 int					echo(char **cmd);
