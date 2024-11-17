@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/16 18:44:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/17 23:22:54 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 
 # include "libft/libft.h"
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/stat.h>
@@ -166,8 +168,8 @@ void				free_tab(char **tab);
 //BUILTINS
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
-int					echo(char **cmd);
-int					print_echo(char **cmd, int start);
+int					echo(t_stock *stock, char **cmd);
+int					print_echo(t_stock *stock, char **cmd, int start);
 int					arg_len(char **array);
 int					pwd(char **cmd);
 int					builtins(t_stock *stock, char **cmd, t_envp **envp);
@@ -180,7 +182,7 @@ void				unset_loop(char **cmd, t_envp *envp);
 int					add_to_env(char *key, char *value, t_envp **envp);
 int					export(char **cmd, t_envp **envp);
 int					ft_exit(t_stock *stock, char **cmd);
-int					check_atoi_exit(char **cmd);
+int					check_atoi_exit(t_stock *stock, char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
 int					check_builtins(char **cmd);
@@ -200,9 +202,9 @@ int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
 void				free_cmd(t_cmd **cmd);
 //EXEC
 // void				env(t_envp *envp);
-char				*chr_path(t_envp *envp);
-char				*path_to_cmd(t_exec *exec, t_envp *envp);
-void				ft_exec(t_stock *stock);
+char				*chr_path(t_stock *stock, t_envp *envp);
+char				*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp);
+int					ft_exec(t_stock *stock);
 void				free_split(char **split);
 char				**tab_env(t_exec *exec, t_envp *envp);
 void				init_struct_exec(t_stock *stock, int i);
@@ -215,6 +217,7 @@ int					redir_infile(t_stock *stock, int nb_cmd);
 int					redir_outfile(t_stock *stock, int nb_cmd);
 int					redir_appendfile(t_stock *stock, int nb_cmd);
 void				close_fds(t_stock *stock);
+t_stock				*starton(void);
 
 #endif
 

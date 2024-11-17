@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/15 23:11:09 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/18 00:34:43 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,22 @@ int	check_builtins(char **cmd)
 int	builtins(t_stock *stock, char **cmd, t_envp **envp)
 {
 	if (!cmd || !cmd[0])
-		return (1);
+		return (stock->exit_status = 1);
 	if (!ft_strcmp(cmd[0], "echo"))
-		return (echo(cmd), 1);
+		return (stock->exit_status = echo(stock, cmd), 1);
 	else if (!ft_strcmp(cmd[0], "cd"))
-		return (ft_cd(cmd, *envp), 1);
+		return (stock->exit_status = ft_cd(cmd, *envp), 1);
 	else if (!ft_strcmp(cmd[0], "pwd"))
-		return (pwd(cmd), 1);
+		return (stock->exit_status = pwd(cmd), 1);
 	else if (!ft_strcmp(cmd[0], "export"))
-		return (export(cmd, envp), 1);
+		return (stock->exit_status = export(cmd, envp), 1);
 	else if (!ft_strcmp(cmd[0], "unset"))
-		return (ft_unset(cmd, *envp), 1);
+		return (stock->exit_status = ft_unset(cmd, *envp), 1);
 	else if (!ft_strcmp(cmd[0], "env"))
 		return (env(*envp), 1);
 	else if (!ft_strcmp(cmd[0], "exit"))
-		return (ft_exit(stock, cmd), 1);
-	return (0);
+		return (stock->exit_status = ft_exit(stock, cmd), 1);
+	return (stock->exit_status = 0);
 }
 
 int	get_nb_words(t_token *token)

@@ -47,7 +47,7 @@ $(DIR_OBJS):
 	mkdir -p objs/exec
 
 
-leaks : all
+leaks : fclean all
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt --quiet ./minishell
 
 # leaks : all 

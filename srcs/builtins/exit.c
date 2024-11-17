@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:34:19 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/16 18:45:25 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/18 00:20:13 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_exit_status(t_stock *stock)
 {
+	stock->exit_status = 0;
 	
 	return(stock->exit_status);
 }
@@ -35,30 +36,32 @@ int	ft_exit(t_stock *stock, char **cmd)
 	int	nb_args;
 
 	nb_args = nb_args_exit(cmd);
+	// ft_printf("exit");
 	if (nb_args == 0)
 	{
-		printf("exit\n");
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
 		close_fds(stock);
-		exit(0);
+		exit(stock->exit_status);
 	}
 	if (nb_args == 1)
 	{
-		check_atoi_exit(cmd);
+		stock->exit_status = ft_atoi_exit(cmd[1]);
+		// printf("avant exit %d\n", stock->exit_status);
+		check_atoi_exit(stock, cmd);
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
 		close_fds(stock);
-		exit(check_atoi_exit(cmd));
+		exit(stock->exit_status);
 	}
 	if (nb_args >= 2)
 	{
-		printf("exit :  too many arguments\n");
-		return (1);
+		ft_printf(" too many arguments\n");
+		exit (stock->exit_status = 1);
 	}
-	return (0);
+	exit (0);
 }

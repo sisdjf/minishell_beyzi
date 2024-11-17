@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/16 00:27:56 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/18 00:01:57 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	init_struct_exec(t_stock *stock, int i)
 {
 	stock->exec.cmd = ft_find_cmd_for_exec(stock, i);
 	stock->exec.cmd_tab = ft_find_tab(stock, i);
-	stock->exec.path = path_to_cmd(&stock->exec, stock->envp);
+	stock->exec.path = path_to_cmd(stock, &stock->exec, stock->envp);
 	stock->exec.env = tab_env(&stock->exec, stock->envp);
 }
-char	*chr_path(t_envp *envp)
+char	*chr_path(t_stock *stock, t_envp *envp)
 {
 	t_envp	*tmp;
 
@@ -32,10 +32,11 @@ char	*chr_path(t_envp *envp)
 		}
 		tmp = tmp->next;
 	}
+	stock->exit_status = 127;
 	return (NULL);
 }
 
-char	*path_to_cmd(t_exec *exec, t_envp *envp)
+char	*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp)
 {
 	int		i;
 	char	*cmd_path;
@@ -45,10 +46,10 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	{
 		if (access(exec->cmd, F_OK | X_OK) != 0)
 			return (fprintf(stderr, "ERROR KHALID YOUHOU\n"),
-				ft_strdup(exec->cmd));
+					ft_strdup(exec->cmd));
 		return (ft_strdup(exec->cmd));
 	}
-	exec->path = chr_path(envp);
+	exec->path = chr_path(stock, envp);
 	// if (!exec->path)
 	// {
 	// 	free(exec->path);
@@ -56,7 +57,10 @@ char	*path_to_cmd(t_exec *exec, t_envp *envp)
 	// }
 	i = -1;
 	if (!exec->path)
+	{
+		stock->exit_status = 127;
 		return (NULL);
+	}
 	exec->split_path = ft_split(exec->path, ':');
 	i = 0;
 	while (exec->split_path[i])
@@ -189,7 +193,7 @@ int	all_redir(t_stock *stock, int i)
 	// close stock->fd_std...
 	return (0);
 }
-void	ft_child(t_stock *stock, int i)
+int	ft_child(t_stock *stock, int i)
 {
 	init_struct_exec(stock, i);
 	pipe_redir(stock, i);
@@ -210,6 +214,7 @@ void	ft_child(t_stock *stock, int i)
 		free_cmd(&stock->cmd);
 		close(stock->exec.fd_pipe[0]);
 		close(stock->exec.fd_pipe[1]);
+		stock->exit_status = 127;
 		exit(127);
 	}
 	if (stock->exec.path)
@@ -223,11 +228,18 @@ void	ft_child(t_stock *stock, int i)
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
+		stock->exit_status = 127;
 		exit(127);
 	}
 	else
 	{
+		if(ft_strcmp(stock->exec.cmd, "$?") == 0)
+		{
+			ft_printf("bash: %d: command not found\n", stock->exit_status);
+		}
+		else
 		ft_printf("bash: %s: command not found\n", stock->exec.cmd);
+		stock->exit_status = 127;
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
@@ -237,9 +249,10 @@ void	ft_child(t_stock *stock, int i)
 		exit(127);
 		// exit ici si ya erreur avec un beau jolie msg derreur puis free
 	}
+	return (0);
 }
 
-void	ft_exec(t_stock *stock)
+int	ft_exec(t_stock *stock)
 {
 	int	i;
 
@@ -249,17 +262,19 @@ void	ft_exec(t_stock *stock)
 		if (pipe(stock->exec.fd_pipe) == -1)
 		{
 			printf("Error avec la fonction pipe\n");
-			exit(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		}
 		stock->exec.pid[i] = fork();
 		if (stock->exec.pid[i] < 0)
 		{
 			printf("ERROR FORK\n");
-			exit(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		}
 		if (stock->exec.pid[i] == 0)
 		{
-			ft_child(stock, i);
+			stock->exit_status = ft_child(stock, i);
+			// printf("icii %d\n", stock->exit_status);
+			return (127);
 		}
 		close(stock->exec.fd_pipe[1]);
 		if (i > 0)
@@ -273,21 +288,13 @@ void	ft_exec(t_stock *stock)
 	while (i < stock->exec.nb_cmd)
 	{
 		// fprintf(stderr, "PID [%i]\n", stock->exec.pid[i]);
-		waitpid(stock->exec.pid[i++], NULL, 0);
+		waitpid(stock->exec.pid[i++], &stock->exit_status, 0);
+		if (WIFEXITED(stock->exit_status))
+			stock->exit_status = WEXITSTATUS(stock->exit_status);
+		else if (WIFSIGNALED(stock->exit_status))
+			stock->exit_status = 128 + WTERMSIG(stock->exit_status);
+		else if (WIFSTOPPED(stock->exit_status))
+			stock->exit_status = 128 + WSTOPSIG(stock->exit_status);
 	}
+	return (stock->exit_status);
 }
-
-// void	waiter(t_stock *stock, t_exec *exec)
-// {
-// 	while (exec->cmd)
-// 	{
-// 		waitpid(exec->cmd->pid, &minishell->state, 0);
-// 		if (WIFEXITED(minishell->state))
-// 			minishell->state = WEXITSTATUS(minishell->state);
-// 		else if (WIFSIGNALED(minishell->state))
-// 			minishell->state = 128 + WTERMSIG(minishell->state);
-// 		else if (WIFSTOPPED(minishell->state))
-// 			minishell->state = 128 + WSTOPSIG(minishell->state);
-// 		cmd = cmd->next;
-// 	}
-// }

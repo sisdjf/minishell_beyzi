@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/16 18:40:54 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:19:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ char	*after_env_str(t_stock *stock, char *str, int *i)
 		(*i)++;
 		return (ft_strdup(""));
 	}
-	if(str[*i] == ft_strcmp(str, "$?") == 0)
+	if(str[*i] == ft_strcmp(str+*i, "?") == 0)
 	{
-		printf("a gerer \n");
+		// return (ft_strdup(ft_itoa(stock->exit_status)));
+		// str = ft_itoa(stock->exit_status);
 	}
 	else if ((str[*i] == '\'' || str[*i] == '"') && !norm_quote(str, *i))
 		return (ft_strdup(""));

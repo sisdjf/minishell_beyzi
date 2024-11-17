@@ -6,11 +6,54 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/15 23:11:38 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/17 23:57:55 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int			g_globale;
+
+void	ft_gestion(int signum)
+{
+	t_stock *stock;
+	stock = starton();
+	if (signum == SIGINT)
+	{
+		// g_globale = 130;
+		dprintf(1, "\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	if (signum == SIGQUIT)
+	{
+		g_globale = 131;
+		rl_replace_line("", 0);
+		rl_redisplay();
+		// free_exec(stock);
+		// free_tokens(&stock->token);
+		// ft_free_envp_list(&stock->envp);
+		// free_cmd(&stock->cmd);
+		// g_globale = 131;
+		// exit (131);
+	}
+	// t_stock *stock;
+	// stock = starton();
+	// if (signum == SIGINT)
+	// 	ft_printf("^C\n");
+	// else if (signum == SIGQUIT)
+	// {
+	// 	ft_printf("\n");
+	// 	return ;
+	// 	// free_exec(stock);
+	// 	// free_tokens(&stock->token);
+	// 	// ft_free_envp_list(&stock->envp);
+	// 	// free_cmd(&stock->cmd);
+	// 	// close_fds(stock);
+	// 	// exit(g_globale);
+	// }
+}
 
 void	free_exec(t_stock *stock)
 {
@@ -64,7 +107,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 		}
 		// REVENIR SUR LE DUP2
 		else
-			ft_exec(stock);
+			stock->exit_status = ft_exec(stock);
 		free_tokens(&stock->token);
 		// print_args(stock->cmd);
 		free(input);
@@ -73,15 +116,26 @@ static int	ft_prompt(t_stock *stock, char *input)
 	}
 	return (0);
 }
+t_stock	*starton(void)
+{
+	static t_stock	stock = {0};
+
+	return (&stock);
+}
 
 int	main(int argc, char **argv, char **env)
 {
-	static t_stock stock = {0};
+	t_stock *stock;
+
+	stock = starton();
+	stock->exit_status = 0;
 	(void)argc;
+	signal(SIGINT, &ft_gestion);
+	signal(SIGQUIT, SIG_IGN);
 	// (void)argv;
-	stock_env_lst(env, &stock);
-	ft_prompt(&stock, *argv);
-	ft_free_envp_list(&stock.envp);
+	stock_env_lst(env, stock);
+	ft_prompt(stock, *argv);
+	ft_free_envp_list(&stock->envp);
 	// free_tokens(stock.token);
 	return (0);
 }

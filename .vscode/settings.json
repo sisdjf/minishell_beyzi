@@ -58,6 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "typeinfo": "c",
-    "minishell.h": "c"
+    "minishell.h": "c",
+    "types.h": "c"
   }
 }
