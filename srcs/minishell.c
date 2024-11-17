@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/17 23:57:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/18 00:44:21 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 	while (1)
 	{
 		stock->token = NULL;
+		stock->cmd = NULL;
 		input = readline("minishell$ ");
 		if (!input)
 			return (1);

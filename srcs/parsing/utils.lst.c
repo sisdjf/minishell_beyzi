@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   utils.lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:10:31 by sizitout          #+#    #+#             */
 /*   Updated: 2024/11/14 21:17:04 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:03:43 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +30,7 @@ t_list	*ft_lstnew(int value)
 {
 	t_list	*new;
 
-	new = malloc(sizeof(t_list));
+	new = ft_calloc(1, sizeof(t_list));
 	if (!new)
 		return (NULL);
 	new->sort = value;

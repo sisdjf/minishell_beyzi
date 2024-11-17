@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:17:46 by sizitout          #+#    #+#             */
-/*   Updated: 2024/01/24 16:42:22 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:49:34 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*read_line(int fd, char *stash)
 	char	*buffer;
 	int		rd;
 
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
 	rd = 1;
@@ -57,7 +57,7 @@ char	*ft_extract_line(char *stash)
 	i = 0;
 	if (!*stash)
 		return (NULL);
-	res = malloc(sizeof(char) * (ft_strlengnl(stash) + 1));
+	res =ft_calloc(ft_strlengnl(stash) + 1, sizeof(char));
 	if (!res)
 		return (NULL);
 	while (stash[i] && stash[i] != '\n')
@@ -89,7 +89,7 @@ char	*clear_stash(char *stash)
 		free(stash);
 		return (NULL);
 	}
-	str = malloc(sizeof(char) * (totallen + 1));
+	str = ft_calloc(totallen + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	while (stash[stashlen] != '\0')

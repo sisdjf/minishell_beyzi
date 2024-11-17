@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 19:06:24 by sizitout          #+#    #+#             */
-/*   Updated: 2023/05/31 21:43:57 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:40:21 by lybey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**ft_malloc_word(char *str, char charset, char **dest, int word)
 			i++;
 		}
 		if (j < word)
-			dest[j++] = malloc((sizeof(char) * letter) + 1);
+			dest[j++] = ft_calloc(letter + 1, sizeof(char));
 	}
 	return (dest);
 }
@@ -98,7 +98,7 @@ char	**ft_split(const char *str, char charset)
 
 	cast_str = (char *)str;
 	word = ft_is_word(cast_str, charset);
-	dest = malloc(sizeof(char *) * (word + 1));
+	dest =ft_calloc(word + 1, sizeof(char));
 	if (!dest)
 		return (0);
 	dest = ft_malloc_word(cast_str, charset, dest, word);

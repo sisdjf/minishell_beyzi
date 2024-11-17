@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/18 00:01:57 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/18 00:44:26 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char	**tab_env(t_exec *exec, t_envp *envp)
 		tmp = tmp->next;
 		size++;
 	}
-	env = malloc(sizeof(char *) * (size + 1));
+	env = ft_calloc(size + 1, sizeof(char *));
 	if (!env)
 		return (NULL);
 	while (envp)

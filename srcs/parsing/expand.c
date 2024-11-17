@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/17 22:19:56 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/18 00:43:58 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*find_value_new(t_stock *stock, char *str, int *i)
 	while (str[k] && (ft_isalnum(str[k]) || str[k] == '_'))
 		k++;
 	size = k - *i;
-	stock->key = malloc(sizeof(char) * (size) + 1);
+	stock->key = ft_calloc((size) + 1, sizeof(char));
 	if (!stock->key)
 		return (NULL);
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
