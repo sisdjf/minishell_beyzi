@@ -6,28 +6,11 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:34:19 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/24 15:47:07 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/18 01:29:46 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// char **cmd, cmd[0] == "exit"
-
-// combien d'arguments apres?
-
-// 0 args --> ft_printf("exit"), exit(0)
-
-// 1 arg --> atoi
-// test exit 1 arg non-numeric --> fait bon message d'erreur, exit(2)
-// exit(atoi(cmd[1]))
-
-// 2 args ou plus, RETURN bon printf
-
-// creer variable dans stock -> stock->exit_status
-
-// rajoute free pour quitter proprement (free tout ce que minishell a
-// alloue justqu'a ici)
 
 int	nb_args_exit(char **cmd)
 {
@@ -41,20 +24,37 @@ int	nb_args_exit(char **cmd)
 	return (i - 1);
 }
 
-int	ft_exit(char **cmd)
+int	ft_exit(t_stock *stock, char **cmd)
 {
-	int	i;
+	int	nb_args;
 
-	i = nb_args_exit(cmd);
-	printf("i = %d\n", i);
-	if (i == 0)
-		printf("exit\n");
-	if (i == 1)
-		check_atoi_exit(cmd);
-	if (i == 2)
+	nb_args = nb_args_exit(cmd);
+	// ft_printf("exit");
+	if (nb_args == 0)
 	{
-		printf("exit :  too many arguments\n");
-		return (1);
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+		close_fds(stock);
+		exit(stock->exit_status);
 	}
-	return (0);
+	if (nb_args == 1)
+	{
+		stock->exit_status = ft_atoi_exit(cmd[1]);
+		// printf("avant exit %d\n", stock->exit_status);
+		check_atoi_exit(stock, cmd);
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+		close_fds(stock);
+		exit(stock->exit_status);
+	}
+	if (nb_args >= 2)
+	{
+		ft_printf(" too many arguments\n");
+		exit (stock->exit_status = 1);
+	}
+	exit (0);
 }

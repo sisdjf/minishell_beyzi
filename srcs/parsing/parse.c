@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/01 18:42:22 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 22:46:10 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	compteur = 0;
 	i = 0;
 	nb_malloc = nbr_malloc_word_cmd(token, pipe);
-	if (nb_malloc == 0)
-	{
-		new->infile = NULL;
-		return (0);
-	}
-	new->args = malloc(sizeof(char *) * (nb_malloc + 1));
+	// if (nb_malloc == 0)
+	// {
+	// 	new->infile = NULL;
+	// 	return (0);
+	// }
+	new->args = ft_calloc(sizeof(char *), nb_malloc + 1);
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
@@ -71,14 +71,10 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == WORD)
-		{
 			new->args[i++] = ft_strdup(tmp->name);
-		}
 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
 			|| tmp->type == REDIR_R || tmp->type == REDIR_L)
-		{
 			tmp = tmp->next;
-		}
 		tmp = tmp->next;
 	}
 	new->args[i] = NULL;
@@ -101,19 +97,21 @@ t_cmd	*ft_lstnew_cmd(t_token *token, int pipe)
 	return (new);
 }
 
-void	ft_lstadd_back_cmd(t_cmd **token, t_cmd *new)
+void	ft_lstadd_back_cmd(t_cmd **cmd, t_cmd *new)
 {
 	t_cmd	*last;
 
-	last = *token;
-	if (*token)
+	last = *cmd;
+	if (*cmd)
 	{
-		while (last->next != NULL)
+		while (last && last->next != NULL)
+		{
 			last = last->next;
+		}
 		last->next = new;
 	}
 	else
-		*token = new;
+		*cmd = new;
 }
 
 int	nb_cmd(t_token *token)
@@ -193,4 +191,5 @@ void	stock_cmd_lst(t_stock *stock)
 		compteur++;
 	}
 	stock->exec.nb_cmd = cmds;
+
 }

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:03:28 by lybey             #+#    #+#             */
-/*   Updated: 2024/10/24 15:13:01 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/18 01:41:41 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,17 @@ int	arg_len(char **array)
 	return (i);
 }
 
-int	print_echo(char **cmd, int start)
+int	print_echo(t_stock *stock, char **cmd, int start)
 {
 	int	i;
 
 	i = start;
 	while (cmd[i])
 	{
-		printf("%s", cmd[i]);
+		if (cmd[i][0] == '$' && cmd[i][1] == '?')
+			printf("%d", stock->exit_status);
+		else
+			printf("%s", cmd[i]);
 		i++;
 		if (cmd[i])
 			printf(" ");
@@ -66,7 +69,7 @@ int	check_n_option(char **cmd)
 	}
 	return (i);
 }
-int	echo(char **cmd)
+int	echo(t_stock *stock, char **cmd)
 {
 	int i;
 	int nb_arg;
@@ -78,7 +81,7 @@ int	echo(char **cmd)
 	else if (i < nb_arg)
 	{
 		i = check_n_option(cmd);
-		print_echo(cmd, i);
+		print_echo(stock, cmd, i);
 	}
 	return (0);
 }
