@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/18 01:30:49 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:15:52 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ int	add_to_env(char *key, char *value, t_envp **envp)
 
 	i = 0;
 	if (!key[i] || (!ft_isalpha(key[i]) && key[i] != '_'))
-		return (printf("bash: export: `%s': not a valid identifier\n", key), 1);
+		return (ft_printf("bash: export: `%s': not a valid identifier\n", key), 1);
 	while (key[i])
 	{
 		if (ft_isalnum(key[i]) || key[i] == '_')
 			i++;
 		else
-			return (printf("bash: export:`%s': not a valid idetifier\n", key),
+			return (ft_printf("bash: export:`%s': not a valid idetifier\n", key),
 					1);
 	}
 	to_replace = search_envp(*envp, key);

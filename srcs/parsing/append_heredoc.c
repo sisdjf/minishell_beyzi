@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:49:26 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/12 17:49:50 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/19 23:16:49 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int	stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new)
 		{
 			tmp = tmp->next;
 			new->heredoc[i++] = ft_strdup(tmp->name);
+			printf("HEREDOC =[%s]\n", tmp->name);
 		}
 		tmp = tmp->next;
 	}

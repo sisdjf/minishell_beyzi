@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/18 01:41:13 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/19 23:55:10 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,14 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+typedef struct s_heredoc
+{
+	char			*lim;
+	int				nb_hd;
+	int				fd_heredoc[2];
+	int				index_cmd;
+}					t_heredoc;
+
 typedef struct s_stock
 {
 	int				exit_status;
@@ -97,6 +105,7 @@ typedef struct s_stock
 	t_envp			*envp;
 	t_exec			exec;
 	t_cmd			*cmd;
+	t_heredoc		*heredoc;
 
 }					t_stock;
 
@@ -217,7 +226,12 @@ int					redir_infile(t_stock *stock, int nb_cmd);
 int					redir_outfile(t_stock *stock, int nb_cmd);
 int					redir_appendfile(t_stock *stock, int nb_cmd);
 void				close_fds(t_stock *stock);
+//SIGNAUX
 t_stock				*starton(void);
+void				ft_gestion(int signum);
+//HEREDOC
+void				stock_heredoc(t_stock *stock, t_heredoc *heredoc);
+void				exec_heredoc(t_stock *stock, int *i);
 
 #endif
 
