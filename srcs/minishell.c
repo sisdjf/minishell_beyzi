@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/18 20:57:29 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/21 00:07:55 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,18 @@ static int	ft_prompt(t_stock *stock, char *input)
 		ft_expand(stock, stock->token);
 		// print_tab(stock->token);
 		stock_cmd_lst(stock);
-		// un builtin seul
+		if (stock->nb_hd > 0)
+		{
+			ft_printf("heeellloooooooo\n");
+			ft_heredoc(stock);
+		}
 		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 		{
 			stock->fd_std[0] = dup(STDIN_FILENO);
 			stock->fd_std[1] = dup(STDOUT_FILENO);
+			printf("OK 1\n");
+			// stock->heredoc->flag_heredoc = 1;
+			printf("OK 2\n");
 			init_struct_exec(stock, 0);
 			all_redir(stock, 0);
 			builtins(stock, stock->cmd->args, &stock->envp);
@@ -119,8 +126,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 }
 t_stock	*starton(void)
 {
-	static t_stock	stock = {0};
-
+	static t_stock stock = {0};
 	return (&stock);
 }
 

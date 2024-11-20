@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:49:26 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/19 23:16:49 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/21 00:25:06 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	nbr_malloc_herdoc_cmd(t_token *token, int pipe)
 	nb_malloc = 0;
 	tmp = token;
 	compteur = 0;
-	while (compteur < pipe)
+	while (compteur < pipe && tmp)
 	{
 		if (tmp->type == PIPE)
 			compteur++;
@@ -102,23 +102,25 @@ int	nbr_malloc_herdoc_cmd(t_token *token, int pipe)
 	return (nb_malloc);
 }
 
-int	stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new)
+int	stock_heredoc_cmd(t_stock *stock, int pipe, t_cmd *new)
 {
-	t_token	*tmp;
-	int		nb_malloc;
+	t_token		*tmp;
 	int		compteur;
-	int		i;
+	int				i;
 
-	tmp = token;
+	tmp = stock->token;
 	compteur = 0;
 	i = 0;
-	nb_malloc = nbr_malloc_herdoc_cmd(token, pipe);
-	if (nb_malloc == 0)
+	stock->nb_hd = nbr_malloc_herdoc_cmd(stock->token, pipe);
+	if (stock->nb_hd == 0)
 	{
+		
 		new->heredoc = NULL;
 		return (0);
 	}
-	new->heredoc = malloc(sizeof(char *) * (nb_malloc + 1));
+	new->heredoc = malloc(sizeof(char *) * (stock->nb_hd + 1));
+	if (!new->heredoc)//ajout de Lydia
+		return(0);//ajout de Lydia
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)
@@ -130,6 +132,7 @@ int	stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new)
 		if (tmp->type == HERDOC)
 		{
 			tmp = tmp->next;
+			ft_printf("stock_heredoc_cmd i = [%d]\n", i);
 			new->heredoc[i++] = ft_strdup(tmp->name);
 			printf("HEREDOC =[%s]\n", tmp->name);
 		}

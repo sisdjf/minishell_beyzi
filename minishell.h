@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/19 23:55:10 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/21 00:05:34 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,14 @@ typedef struct s_cmd
 typedef struct s_heredoc
 {
 	char			*lim;
-	int				nb_hd;
 	int				fd_heredoc[2];
 	int				index_cmd;
+	int				flag_heredoc;
 }					t_heredoc;
 
 typedef struct s_stock
 {
+	int				nb_hd;
 	int				exit_status;
 	int				fd_std[2];
 	char			*key;
@@ -198,13 +199,14 @@ int					check_builtins(char **cmd);
 char				**tok_to_tab(t_token *token);
 // PARSE
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
-int					stock_args_cmd(t_token *token, int pipe, t_cmd *new);
-t_cmd				*ft_lstnew_cmd(t_token *token, int pipe);
+int					stock_args_cmd(t_stock *stock, int pipe, t_cmd *new);
+t_cmd				*ft_lstnew_cmd(t_stock *stock, int pipe);
 void				ft_lstadd_back_cmd(t_cmd **cmd, t_cmd *new);
 int					nb_cmd(t_token *token);
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
-int					stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new);
+// int					stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new);
+int					stock_heredoc_cmd(t_stock *stock, int pipe, t_cmd *new);
 int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
@@ -230,8 +232,12 @@ void				close_fds(t_stock *stock);
 t_stock				*starton(void);
 void				ft_gestion(int signum);
 //HEREDOC
-void				stock_heredoc(t_stock *stock, t_heredoc *heredoc);
+void				find_nb_hdoc(t_stock *stock, t_heredoc *heredoc);
+void				init_heredoc(t_stock *stock, t_heredoc *heredoc);
+void				ft_heredoc(t_stock *stock);
 void				exec_heredoc(t_stock *stock, int *i);
+void				prompt_heredoc(t_stock *stock, char *lim, int pipe);
+void				close_heredoc_child(t_stock *stock);
 
 #endif
 

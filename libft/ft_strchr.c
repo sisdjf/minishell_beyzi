@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:20:42 by sizitout          #+#    #+#             */
-/*   Updated: 2023/05/30 15:36:24 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/20 22:37:06 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,15 @@ char	*ft_strchr(const char *s, int c)
 	unsigned int	i;
 
 	i = 0;
+	if (s == NULL)
+	{
+		return (NULL);
+	}
 	while (s[i])
 	{
 		if ((unsigned char)s[i] == (unsigned char)c)
 		{
-			return ((char *) &s[i]);
+			return ((char *)&s[i]);
 		}
 		i++;
 	}

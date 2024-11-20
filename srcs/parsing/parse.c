@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/13 22:46:10 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:55:53 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,17 @@ int	nbr_malloc_word_cmd(t_token *token, int pipe)
 	return (nb_malloc);
 }
 
-int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
+int	stock_args_cmd(t_stock *stock, int pipe, t_cmd *new)
 {
 	t_token	*tmp;
 	int		nb_malloc;
 	int		compteur;
 	int		i;
 
-	tmp = token;
+	tmp = stock->token;
 	compteur = 0;
 	i = 0;
-	nb_malloc = nbr_malloc_word_cmd(token, pipe);
+	nb_malloc = nbr_malloc_word_cmd(stock->token, pipe);
 	// if (nb_malloc == 0)
 	// {
 	// 	new->infile = NULL;
@@ -81,18 +81,18 @@ int	stock_args_cmd(t_token *token, int pipe, t_cmd *new)
 	return (0);
 }
 
-t_cmd	*ft_lstnew_cmd(t_token *token, int pipe)
+t_cmd	*ft_lstnew_cmd(t_stock *stock, int pipe)
 {
 	t_cmd	*new;
 
 	new = malloc(sizeof(t_cmd));
 	if (!new)
 		return (NULL);
-	stock_args_cmd(token, pipe, new);
-	stock_infile_cmd(token, pipe, new);
-	stock_outfile_cmd(token, pipe, new);
-	stock_appendfile_cmd(token, pipe, new);
-	stock_heredoc_cmd(token, pipe, new);
+	stock_args_cmd(stock, pipe, new);
+	stock_infile_cmd(stock->token, pipe, new);
+	stock_outfile_cmd(stock->token, pipe, new);
+	stock_appendfile_cmd(stock->token, pipe, new);
+	stock_heredoc_cmd(stock, pipe, new);
 	new->next = NULL;
 	return (new);
 }
@@ -130,55 +130,15 @@ int	nb_cmd(t_token *token)
 	return (i + 1);
 }
 
-void	print_args(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd)
-	{
-		i = 0;
-		while (cmd->args[i])
-		{
-			printf("args ici = %s\n", cmd->args[i]);
-			i++;
-		}
-		// i = 0;
-		// while(cmd->infile[i])
-		// {
-		// 	printf("infile ici = %s\n", cmd->infile[i]);
-		// 	i++;
-		// }
-		// i = 0;
-		// while(cmd->outfile[i])
-		// {
-		// 	printf("outfile ici = %s\n", cmd->outfile[i]);
-		// 	i++;
-		// }
-		// i = 0;
-		// while(cmd->appendfile[i])
-		// {
-		// 	printf("appendfile ici = %s\n", cmd->appendfile[i]);
-		// 	i++;
-		// }
-		// i = 0;
-		// while(cmd->heredoc[i])
-		// {
-		// 	printf("heredoc ici = %s\n", cmd->heredoc[i]);
-		// 	i++;
-		// }
-		cmd = cmd->next;
-	}
-}
 
 void	stock_cmd_lst(t_stock *stock)
 {
-	t_token	*tmp;
+	t_stock	*tmp;
 	t_cmd	*new_node;
 	int		cmds;
 	int		compteur;
 
-	tmp = stock->token;
+	tmp = stock;
 	compteur = 0;
 	cmds = nb_cmd(stock->token);
 	while (compteur < cmds)

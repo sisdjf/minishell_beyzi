@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/18 01:33:16 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/21 00:43:10 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,17 +233,21 @@ int	ft_child(t_stock *stock, int i)
 	}
 	else
 	{
-		if(ft_strcmp(stock->exec.cmd, "$?") == 0)
+		if(ft_strcmp(stock->exec.cmd, "$?") == 0) // on a protege strcmp - return -1
 		{
 			ft_printf("bash: %d: command not found\n", stock->exit_status);
 		}
 		else
-		ft_printf("bash: %s: command not found\n", stock->exec.cmd);
+			ft_printf("bash: %s: command not found\n", stock->exec.cmd); // mais du coup on rentre ici ... hmmm
 		stock->exit_status = 127;
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
+		if (stock->heredoc)
+		{
+			close_heredoc_child(stock);
+		}
 		close(stock->exec.fd_pipe[0]);
 		close(stock->exec.fd_pipe[1]);
 		exit(127);
@@ -296,5 +300,6 @@ int	ft_exec(t_stock *stock)
 		else if (WIFSTOPPED(stock->exit_status))
 			stock->exit_status = 128 + WSTOPSIG(stock->exit_status);
 	}
+	close_heredoc_child(stock);
 	return (stock->exit_status);
 }
