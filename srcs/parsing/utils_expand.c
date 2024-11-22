@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:51:42 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 21:58:30 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 23:01:41 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*all_dollar(char *str, int *i)
 	int	start;
 
 	start = *i;
-	while (str[*i] && str[*i] != '$')
+	while (str[*i] && str[*i] != '$' && str[*i] != '\'')
 		(*i)++;
 	return (ft_substr(str, start, *i - start));
 }

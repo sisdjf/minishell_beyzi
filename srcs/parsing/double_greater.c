@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:13 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 21:57:36 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:13:33 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	d_loop_right(char *str, int *i, int nb_greater, int word)
 			word++;
 			(*i)++;
 		}
-		if (nb_greater == 1 && word == 0)
+		if (nb_greater == 2 && word == 0)
 			return (printf(ERROR_NL), 1);
 	}
 	return (0);
@@ -84,7 +84,7 @@ int	d_loop_left(char *str, int *i, int nb_greater, int word)
 			word++;
 			(*i)++;
 		}
-		if (nb_greater == 1 && word == 0)
+		if (nb_greater == 2 && word == 0)
 			return (printf(ERROR_NL), 1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 23:09:18 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/21 00:29:37 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:15:05 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exec_heredoc(t_stock *stock, int *i)
 {
-	// signal(SIGINT, &ft_gestion);
+	signal(SIGINT, &ft_gestion);
 	while (*i < stock->nb_hd)
 	{
 		close(stock->heredoc[*i].fd_heredoc[0]);
@@ -32,7 +32,7 @@ void	exec_heredoc(t_stock *stock, int *i)
 	}
 	free(stock->heredoc);
 	free_exec(stock);
-	free_tokens(&stock->token);
+	// free_tokens(&stock->token);
 	ft_free_envp_list(&stock->envp);
 	free_cmd(&stock->cmd);
 	exit(0);
@@ -40,7 +40,6 @@ void	exec_heredoc(t_stock *stock, int *i)
 
 void	prompt_heredoc(t_stock *stock, char *lim, int pipe)
 {
-	ft_printf("ASDADS\n");
 	char	*line;
 	int		i;
 
@@ -113,7 +112,6 @@ void	ft_heredoc(t_stock *stock)
 	i = 0;
 	if (stock->nb_hd == 0)
 		return ;
-	ft_printf("on rentre ici hdoc\n");
 	heredoc = ft_calloc(stock->nb_hd + 1, sizeof(t_heredoc));
 	if (!heredoc)
 	{
@@ -122,18 +120,16 @@ void	ft_heredoc(t_stock *stock)
 	}
 	stock->heredoc = heredoc;
 	init_heredoc(stock, heredoc);
-	ft_printf("on rentre ici hdoc\n");
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 		exec_heredoc(stock, &i);
 	else if (pid > 0)
 	{
-		ft_printf("on rentre ici hdoc3333333\n");
 		while (i < stock->nb_hd)
 			close(heredoc[i++].fd_heredoc[1]);
 	}
-	// signal(SIGINT, &ft_gestion);
+	signal(SIGINT, &ft_gestion);
 	waitpid(pid, 0, 0);
 }
 

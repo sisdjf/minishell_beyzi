@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/18 01:42:30 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:58:48 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ char	*bool_expand(t_stock *stock, char *str)
 
 	i = 0;
 	str_env = NULL;
+	printf(" expande str = %s\n\n", str);
 	while (str[i])
 	{
 		if (str[i] == '\'')
@@ -106,8 +107,11 @@ char	*bool_expand(t_stock *stock, char *str)
 		}
 		if (i > ft_strlen_check(str))
 			break ;
+		printf(" EXPAND STR ENV = %s\n\n", str_env);
+
 	}
 	free(str);
+	printf("\nTEST EXP = %s\n\n", str_env);
 	test = delete_quote(str_env);
 	free(str_env);
 	return (test);

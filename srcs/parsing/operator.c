@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/12 19:50:21 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:12:33 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,21 @@ int	syntax_error(char *input)
 	if (ft_pipe(input))
 		return (1);
 	if (ft_greater_right(input))
+	{
 		return (1);
-	if (ft_greater_left(input))
+	}
+	else if (ft_greater_left(input))
+	{
 		return (1);
+	}
 	if (ft_double_greater_right(input))
+	{
 		return (1);
+	}
 	if (ft_double_greater_left(input))
+	{
 		return (1);
+	}
 	ft_positif(input);
 	return (0);
 }

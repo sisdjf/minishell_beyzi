@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/18 01:27:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 23:48:28 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	builtins(t_stock *stock, char **cmd, t_envp **envp)
 	if (!ft_strcmp(cmd[0], "echo"))
 		return (stock->exit_status = echo(stock, cmd), 1);
 	else if (!ft_strcmp(cmd[0], "cd"))
-		return (stock->exit_status = ft_cd(cmd, *envp), 1);
+		return (stock->exit_status = ft_cd(cmd, envp), 1);
 	else if (!ft_strcmp(cmd[0], "pwd"))
 		return (stock->exit_status = pwd(cmd), 1);
 	else if (!ft_strcmp(cmd[0], "export"))

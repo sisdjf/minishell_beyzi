@@ -6,13 +6,13 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/21 00:05:34 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 23:53:21 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define ERROR_NL "bash: syntax error near unexpected token newline'\n"
+# define ERROR_NL "bash: syntax error near unexpected token 'newline'\n"
 # define ERROR_PIPE_MSG "bash: syntax error near unexpected token `|'\n"
 
 # include "libft/libft.h"
@@ -183,7 +183,7 @@ int					print_echo(t_stock *stock, char **cmd, int start);
 int					arg_len(char **array);
 int					pwd(char **cmd);
 int					builtins(t_stock *stock, char **cmd, t_envp **envp);
-int					ft_cd(char **cmd, t_envp *envp);
+int					ft_cd(char **cmd, t_envp **envp);
 char				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
 int					ft_unset(char **cmd, t_envp *envp);

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/19 20:40:56 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 23:56:26 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*find_env_var(t_envp *envp)
 	return (NULL);
 }
 
-int	ft_cd(char **cmd, t_envp *envp)
+int	ft_cd(char **cmd, t_envp **envp)
 {
 	int		ret;
 	char	*path;
@@ -54,7 +54,7 @@ int	ft_cd(char **cmd, t_envp *envp)
 	// return (printf("error args cd\n"), 0);
 	if (!cmd[1])
 	{
-		path = find_env_var(envp);
+		path = find_env_var(*envp);
 		if (!path)
 			return (0);
 		// printf("path = [%s]\n", path);
@@ -70,5 +70,9 @@ int	ft_cd(char **cmd, t_envp *envp)
 		printf("cd : [%s]: No such file or directory\n", cmd[1]);
 		return (1);
 	}
+	char *for_export = ft_strjoin("PWD=", path);
+	printf("printf pwd %s\n", for_export);
+	export(&for_export, envp);
+	
 	return (0);
 }

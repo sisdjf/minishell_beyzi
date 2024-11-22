@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/21 00:43:10 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 23:41:50 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp)
 	char	*cmd_path;
 	char	*tmp;
 
+	printf("path cmd %s\n", exec->cmd);
 	if (ft_strchr(exec->cmd, '/'))
 	{
 		if (access(exec->cmd, F_OK | X_OK) != 0)
@@ -224,6 +225,13 @@ int	ft_child(t_stock *stock, int i)
 			close(stock->exec.fd_tmp);
 		// close(stock->exec.fd_pipe[1]);
 		execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+		int ret;
+		//TODO modif la verif de dossier
+		ret = chdir(stock->exec.cmd);
+		if (ret != -1)
+			printf("bash: %s: Is a directory\n", stock->exec.cmd);
+		else
+			ft_printf("bash: %s: : No such file or directory\n", stock->exec.cmd);
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
@@ -233,13 +241,26 @@ int	ft_child(t_stock *stock, int i)
 	}
 	else
 	{
-		if(ft_strcmp(stock->exec.cmd, "$?") == 0) // on a protege strcmp - return -1
+		if (stock->exec.cmd)
 		{
-			ft_printf("bash: %d: command not found\n", stock->exit_status);
+			if (ft_strcmp(stock->exec.cmd, "$?") == 0)
+				ft_printf("bash: %d: command not found\n", stock->exit_status);
+			else
+				ft_printf("bash: %s: command not found\n", stock->exec.cmd);
+			stock->exit_status = 127;
+			free_exec(stock);
+			free_tokens(&stock->token);
+			ft_free_envp_list(&stock->envp);
+			free_cmd(&stock->cmd);
+			if (stock->heredoc)
+			{
+				close_heredoc_child(stock);
+			}
+			close(stock->exec.fd_pipe[0]);
+			close(stock->exec.fd_pipe[1]);
+			exit(127);
 		}
-		else
-			ft_printf("bash: %s: command not found\n", stock->exec.cmd); // mais du coup on rentre ici ... hmmm
-		stock->exit_status = 127;
+		stock->exit_status = 0;
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
@@ -250,7 +271,7 @@ int	ft_child(t_stock *stock, int i)
 		}
 		close(stock->exec.fd_pipe[0]);
 		close(stock->exec.fd_pipe[1]);
-		exit(127);
+		exit(0);
 		// exit ici si ya erreur avec un beau jolie msg derreur puis free
 	}
 	return (0);

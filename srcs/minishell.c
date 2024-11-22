@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/21 00:07:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:39:34 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,13 @@ static int	ft_prompt(t_stock *stock, char *input)
 			return (1);
 		}
 		input = ft_positif(input);
+		printf("avant expand = [%s]\n", stock->token->name);
 		ft_expand(stock, stock->token);
-		// print_tab(stock->token);
+		printf("apres expand = [%s]\n", stock->token->name);
+		print_tab(stock->token);
 		stock_cmd_lst(stock);
 		if (stock->nb_hd > 0)
 		{
-			ft_printf("heeellloooooooo\n");
 			ft_heredoc(stock);
 		}
 		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
@@ -126,7 +127,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 }
 t_stock	*starton(void)
 {
-	static t_stock stock = {0};
+	static t_stock	stock = {0};
 	return (&stock);
 }
 
