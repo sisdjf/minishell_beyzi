@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/22 23:41:50 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/23 00:53:04 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,15 @@ char	*ft_find_cmd_for_exec(t_stock *stock, int i)
 	}
 	return (NULL);
 }
+int is_directory(const char *path)
+ {
+    struct stat path_stat;
+    if (stat(path, &path_stat) != 0) {
+        perror("stat");
+        return 0;
+    }
+    return S_ISDIR(path_stat.st_mode); 
+}
 
 int	all_redir(t_stock *stock, int i)
 {
@@ -225,10 +234,7 @@ int	ft_child(t_stock *stock, int i)
 			close(stock->exec.fd_tmp);
 		// close(stock->exec.fd_pipe[1]);
 		execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
-		int ret;
-		//TODO modif la verif de dossier
-		ret = chdir(stock->exec.cmd);
-		if (ret != -1)
+		if (is_directory(stock->exec.cmd))
 			printf("bash: %s: Is a directory\n", stock->exec.cmd);
 		else
 			ft_printf("bash: %s: : No such file or directory\n", stock->exec.cmd);

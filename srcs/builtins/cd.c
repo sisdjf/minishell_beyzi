@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/22 23:56:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/23 01:25:31 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,14 @@ int	ft_cd(char **cmd, t_envp **envp)
 		printf("cd : [%s]: No such file or directory\n", cmd[1]);
 		return (1);
 	}
-	char *for_export = ft_strjoin("PWD=", path);
-	printf("printf pwd %s\n", for_export);
-	export(&for_export, envp);
+	char **for_export;
+	for_export = malloc(sizeof(char *) * (3));
+	for_export[0] = ft_strjoin("toto", "tata");
+	for_export[1] = ft_strjoin("PWD=", getcwd(NULL, 0));
+	for_export[2] = NULL;
+	printf("printf pwd %s\n", for_export[0]);
+	export(for_export, envp);
+	free_tab(for_export);
 	
 	return (0);
 }
