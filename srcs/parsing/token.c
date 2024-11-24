@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/13 16:31:29 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:05:52 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	ft_token(t_stock *stock, char *input)
 	i = 0;
 	while (input[i])
 	{
-		// skip_space(input, &i);
 		if (skip_space(input, &i))
 			return (0);
 		new_token = malloc(sizeof(t_token));

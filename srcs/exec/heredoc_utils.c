@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 23:09:18 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/22 21:15:05 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/24 03:08:43 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exec_heredoc(t_stock *stock, int *i)
 {
-	signal(SIGINT, &ft_gestion);
+	signal(SIGINT, &ft_gestion_heredoc);
 	while (*i < stock->nb_hd)
 	{
 		close(stock->heredoc[*i].fd_heredoc[0]);
@@ -28,8 +28,9 @@ void	exec_heredoc(t_stock *stock, int *i)
 		dup2(stock->heredoc->fd_heredoc[1], STDOUT_FILENO);
 		close(stock->heredoc->fd_heredoc[0]);
 		close(stock->heredoc->fd_heredoc[1]);
-		//free_tab(stock->heredoc);
+		// free_tab(&stock->heredoc->lim);
 	}
+	free_tokens(&stock->token);
 	free(stock->heredoc);
 	free_exec(stock);
 	// free_tokens(&stock->token);
@@ -51,8 +52,8 @@ void	prompt_heredoc(t_stock *stock, char *lim, int pipe)
 		if (!line)
 		{
 			ft_printf("warning: here-document at line\n",
-					"%d delimited by end-of-file (wanted '%s')\n",
-					/*stock->minishell_line_no*/ lim);
+						"%d delimited by end-of-file (wanted '%s')\n",
+						/*stock->minishell_line_no*/ lim);
 			break ;
 		}
 		if (!ft_strcmp(line, lim))
@@ -80,14 +81,13 @@ void	init_heredoc(t_stock *stock, t_heredoc *heredoc)
 		if (tmp->type == HERDOC)
 		{
 			heredoc[i].index_cmd = i;
-			heredoc[i].lim = stock->cmd->heredoc[i];
+			heredoc[i].lim = tmp->next->name;
 			pipe(heredoc[i].fd_heredoc);
 			i++;
 		}
 		tmp = tmp->next;
 	}
 }
-
 
 void	close_heredoc_child(t_stock *stock)
 {
@@ -105,9 +105,9 @@ void	close_heredoc_child(t_stock *stock)
 
 void	ft_heredoc(t_stock *stock)
 {
-	int i;
-	int pid;
-	t_heredoc *heredoc;
+	int			i;
+	int			pid;
+	t_heredoc	*heredoc;
 
 	i = 0;
 	if (stock->nb_hd == 0)
@@ -123,7 +123,9 @@ void	ft_heredoc(t_stock *stock)
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
+	{
 		exec_heredoc(stock, &i);
+	}
 	else if (pid > 0)
 	{
 		while (i < stock->nb_hd)
@@ -133,3 +135,41 @@ void	ft_heredoc(t_stock *stock)
 	waitpid(pid, 0, 0);
 }
 
+void	ft_gestion_heredoc(int signum)
+{
+	t_stock	*stock;
+	int		i;
+
+	i = -1;
+	(void)signum;
+	stock = starton();
+	write(1, "\n", 1);
+	while (++i < stock->nb_hd)
+	{
+		close(stock->heredoc[i].fd_heredoc[1]);
+		close(stock->heredoc[i].fd_heredoc[0]);
+	}
+	if (stock->heredoc->flag_heredoc == 1)
+	{
+		dup2(stock->fd_std[0], STDIN_FILENO);
+		dup2(stock->fd_std[1], STDOUT_FILENO);
+		close(stock->fd_std[0]);
+		close(stock->fd_std[1]);
+	}
+	free_exec(stock);
+	free_tokens(&stock->token);
+	ft_free_envp_list(&stock->envp);
+	free_cmd(&stock->cmd);
+	exit(130);
+}
+void	disable_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	default_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}

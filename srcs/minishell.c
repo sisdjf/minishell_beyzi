@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/22 22:39:34 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/24 03:13:44 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	ft_gestion(int signum)
 	stock = starton();
 	if (signum == SIGINT)
 	{
-		// g_globale = 130;
 		dprintf(1, "\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_globale = 130;
 	}
-	if (signum == SIGQUIT)
+	else if (signum == SIGQUIT)
 	{
 		g_globale = 131;
 		rl_replace_line("", 0);
@@ -39,22 +39,10 @@ void	ft_gestion(int signum)
 		// g_globale = 131;
 		// exit (131);
 	}
-	// t_stock *stock;
-	// stock = starton();
-	// if (signum == SIGINT)
-	// 	ft_printf("^C\n");
-	// else if (signum == SIGQUIT)
-	// {
-	// 	ft_printf("\n");
-	// 	return ;
-	// 	// free_exec(stock);
-	// 	// free_tokens(&stock->token);
-	// 	// ft_free_envp_list(&stock->envp);
-	// 	// free_cmd(&stock->cmd);
-	// 	// close_fds(stock);
-	// 	// exit(g_globale);
-	// }
+
 }
+
+
 void	free_exec(t_stock *stock)
 {
 	// if (stock->exec.cmd_tab)
@@ -68,6 +56,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 {
 	while (1)
 	{
+		stock->nb_hd = 0;
 		stock->token = NULL;
 		stock->cmd = NULL;
 		input = readline("minishell$ ");
@@ -89,22 +78,19 @@ static int	ft_prompt(t_stock *stock, char *input)
 			return (1);
 		}
 		input = ft_positif(input);
-		printf("avant expand = [%s]\n", stock->token->name);
 		ft_expand(stock, stock->token);
-		printf("apres expand = [%s]\n", stock->token->name);
-		print_tab(stock->token);
+		// print_tab(stock->token);
 		stock_cmd_lst(stock);
 		if (stock->nb_hd > 0)
 		{
 			ft_heredoc(stock);
+			free_tokens(&stock->token);
 		}
 		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 		{
 			stock->fd_std[0] = dup(STDIN_FILENO);
 			stock->fd_std[1] = dup(STDOUT_FILENO);
-			printf("OK 1\n");
 			// stock->heredoc->flag_heredoc = 1;
-			printf("OK 2\n");
 			init_struct_exec(stock, 0);
 			all_redir(stock, 0);
 			builtins(stock, stock->cmd->args, &stock->envp);

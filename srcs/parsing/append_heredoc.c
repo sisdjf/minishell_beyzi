@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:49:26 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/22 21:14:38 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/23 23:05:16 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,21 +105,24 @@ int	nbr_malloc_herdoc_cmd(t_token *token, int pipe)
 int	stock_heredoc_cmd(t_stock *stock, int pipe, t_cmd *new)
 {
 	t_token	*tmp;
+	int		nb_malloc;
 	int		compteur;
 	int		i;
 
 	tmp = stock->token;
 	compteur = 0;
+	nb_malloc = 0;
 	i = 0;
-	stock->nb_hd = nbr_malloc_herdoc_cmd(stock->token, pipe);
-	if (stock->nb_hd == 0)
+	nb_malloc = nbr_malloc_herdoc_cmd(stock->token, pipe);
+	stock->nb_hd += nb_malloc;
+	if (nb_malloc == 0)
 	{
 		new->heredoc = NULL;
 		return (0);
 	}
-	new->heredoc = malloc(sizeof(char *) * (stock->nb_hd + 1));
-	if (!new->heredoc) //ajout de Lydia
-		return (0);    //ajout de Lydia
+	new->heredoc = malloc(sizeof(char *) * (nb_malloc + 1));
+	if (!new->heredoc)
+		return (0);
 	while (compteur < pipe)
 	{
 		if (tmp->type == PIPE)

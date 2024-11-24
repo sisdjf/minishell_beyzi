@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/22 23:53:21 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/24 02:34:33 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 
 # define DQUOTE '"'
 # define SQUOTE '\''
+
+extern int			g_globale;
 
 typedef enum s_sign
 {
@@ -218,7 +220,7 @@ char				*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp);
 int					ft_exec(t_stock *stock);
 void				free_split(char **split);
 char				**tab_env(t_exec *exec, t_envp *envp);
-void				init_struct_exec(t_stock *stock, int i);
+int					init_struct_exec(t_stock *stock, int i);
 char				**ft_find_tab(t_stock *stock, int i);
 char				*ft_find_cmd_for_exec(t_stock *stock, int i);
 void				pipe_redir(t_stock *stock, int i);
@@ -231,6 +233,9 @@ void				close_fds(t_stock *stock);
 //SIGNAUX
 t_stock				*starton(void);
 void				ft_gestion(int signum);
+void				ft_gestion_heredoc(int signum);
+void				disable_signals(void);
+void				default_signals(void);
 //HEREDOC
 void				find_nb_hdoc(t_stock *stock, t_heredoc *heredoc);
 void				init_heredoc(t_stock *stock, t_heredoc *heredoc);

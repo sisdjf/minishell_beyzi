@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:07 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/22 20:38:27 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:02:58 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	ft_greater_right(char *str)
 		return (1);
 	if (i > 0 && str[i - 1] == '>')
 	{
-		printf("syntaxe 1\n");
 		return (printf(ERROR_NL), 1);
 	}
 	return (0);

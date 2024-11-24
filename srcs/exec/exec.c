@@ -6,18 +6,21 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/23 00:53:04 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/24 02:35:56 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	init_struct_exec(t_stock *stock, int i)
+int	init_struct_exec(t_stock *stock, int i)
 {
 	stock->exec.cmd = ft_find_cmd_for_exec(stock, i);
+	if (!stock->exec.cmd)
+		return (1);
 	stock->exec.cmd_tab = ft_find_tab(stock, i);
 	stock->exec.path = path_to_cmd(stock, &stock->exec, stock->envp);
 	stock->exec.env = tab_env(&stock->exec, stock->envp);
+	return (0);
 }
 char	*chr_path(t_stock *stock, t_envp *envp)
 {
@@ -42,7 +45,6 @@ char	*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp)
 	char	*cmd_path;
 	char	*tmp;
 
-	printf("path cmd %s\n", exec->cmd);
 	if (ft_strchr(exec->cmd, '/'))
 	{
 		if (access(exec->cmd, F_OK | X_OK) != 0)
@@ -182,14 +184,16 @@ char	*ft_find_cmd_for_exec(t_stock *stock, int i)
 	}
 	return (NULL);
 }
-int is_directory(const char *path)
- {
-    struct stat path_stat;
-    if (stat(path, &path_stat) != 0) {
-        perror("stat");
-        return 0;
-    }
-    return S_ISDIR(path_stat.st_mode); 
+int	is_directory(const char *path)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+	{
+		perror("stat");
+		return (0);
+	}
+	return (S_ISDIR(path_stat.st_mode));
 }
 
 int	all_redir(t_stock *stock, int i)
@@ -205,7 +209,17 @@ int	all_redir(t_stock *stock, int i)
 }
 int	ft_child(t_stock *stock, int i)
 {
-	init_struct_exec(stock, i);
+	default_signals();
+	if (init_struct_exec(stock, i))
+	{
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+		close(stock->exec.fd_pipe[0]);
+		close(stock->exec.fd_pipe[1]);
+		exit(0);
+	}
 	pipe_redir(stock, i);
 	if (all_redir(stock, i) == 1)
 	{
@@ -237,7 +251,8 @@ int	ft_child(t_stock *stock, int i)
 		if (is_directory(stock->exec.cmd))
 			printf("bash: %s: Is a directory\n", stock->exec.cmd);
 		else
-			ft_printf("bash: %s: : No such file or directory\n", stock->exec.cmd);
+			ft_printf("bash: %s: : No such file or directory\n",
+						stock->exec.cmd);
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
@@ -288,6 +303,7 @@ int	ft_exec(t_stock *stock)
 	int	i;
 
 	i = 0;
+	disable_signals();
 	while (i < stock->exec.nb_cmd)
 	{
 		if (pipe(stock->exec.fd_pipe) == -1)
@@ -304,7 +320,6 @@ int	ft_exec(t_stock *stock)
 		if (stock->exec.pid[i] == 0)
 		{
 			stock->exit_status = ft_child(stock, i);
-			// printf("icii %d\n", stock->exit_status);
 			return (127);
 		}
 		close(stock->exec.fd_pipe[1]);
@@ -313,8 +328,11 @@ int	ft_exec(t_stock *stock)
 		stock->exec.fd_tmp = stock->exec.fd_pipe[0];
 		i++;
 	}
-	close(stock->exec.fd_pipe[1]);
-	close(stock->exec.fd_pipe[0]);
+	if (stock->exec.nb_cmd)
+	{
+		close(stock->exec.fd_pipe[1]);
+		close(stock->exec.fd_pipe[0]);
+	}
 	i = 0;
 	while (i < stock->exec.nb_cmd)
 	{
