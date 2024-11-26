@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/24 02:34:33 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 03:29:13 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,22 @@ typedef struct s_exec
 	enum s_sign		type;
 }					t_exec;
 
+typedef struct s_redir
+{
+	char			*filename;
+	t_sign			type;
+	int				heredoc_fd[2];
+	struct s_redir	*next;
+}					t_redir;
+
 typedef struct s_cmd
 {
 	char			**args;
-	char			**infile;
-	char			**outfile;
-	char			**appendfile;
-	char			**heredoc;
+	// char			**infile;
+	// char			**outfile;
+	// char			**appendfile;
+	// char			**heredoc;
+	t_redir			*redir;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -101,9 +110,11 @@ typedef struct s_stock
 	int				nb_hd;
 	int				exit_status;
 	int				fd_std[2];
+	int				fd_out;
 	char			*key;
 	char			*value;
 	char			*new_str;
+	int				signal;
 	t_token			*token;
 	t_envp			*envp;
 	t_exec			exec;
@@ -112,6 +123,7 @@ typedef struct s_stock
 
 }					t_stock;
 
+int					do_redir(t_cmd *cmd, int i);
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
 //QUOTES
@@ -237,11 +249,12 @@ void				ft_gestion_heredoc(int signum);
 void				disable_signals(void);
 void				default_signals(void);
 //HEREDOC
-void				find_nb_hdoc(t_stock *stock, t_heredoc *heredoc);
+int					find_nb_hdoc(t_token *tok);
+// int					find_nb_hdoc(t_stock *stock, t_heredoc *heredoc);
 void				init_heredoc(t_stock *stock, t_heredoc *heredoc);
-void				ft_heredoc(t_stock *stock);
+int					ft_heredoc(t_stock *stock);
 void				exec_heredoc(t_stock *stock, int *i);
-void				prompt_heredoc(t_stock *stock, char *lim, int pipe);
+int					prompt_heredoc(t_stock *stock, char *lim, int pipe);
 void				close_heredoc_child(t_stock *stock);
 
 #endif

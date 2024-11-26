@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/24 02:35:56 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 02:50:09 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,18 +198,19 @@ int	is_directory(const char *path)
 
 int	all_redir(t_stock *stock, int i)
 {
-	if (redir_infile(stock, i))
-		return (1);
-	if (redir_outfile(stock, i))
-		return (1);
-	if (redir_appendfile(stock, i))
-		return (1);
+	do_redir(stock->cmd, i);
+	// if (redir_infile(stock, i))
+	// 	return (1);
+	// if (redir_outfile(stock, i))
+	// 	return (1);
+	// if (redir_appendfile(stock, i))
+	// 	return (1);
 	// close stock->fd_std...
 	return (0);
 }
 int	ft_child(t_stock *stock, int i)
 {
-	default_signals();
+	// default_signals();
 	if (init_struct_exec(stock, i))
 	{
 		free_exec(stock);
@@ -221,14 +222,15 @@ int	ft_child(t_stock *stock, int i)
 		exit(0);
 	}
 	pipe_redir(stock, i);
-	if (all_redir(stock, i) == 1)
-	{
-		free_exec(stock);
-		free_tokens(&stock->token);
-		ft_free_envp_list(&stock->envp);
-		free_cmd(&stock->cmd);
-		exit(EXIT_FAILURE);
-	}
+	do_redir(stock->cmd, i);
+	// if (all_redir(stock, i) == 1)
+	// {
+	// 	free_exec(stock);
+	// 	free_tokens(&stock->token);
+	// 	ft_free_envp_list(&stock->envp);
+	// 	free_cmd(&stock->cmd);
+	// 	exit(EXIT_FAILURE);
+	// }
 	if (check_builtins(stock->exec.cmd_tab))
 	{
 		builtins(stock, stock->exec.cmd_tab, &stock->envp);
@@ -303,7 +305,6 @@ int	ft_exec(t_stock *stock)
 	int	i;
 
 	i = 0;
-	disable_signals();
 	while (i < stock->exec.nb_cmd)
 	{
 		if (pipe(stock->exec.fd_pipe) == -1)
@@ -319,6 +320,7 @@ int	ft_exec(t_stock *stock)
 		}
 		if (stock->exec.pid[i] == 0)
 		{
+			default_signals();
 			stock->exit_status = ft_child(stock, i);
 			return (127);
 		}
@@ -341,7 +343,10 @@ int	ft_exec(t_stock *stock)
 		if (WIFEXITED(stock->exit_status))
 			stock->exit_status = WEXITSTATUS(stock->exit_status);
 		else if (WIFSIGNALED(stock->exit_status))
+		{
 			stock->exit_status = 128 + WTERMSIG(stock->exit_status);
+			stock->signal = stock->exit_status;
+		}
 		else if (WIFSTOPPED(stock->exit_status))
 			stock->exit_status = 128 + WSTOPSIG(stock->exit_status);
 	}

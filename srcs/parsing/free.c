@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/12 17:57:05 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/25 20:13:06 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,23 @@ void	free_tab(char **tab)
 
 void	free_cmd(t_cmd **cmd)
 {
-	t_cmd	*tmp;
+	(void)**cmd;
+	// t_cmd	*tmp;
 
-	while (*cmd)
-	{
-		tmp = (*cmd)->next;
-		if ((*cmd)->args)
-			free_tab((*cmd)->args);
-		if ((*cmd)->infile)
-			free_tab((*cmd)->infile);
-		if ((*cmd)->outfile)
-			free_tab((*cmd)->outfile);
-		if ((*cmd)->appendfile)
-			free_tab((*cmd)->appendfile);
-		if ((*cmd)->heredoc)
-			free_tab((*cmd)->heredoc);
-		free(*cmd);
-		*cmd = tmp;
-	}
+	// while (*cmd)
+	// {
+	// 	tmp = (*cmd)->next;
+	// 	if ((*cmd)->args)
+	// 		free_tab((*cmd)->args);
+	// 	if ((*cmd)->infile)
+	// 		free_tab((*cmd)->infile);
+	// 	if ((*cmd)->outfile)
+	// 		free_tab((*cmd)->outfile);
+	// 	if ((*cmd)->appendfile)
+	// 		free_tab((*cmd)->appendfile);
+	// 	if ((*cmd)->heredoc)
+	// 		free_tab((*cmd)->heredoc);
+	// 	free(*cmd);
+	// 	*cmd = tmp;
+	// }
 }

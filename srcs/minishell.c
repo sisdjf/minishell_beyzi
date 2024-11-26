@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/24 03:13:44 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 02:50:51 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,19 @@ void	ft_gestion(int signum)
 	stock = starton();
 	if (signum == SIGINT)
 	{
-		dprintf(1, "\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
 		g_globale = 130;
+		rl_done = 1;
+		// dprintf(1, "\n");
+		// rl_on_new_line();
+		// rl_replace_line("", 0);
+		// rl_redisplay();
 	}
 	else if (signum == SIGQUIT)
 	{
 		g_globale = 131;
-		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_done = 1;
+		// rl_replace_line("", 0);
+		// rl_redisplay();
 		// free_exec(stock);
 		// free_tokens(&stock->token);
 		// ft_free_envp_list(&stock->envp);
@@ -43,6 +45,49 @@ void	ft_gestion(int signum)
 }
 
 
+// void	ft_gestion(int signum)
+// {
+// 	t_stock *stock;
+// 	stock = starton();
+// 	if (signum == SIGINT)
+// 	{
+// 		g_globale = 130;
+// 		// rl_done = 1;
+// 		dprintf(1, "\n");
+// 		rl_on_new_line();
+// 		rl_replace_line("", 0);
+// 		rl_redisplay();
+// 	}
+// 	if (signum == SIGQUIT)
+// 	{
+// 		g_globale = 131;
+// 		// rl_done = 1;
+// 		rl_replace_line("", 0);
+// 		rl_redisplay();
+// 		// free_exec(stock);
+// 		// free_tokens(&stock->token);
+// 		// ft_free_envp_list(&stock->envp);
+// 		// free_cmd(&stock->cmd);
+// 		// g_globale = 131;
+// 		// exit (131);
+// 	}
+// 	// t_stock *stock;
+// 	// stock = starton();
+// 	// if (signum == SIGINT)
+// 	// 	ft_printf("^C\n");
+// 	// else if (signum == SIGQUIT)
+// 	// {
+// 	// 	ft_printf("\n");
+// 	// 	return ;
+// 	// 	// free_exec(stock);
+// 	// 	// free_tokens(&stock->token);
+// 	// 	// ft_free_envp_list(&stock->envp);
+// 	// 	// free_cmd(&stock->cmd);
+// 	// 	// close_fds(stock);
+// 	// 	// exit(g_globale);
+// 	// }
+// }
+
 void	free_exec(t_stock *stock)
 {
 	// if (stock->exec.cmd_tab)
@@ -52,10 +97,19 @@ void	free_exec(t_stock *stock)
 	free(stock->exec.path);
 }
 
+int	event_hook()
+{
+	return (EXIT_SUCCESS);
+}
+
 static int	ft_prompt(t_stock *stock, char *input)
 {
 	while (1)
 	{
+		signal(SIGINT, &ft_gestion);
+		signal(SIGQUIT, SIG_IGN);
+		g_globale = 0;
+		stock->signal = 0;
 		stock->nb_hd = 0;
 		stock->token = NULL;
 		stock->cmd = NULL;
@@ -83,16 +137,21 @@ static int	ft_prompt(t_stock *stock, char *input)
 		stock_cmd_lst(stock);
 		if (stock->nb_hd > 0)
 		{
-			ft_heredoc(stock);
+			if (ft_heredoc(stock) == 1)
+			{
+				free_tokens(&stock->token);
+				continue ;
+			}
 			free_tokens(&stock->token);
 		}
+		disable_signals();
 		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 		{
 			stock->fd_std[0] = dup(STDIN_FILENO);
 			stock->fd_std[1] = dup(STDOUT_FILENO);
 			// stock->heredoc->flag_heredoc = 1;
 			init_struct_exec(stock, 0);
-			all_redir(stock, 0);
+			do_redir(stock->cmd, 0);
 			builtins(stock, stock->cmd->args, &stock->envp);
 			dup2(stock->fd_std[0], STDIN_FILENO);
 			dup2(stock->fd_std[1], STDOUT_FILENO);
@@ -103,6 +162,10 @@ static int	ft_prompt(t_stock *stock, char *input)
 		// REVENIR SUR LE DUP2
 		else
 			stock->exit_status = ft_exec(stock);
+		if (stock->signal == 128 + SIGINT)
+			ft_putstr_fd("\n", STDERR_FILENO);
+		else if (stock->signal == 128 + SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 		free_tokens(&stock->token);
 		// print_args(stock->cmd);
 		free(input);
@@ -124,9 +187,8 @@ int	main(int argc, char **argv, char **env)
 	stock = starton();
 	stock->exit_status = 0;
 	(void)argc;
-	signal(SIGINT, &ft_gestion);
-	signal(SIGQUIT, SIG_IGN);
 	// (void)argv;
+	rl_event_hook = event_hook;
 	stock_env_lst(env, stock);
 	ft_prompt(stock, *argv);
 	ft_free_envp_list(&stock->envp);
