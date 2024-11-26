@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/26 02:50:51 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:43:18 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 			stock->fd_std[1] = dup(STDOUT_FILENO);
 			// stock->heredoc->flag_heredoc = 1;
 			init_struct_exec(stock, 0);
-			do_redir(stock->cmd, 0);
+			// do_redir(stock->cmd, 0); // a changer
 			builtins(stock, stock->cmd->args, &stock->envp);
 			dup2(stock->fd_std[0], STDIN_FILENO);
 			dup2(stock->fd_std[1], STDOUT_FILENO);

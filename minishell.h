@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/26 03:29:13 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:38:54 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_heredoc
 	char			*lim;
 	int				fd_heredoc[2];
 	int				index_cmd;
+	int				totalsize;
 	int				flag_heredoc;
 }					t_heredoc;
 
@@ -120,10 +121,9 @@ typedef struct s_stock
 	t_exec			exec;
 	t_cmd			*cmd;
 	t_heredoc		*heredoc;
-
 }					t_stock;
 
-int					do_redir(t_cmd *cmd, int i);
+int					do_redir(t_cmd *cmd, int i, t_heredoc *here);
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
 //QUOTES

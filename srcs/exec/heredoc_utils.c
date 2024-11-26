@@ -6,42 +6,43 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 23:09:18 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/26 03:13:41 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:46:43 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// void	close_pipes_and_exit(t_stock *stock, int *i)
-// {
-// 	// *i += 1;
-// 	while (*i < stock->nb_hd)
-// 	{
-// 		close(stock->heredoc[*i].fd_heredoc[1]);
-// 		close(stock->heredoc[*i].fd_heredoc[0]);
-// 		*i += 1;
-// 	}
-// 	exit(1);
-// }
+void	close_pipes_and_exit(t_stock *stock, int *i)
+{
+	// *i += 1;
+	while (*i < stock->nb_hd)
+	{
+		close(stock->heredoc[*i].fd_heredoc[1]);
+		close(stock->heredoc[*i].fd_heredoc[0]);
+		*i += 1;
+	}
+	exit(1);
+}
 
 void	exec_heredoc(t_stock *stock, int *i)
 {
-	// signal(SIGINT, &ft_gestion_heredoc);
-	// while (*i < stock->nb_hd)
-	// {
-	// 	close(stock->heredoc[*i].fd_heredoc[0]);
-	// 	if (prompt_heredoc(stock, stock->heredoc[*i].lim,
-	// 			stock->heredoc[*i].fd_heredoc[1]) == 1)		// == 1 if signal received
-	// 			close_pipes_and_exit(stock, i);
-	// 	(*i)++;
-	// }
+	signal(SIGINT, &ft_gestion_heredoc);
 	while (*i < stock->nb_hd)
 	{
 		close(stock->heredoc[*i].fd_heredoc[0]);
 		prompt_heredoc(stock, stock->heredoc[*i].lim,
-				stock->heredoc[*i].fd_heredoc[1]);
+							stock->heredoc[*i].fd_heredoc[1]);
 		(*i)++;
 	}
+	// while (*i < stock->nb_hd)
+	// {
+	// 	close(stock->heredoc[*i].fd_heredoc[0]);
+	// 	if (prompt_heredoc(stock, stock->heredoc[*i].lim,
+	// 						stock->heredoc[*i].fd_heredoc[1]) == 1)
+	// 					// == 1 if signal received
+	// 		close_pipes_and_exit(stock, i);
+	// 	(*i)++;
+	// }
 	if (stock->heredoc->flag_heredoc == 1)
 	{
 		close(stock->heredoc->fd_heredoc[1]);
@@ -53,7 +54,7 @@ void	exec_heredoc(t_stock *stock, int *i)
 	free_tokens(&stock->token);
 	free(stock->heredoc);
 	free_exec(stock);
-	// free_tokens(&stock->token);
+	free_tokens(&stock->token);
 	ft_free_envp_list(&stock->envp);
 	free_cmd(&stock->cmd);
 	exit(0);
@@ -69,7 +70,7 @@ int	prompt_heredoc(t_stock *stock, char *lim, int pipe)
 	while (1)
 	{
 		line = readline("> ");
-		if (g_globale > 0)	// if signal received
+		if (g_globale > 0) // if signal received
 		{
 			close(pipe);
 			return (1);
@@ -83,7 +84,7 @@ int	prompt_heredoc(t_stock *stock, char *lim, int pipe)
 		}
 		if (!ft_strcmp(line, lim))
 			break ;
-		ft_putstr_fd(line, pipe);
+		ft_putendl_fd(line, pipe);
 		free(line);
 		i++;
 	}
@@ -106,8 +107,9 @@ void	init_heredoc(t_stock *stock, t_heredoc *heredoc)
 	{
 		if (tmp->type == HERDOC)
 		{
+			heredoc[i].totalsize = stock->nb_hd;
 			heredoc[i].index_cmd = i;
-			heredoc[i].lim = tmp->next->name;
+			heredoc[i].lim = ft_strdup(tmp->next->name);
 			pipe(heredoc[i].fd_heredoc);
 			i++;
 		}
@@ -139,6 +141,7 @@ int	ft_heredoc(t_stock *stock)
 	if (stock->nb_hd == 0)
 		return (0);
 	heredoc = ft_calloc(stock->nb_hd + 1, sizeof(t_heredoc));
+	stock->heredoc = heredoc;
 	if (!heredoc)
 	{
 		ft_printf("!!! erreur malloc t_heredoc !!!\n");
@@ -161,9 +164,6 @@ int	ft_heredoc(t_stock *stock)
 	waitpid(pid, &i, 0);
 	return (WEXITSTATUS(i));
 }
-
-
-
 
 void	ft_gestion_heredoc(int signum)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 19:19:33 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/08 21:13:06 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/26 17:51:41 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int    ft_putstr(char *str, int *len)
         (*len) = *len + 6;
         return (0);
     }
-    write(1, str, ft_strlen(str));
+    write(2, str, ft_strlen(str));
     (*len) += ft_strlen(str);
     return (i);
 }

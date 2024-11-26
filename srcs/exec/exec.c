@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/26 02:50:09 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:40:07 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,8 @@ int	is_directory(const char *path)
 
 int	all_redir(t_stock *stock, int i)
 {
-	do_redir(stock->cmd, i);
+	(void)stock; (void)i;
+	// do_redir(stock->cmd, i);
 	// if (redir_infile(stock, i))
 	// 	return (1);
 	// if (redir_outfile(stock, i))
@@ -222,7 +223,7 @@ int	ft_child(t_stock *stock, int i)
 		exit(0);
 	}
 	pipe_redir(stock, i);
-	do_redir(stock->cmd, i);
+	do_redir(stock->cmd, i, stock->heredoc);
 	// if (all_redir(stock, i) == 1)
 	// {
 	// 	free_exec(stock);

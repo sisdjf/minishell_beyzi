@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:27:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/26 03:28:28 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:45:44 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,20 @@ int	stock_args_cmd(t_stock *stock, int pipe, t_cmd *new)
 // 	quit_heredoc(exec, line);
 // }
 
-int do_redir(t_cmd *cmd, int i)
+int bon_heredoc(t_heredoc *here, char *file)
+{
+	int i = 0;
+	while (i < here->totalsize)
+	{
+		fprintf(stderr, "compare [%s] | [%s]\n", file, here[i].lim);
+		if (ft_strcmp(file, here[i].lim) == 0)
+			return here[i].fd_heredoc[0];
+		i++;
+	}
+	return -1;
+}
+
+int do_redir(t_cmd *cmd, int i, t_heredoc *here)
 {
 	t_redir *tmp;
 	t_cmd *tmp_cmd;
@@ -195,7 +208,8 @@ int do_redir(t_cmd *cmd, int i)
         tmp_cmd = tmp_cmd->next;
         go_to++;
     }
-	tmp = cmd->redir;
+	tmp = tmp_cmd->redir;
+	fprintf(stderr, "je suis {%s} avec {%p}", tmp_cmd->args[0], tmp);
 	while(tmp)
 	{
 		if (tmp->type == REDIR_R)
@@ -205,14 +219,14 @@ int do_redir(t_cmd *cmd, int i)
 		else if (tmp->type == REDIR_L)
 			fd = open(tmp->filename, O_RDONLY);
 		else if (tmp->type == HERDOC)
-		{
-		
-			fd = tmp->heredoc_fd[0];
-		}
+			fd = bon_heredoc(here, tmp->filename);
+			// fd = tmp->heredoc_fd[0];
 		if (tmp->type == REDIR_R || tmp->type == D_REDIR_R)
 			dup2(fd, STDOUT_FILENO);
 		else if (tmp->type == HERDOC || tmp->type == REDIR_L)
+		{
 			dup2(fd, STDIN_FILENO);
+		}
 		if (tmp->type != HERDOC)
 			close(fd);
 		tmp = tmp->next;
