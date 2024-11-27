@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 23:09:18 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/27 02:29:17 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:17:55 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,40 +24,53 @@ void	close_pipes_and_exit(t_stock *stock, int *i)
 	exit(1);
 }
 
+// void	exec_heredoc(t_stock *stock, int *i)
+// {
+// 	signal(SIGINT, &ft_gestion_heredoc);
+// 	while (*i < stock->nb_hd)
+// 	{
+// 		close(stock->heredoc[*i].fd_heredoc[0]);
+// 		prompt_heredoc(stock, stock->heredoc[*i].lim,
+// 				stock->heredoc[*i].fd_heredoc[1]);
+// 		(*i)++;
+// 	}
+// 	if (stock->heredoc->flag_heredoc == 1)
+// 	{
+// 		close(stock->heredoc->fd_heredoc[1]);
+// 		dup2(stock->heredoc->fd_heredoc[0], STDIN_FILENO);
+// 		// dup2(stock->heredoc->fd_heredoc[1], STDOUT_FILENO);
+// 		close(stock->heredoc->fd_heredoc[0]);
+// 		// free_tab(&stock->heredoc->lim);
+// 	}
+// 	free_tokens(&stock->token);
+// 	free(stock->heredoc);
+// 	free_exec(stock);
+// 	free_tokens(&stock->token);
+// 	ft_free_envp_list(&stock->envp);
+// 	free_cmd(&stock->cmd);
+// 	exit(0);
+// }
+
 void	exec_heredoc(t_stock *stock, int *i)
 {
-	signal(SIGINT, &ft_gestion_heredoc);
-	while (*i < stock->nb_hd)
-	{
-		close(stock->heredoc[*i].fd_heredoc[0]);
-		prompt_heredoc(stock, stock->heredoc[*i].lim,
-				stock->heredoc[*i].fd_heredoc[1]);
-		(*i)++;
-	}
-	// while (*i < stock->nb_hd)
-	// {
-	// 	close(stock->heredoc[*i].fd_heredoc[0]);
-	// 	if (prompt_heredoc(stock, stock->heredoc[*i].lim,
-	// 						stock->heredoc[*i].fd_heredoc[1]) == 1)
-	// 					// == 1 if signal received
-	// 		close_pipes_and_exit(stock, i);
-	// 	(*i)++;
-	// }
-	if (stock->heredoc->flag_heredoc == 1)
-	{
-		close(stock->heredoc->fd_heredoc[1]);
-		dup2(stock->heredoc->fd_heredoc[0], STDIN_FILENO);
-		// dup2(stock->heredoc->fd_heredoc[1], STDOUT_FILENO);
-		close(stock->heredoc->fd_heredoc[0]);
-		// free_tab(&stock->heredoc->lim);
-	}
-	free_tokens(&stock->token);
-	free(stock->heredoc);
-	free_exec(stock);
-	free_tokens(&stock->token);
-	ft_free_envp_list(&stock->envp);
-	free_cmd(&stock->cmd);
-	exit(0);
+    signal(SIGINT, &ft_gestion_heredoc);
+    while (*i < stock->nb_hd)
+    {
+        close(stock->heredoc[*i].fd_heredoc[0]);
+        if (prompt_heredoc(stock, stock->heredoc[*i].lim,
+                stock->heredoc[*i].fd_heredoc[1]) == 1)
+        {
+            free_heredoc(stock->heredoc);
+            exit(1);
+        }
+        (*i)++;
+    }
+    free_heredoc(stock->heredoc);
+    free_exec(stock);
+    free_tokens(&stock->token);
+    ft_free_envp_list(&stock->envp);
+    free_cmd(&stock->cmd);
+    exit(0);
 }
 
 int	prompt_heredoc(t_stock *stock, char *lim, int pipe)
@@ -131,7 +144,7 @@ void	free_heredoc(t_heredoc *heredoc)
 		if (heredoc[i].lim)
 			free(heredoc[i].lim);
 		close(heredoc[i].fd_heredoc[0]);
-		// close(heredoc[i].fd_heredoc[1]);
+		close(heredoc[i].fd_heredoc[1]);
 		i++;
 	}
 	if (x)
@@ -149,7 +162,8 @@ void	close_heredoc_child(t_stock *stock)
 		i++;
 	}
 	if (stock->nb_hd)
-		free(stock->heredoc);
+		free_heredoc(stock->heredoc);
+		// free(stock->heredoc);
 }
 
 int	ft_heredoc(t_stock *stock)
@@ -200,13 +214,13 @@ void	ft_gestion_heredoc(int signum)
 		close(stock->heredoc[i].fd_heredoc[1]);
 		close(stock->heredoc[i].fd_heredoc[0]);
 	}
-	if (stock->heredoc->flag_heredoc == 1)
-	{
-		dup2(stock->fd_std[0], STDIN_FILENO);
-		dup2(stock->fd_std[1], STDOUT_FILENO);
-		close(stock->fd_std[0]);
-		close(stock->fd_std[1]);
-	}
+	// if (stock->heredoc->flag_heredoc == 1)
+	// {
+	// 	dup2(stock->fd_std[0], STDIN_FILENO);
+	// 	dup2(stock->fd_std[1], STDOUT_FILENO);
+	// 	close(stock->fd_std[0]);
+	// 	close(stock->fd_std[1]);
+	// }
 	free_exec(stock);
 	free_tokens(&stock->token);
 	ft_free_envp_list(&stock->envp);

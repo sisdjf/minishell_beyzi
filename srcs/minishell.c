@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/27 02:24:57 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:16:11 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	ft_gestion(int signum)
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
+		free_heredoc(stock->heredoc);
 		// g_globale = 131;
 		// exit (131);
 	}
@@ -64,7 +65,9 @@ static int	ft_prompt(t_stock *stock, char *input)
 		stock->cmd = NULL;
 		input = readline("minishell$ ");
 		if (!input)
+		{
 			return (1);
+		}
 		if (!*input)
 			continue ;
 		add_history(input);

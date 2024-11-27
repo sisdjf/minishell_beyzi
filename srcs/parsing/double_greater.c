@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:13 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/22 21:13:33 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 20:19:58 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ int	d_loop_left(char *str, int *i, int nb_greater, int word)
 			(*i)++;
 		}
 		if (nb_greater == 2 && word == 0)
+		{
 			return (printf(ERROR_NL), 1);
+		}
 	}
 	return (0);
 }

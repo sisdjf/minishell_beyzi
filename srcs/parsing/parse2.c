@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:27:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/27 01:59:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:03:30 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_redir	*new_func_with_bilel(t_token *tok, int i)
 			compteur++;
 		tmp = tmp->next;
 	}
+	// tmp = tok;
 	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
