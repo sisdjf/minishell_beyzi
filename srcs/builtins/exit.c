@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:34:19 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/25 20:16:26 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 22:23:36 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_exit(t_stock *stock, char **cmd)
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
-		free_cmd(&stock->cmd);
+		// free_cmd(&stock->cmd);
 		// close_fds(stock);
 		exit(stock->exit_status);
 	}
@@ -47,7 +47,8 @@ int	ft_exit(t_stock *stock, char **cmd)
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
-		free_cmd(&stock->cmd);
+		// free_cmd(&stock->cmd);
+		// free_tab(stock->cmd->args);
 		// close_fds(stock);
 		exit(stock->exit_status);
 	}

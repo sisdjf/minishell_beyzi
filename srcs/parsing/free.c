@@ -6,11 +6,12 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/25 20:13:06 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 00:40:22 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 
 void	ft_free_envp_list(t_envp **envp)
 {
@@ -42,25 +43,34 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
+void free_redir(t_redir **redir)
+{
+	t_redir *tmp;
+
+	while(*redir)
+	{
+		tmp = (*redir)->next;
+		if((*redir)->filename)
+		{
+			free((*redir)->filename);
+		}
+		free(*redir);
+		*redir = tmp;
+	}
+}
+
 void	free_cmd(t_cmd **cmd)
 {
-	(void)**cmd;
-	// t_cmd	*tmp;
+	t_cmd	*tmp;
 
-	// while (*cmd)
-	// {
-	// 	tmp = (*cmd)->next;
-	// 	if ((*cmd)->args)
-	// 		free_tab((*cmd)->args);
-	// 	if ((*cmd)->infile)
-	// 		free_tab((*cmd)->infile);
-	// 	if ((*cmd)->outfile)
-	// 		free_tab((*cmd)->outfile);
-	// 	if ((*cmd)->appendfile)
-	// 		free_tab((*cmd)->appendfile);
-	// 	if ((*cmd)->heredoc)
-	// 		free_tab((*cmd)->heredoc);
-	// 	free(*cmd);
-	// 	*cmd = tmp;
-	// }
+	while (*cmd)
+	{
+		tmp = (*cmd)->next;
+		if ((*cmd)->args)
+			free_tab((*cmd)->args);
+		if ((*cmd)->redir)
+			free_redir(&(*cmd)->redir);
+		free(*cmd);
+		*cmd = tmp;
+	}
 }

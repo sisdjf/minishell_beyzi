@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/26 18:40:07 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 02:18:11 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,8 @@ char	**ft_find_tab(t_stock *stock, int i)
 	{
 		if (compteur == i)
 		{
-			return (tmp->args);
+			if (tmp->args[1])
+				return (tmp->args);
 		}
 		compteur++;
 		tmp = tmp->next;
@@ -196,42 +197,33 @@ int	is_directory(const char *path)
 	return (S_ISDIR(path_stat.st_mode));
 }
 
-int	all_redir(t_stock *stock, int i)
-{
-	(void)stock; (void)i;
-	// do_redir(stock->cmd, i);
-	// if (redir_infile(stock, i))
-	// 	return (1);
-	// if (redir_outfile(stock, i))
-	// 	return (1);
-	// if (redir_appendfile(stock, i))
-	// 	return (1);
-	// close stock->fd_std...
-	return (0);
-}
 int	ft_child(t_stock *stock, int i)
 {
 	// default_signals();
 	if (init_struct_exec(stock, i))
 	{
+		fprintf(stderr, "je suis \n");
+		do_redir(stock->cmd, i, stock->heredoc);
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
+		free_heredoc(stock->heredoc);
 		close(stock->exec.fd_pipe[0]);
 		close(stock->exec.fd_pipe[1]);
 		exit(0);
 	}
 	pipe_redir(stock, i);
-	do_redir(stock->cmd, i, stock->heredoc);
-	// if (all_redir(stock, i) == 1)
-	// {
-	// 	free_exec(stock);
-	// 	free_tokens(&stock->token);
-	// 	ft_free_envp_list(&stock->envp);
-	// 	free_cmd(&stock->cmd);
-	// 	exit(EXIT_FAILURE);
-	// }
+	// do_redir(stock->cmd, i, stock->heredoc);
+	if (do_redir(stock->cmd, i, stock->heredoc) == 1)
+	{
+		free_exec(stock);
+		free_tokens(&stock->token);
+		ft_free_envp_list(&stock->envp);
+		free_cmd(&stock->cmd);
+		free_heredoc(stock->heredoc);
+		exit(EXIT_FAILURE);
+	}
 	if (check_builtins(stock->exec.cmd_tab))
 	{
 		builtins(stock, stock->exec.cmd_tab, &stock->envp);
@@ -276,10 +268,10 @@ int	ft_child(t_stock *stock, int i)
 			free_tokens(&stock->token);
 			ft_free_envp_list(&stock->envp);
 			free_cmd(&stock->cmd);
-			if (stock->heredoc)
-			{
-				close_heredoc_child(stock);
-			}
+			// if (stock->heredoc)
+			// {
+			// 	close_heredoc_child(stock);
+			// }
 			close(stock->exec.fd_pipe[0]);
 			close(stock->exec.fd_pipe[1]);
 			exit(127);
@@ -289,10 +281,11 @@ int	ft_child(t_stock *stock, int i)
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
-		if (stock->heredoc)
-		{
-			close_heredoc_child(stock);
-		}
+		free_heredoc(stock->heredoc);
+		// if (stock->heredoc)
+		// {
+		// 	close_heredoc_child(stock);
+		// }
 		close(stock->exec.fd_pipe[0]);
 		close(stock->exec.fd_pipe[1]);
 		exit(0);
@@ -319,6 +312,7 @@ int	ft_exec(t_stock *stock)
 			printf("ERROR FORK\n");
 			return (EXIT_FAILURE);
 		}
+		// stock->exec.fd_tmp = stock->exec.fd_pipe[0];
 		if (stock->exec.pid[i] == 0)
 		{
 			default_signals();

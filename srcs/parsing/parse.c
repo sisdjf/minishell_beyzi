@@ -6,126 +6,11 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/26 16:02:46 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/26 22:40:29 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// // creer la structure //
-// // remplir le tableau de chaque maillon avec les cmd args avant le pipe
-// //         trouver le pipe, avancer sur le maillon
-
-int	nbr_malloc_word_cmd(t_token *token, int pipe)
-{
-	t_token	*tmp;
-	int		nb_malloc;
-	int		compteur;
-
-	nb_malloc = 0;
-	tmp = token;
-	compteur = 0;
-	while (compteur < pipe)
-	{
-		if (tmp->type == PIPE)
-			compteur++;
-		tmp = tmp->next;
-	}
-	while (tmp && tmp->type != PIPE)
-	{
-		if (tmp->type == WORD)
-			nb_malloc++;
-		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
-			|| tmp->type == REDIR_R || tmp->type == REDIR_L)
-		{
-			tmp = tmp->next;
-		}
-		tmp = tmp->next;
-	}
-	return (nb_malloc);
-}
-
-// int malloc_redir(t_stock *stock, t_redir *redir, int i)
-// {
-// 	t_token *tmp;
-// 	int nb_malloc;
-// 	int compteur;
-// 	tmp = stock->token;
-
-// 	nb_malloc = 0;
-// 	compteur = 0;
-// 	while (compteur < i)
-// 	{
-// 		if (tmp->type == PIPE)
-// 			compteur++;
-// 		tmp = tmp->next;
-// 	}
-// 	while(tmp)
-// 	{
-// 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
-// 			|| tmp->type == REDIR_R || tmp->type == REDIR_L)
-// 		{
-// 			nb_malloc++;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	return (nb_malloc);
-// }
-// void	init_redir(t_cmd *new, t_token *tmp)
-// {
-// 	t_sign	type;
-// 	t_redir	*redir;
-
-// 	type = tmp->type;
-// 	type = ft_calloc();
-// 	/*	init redir:
-// 			- malloc redir
-// 			- mettre le filename
-// 			// - si here_doc:
-// 			// 	- exec here doc
-
-// 		ajouter redir a la liste chainee de redirections (new->redir)
-// 	*/
-// }
-
-// int	stock_args_cmd(t_stock *stock, int pipe, t_cmd *new)
-// {
-// 	t_token	*tmp;
-// 	int		nb_malloc;
-// 	int		compteur;
-// 	int		i;
-
-// 	tmp = stock->token;
-// 	compteur = 0;
-// 	i = 0;
-// 	nb_malloc = nbr_malloc_word_cmd(stock->token, pipe);
-// 	// if (nb_malloc == 0)
-// 	// {
-// 	// 	new->infile = NULL;
-// 	// 	return (0);
-// 	// }
-// 	new->args = ft_calloc(sizeof(char *), nb_malloc + 1);
-// 	while (compteur < pipe)
-// 	{
-// 		if (tmp->type == PIPE)
-// 			compteur++;
-// 		tmp = tmp->next;
-// 	}
-// 	while (tmp && tmp->type != PIPE)
-// 	{
-// 		if (tmp->type == WORD)
-// 			new->args[i++] = ft_strdup(tmp->name);
-// 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
-// 			|| tmp->type == REDIR_R || tmp->type == REDIR_L)
-// 		{
-// 			init_redir(new, tmp);
-// 			tmp = tmp->next;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	new->args[i] = NULL;
-// 	return (0);
-// }
 
 t_cmd	*ft_lstnew_cmd(t_stock *stock, int pipe)
 {
@@ -136,10 +21,6 @@ t_cmd	*ft_lstnew_cmd(t_stock *stock, int pipe)
 		return (NULL);
 	new->redir = NULL;
 	stock_args_cmd(stock, pipe, new);
-	// stock_infile_cmd(stock->token, pipe, new);
-	// stock_outfile_cmd(stock->token, pipe, new);
-	// stock_appendfile_cmd(stock->token, pipe, new);
-	// stock_heredoc_cmd(stock, pipe, new);
 	new->next = NULL;
 	return (new);
 }
@@ -236,6 +117,6 @@ void	stock_cmd_lst(t_stock *stock)
 		}
 		compteur++;
 	}
-	stock->exec.nb_cmd = find_real_nb_cmd(stock->token);	
+	stock->exec.nb_cmd = nb_cmd(stock->token);	
 	stock->nb_hd = find_nb_hdoc(stock->token);
 }

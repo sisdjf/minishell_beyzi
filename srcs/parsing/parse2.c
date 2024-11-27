@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:27:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/26 18:45:44 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 01:59:26 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,35 @@ t_redir	*new_func_with_bilel(t_token *tok, int i)
 	return (head);
 }
 
+int nbr_malloc_word_cmd(t_token *token, int i)
+{
+	t_token *tmp;
+	int nb_malloc;
+	int compteur;
+	tmp = token;
+
+	nb_malloc = 0;
+	compteur = 0;
+	while (compteur < i)
+	{
+		if (tmp->type == PIPE)
+			compteur++;
+		tmp = tmp->next;
+	}
+	while(tmp)
+	{
+		if (tmp->type == WORD)
+			nb_malloc++;
+		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
+			|| tmp->type == REDIR_R || tmp->type == REDIR_L)
+		{
+			tmp = tmp->next;
+		}
+		tmp = tmp->next;
+	}
+	return (nb_malloc);
+}
+
 int	stock_args_cmd(t_stock *stock, int pipe, t_cmd *new)
 {
 	t_token	*tmp;
@@ -186,7 +215,7 @@ int bon_heredoc(t_heredoc *here, char *file)
 	int i = 0;
 	while (i < here->totalsize)
 	{
-		fprintf(stderr, "compare [%s] | [%s]\n", file, here[i].lim);
+		// fprintf(stderr, "compare [%s] | [%s]\n", file, here[i].lim);
 		if (ft_strcmp(file, here[i].lim) == 0)
 			return here[i].fd_heredoc[0];
 		i++;
@@ -209,7 +238,6 @@ int do_redir(t_cmd *cmd, int i, t_heredoc *here)
         go_to++;
     }
 	tmp = tmp_cmd->redir;
-	fprintf(stderr, "je suis {%s} avec {%p}", tmp_cmd->args[0], tmp);
 	while(tmp)
 	{
 		if (tmp->type == REDIR_R)
@@ -220,7 +248,11 @@ int do_redir(t_cmd *cmd, int i, t_heredoc *here)
 			fd = open(tmp->filename, O_RDONLY);
 		else if (tmp->type == HERDOC)
 			fd = bon_heredoc(here, tmp->filename);
-			// fd = tmp->heredoc_fd[0];
+		if (fd == -1)
+		{
+			ft_error(fd, tmp->filename);
+			return(1);
+		}
 		if (tmp->type == REDIR_R || tmp->type == D_REDIR_R)
 			dup2(fd, STDOUT_FILENO);
 		else if (tmp->type == HERDOC || tmp->type == REDIR_L)
@@ -231,5 +263,6 @@ int do_redir(t_cmd *cmd, int i, t_heredoc *here)
 			close(fd);
 		tmp = tmp->next;
 	}
+	// free_heredoc(here);
 	return (0);
 }

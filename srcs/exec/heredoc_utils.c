@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 23:09:18 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/26 18:46:43 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 02:29:17 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_heredoc(t_stock *stock, int *i)
 	{
 		close(stock->heredoc[*i].fd_heredoc[0]);
 		prompt_heredoc(stock, stock->heredoc[*i].lim,
-							stock->heredoc[*i].fd_heredoc[1]);
+				stock->heredoc[*i].fd_heredoc[1]);
 		(*i)++;
 	}
 	// while (*i < stock->nb_hd)
@@ -117,6 +117,27 @@ void	init_heredoc(t_stock *stock, t_heredoc *heredoc)
 	}
 }
 
+void	free_heredoc(t_heredoc *heredoc)
+{
+	int	i;
+	int	x;
+
+	// if (!heredoc || heredoc->totalsize <= 0)
+	// 	return ;
+	i = 0;
+	x = heredoc->totalsize;
+	while (i < x)
+	{
+		if (heredoc[i].lim)
+			free(heredoc[i].lim);
+		close(heredoc[i].fd_heredoc[0]);
+		// close(heredoc[i].fd_heredoc[1]);
+		i++;
+	}
+	if (x)
+		free(heredoc);
+}
+
 void	close_heredoc_child(t_stock *stock)
 {
 	int	i;
@@ -190,6 +211,7 @@ void	ft_gestion_heredoc(int signum)
 	free_tokens(&stock->token);
 	ft_free_envp_list(&stock->envp);
 	free_cmd(&stock->cmd);
+	free_heredoc(stock->heredoc);
 	exit(130);
 }
 void	disable_signals(void)

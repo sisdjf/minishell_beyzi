@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/26 18:38:54 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 01:12:39 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,6 @@ typedef struct s_redir
 typedef struct s_cmd
 {
 	char			**args;
-	// char			**infile;
-	// char			**outfile;
-	// char			**appendfile;
-	// char			**heredoc;
 	t_redir			*redir;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -189,6 +185,7 @@ void				print_lst_envp(t_stock *stock);
 void				free_envp(t_envp **env);
 void				ft_free_envp_list(t_envp **envp);
 void				free_tab(char **tab);
+void				free_heredoc(t_heredoc *heredoc);
 //BUILTINS
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
@@ -250,6 +247,7 @@ void				disable_signals(void);
 void				default_signals(void);
 //HEREDOC
 int					find_nb_hdoc(t_token *tok);
+int					ft_error(int fd, char *str);
 // int					find_nb_hdoc(t_stock *stock, t_heredoc *heredoc);
 void				init_heredoc(t_stock *stock, t_heredoc *heredoc);
 int					ft_heredoc(t_stock *stock);
