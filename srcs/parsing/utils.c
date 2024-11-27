@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:52:29 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 16:34:59 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:12:48 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ char	*ft_joinstr(char *s1, char *s2)
 	char	*res;
 
 	if (!s1)
-		return (ft_strdup(s2));
+	{
+		res = ft_strdup(s2);
+		free(s2);
+		return (res);
+	}
 	i = 0;
 	res = malloc(ft_len_mini(s1) + ft_len_mini(s2) + 1);
 	if (!res)
@@ -56,6 +60,8 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (-1);
 	while (s1[i] != '\0' && s2[i] != '\0' && (s1[i] == s2[i]))
 	{
 		i++;

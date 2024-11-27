@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 17:55:07 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/15 20:15:27 by sizitout         ###   ########.fr       */
+/*   Created: 2024/11/08 19:19:33 by lybey             #+#    #+#             */
+/*   Updated: 2024/11/26 17:51:41 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+# include "libft.h"
 
-void	env(t_envp *envp)
+int    ft_putstr(char *str, int *len)
 {
-	t_envp *tmp;
+    int    i;
 
-	tmp = envp;
-	while (tmp)
-	{
-		if (tmp->value)
-			printf("%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
-	}
+    i = 0;
+    if (!str)
+    {
+        write(2, "(null)", 6);
+        (*len) = *len + 6;
+        return (0);
+    }
+    write(2, str, ft_strlen(str));
+    (*len) += ft_strlen(str);
+    return (i);
 }

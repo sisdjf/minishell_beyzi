@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 17:55:07 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/15 20:15:27 by sizitout         ###   ########.fr       */
+/*   Created: 2023/10/30 15:58:57 by sizitout          #+#    #+#             */
+/*   Updated: 2024/01/24 16:23:05 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-void	env(t_envp *envp)
+void	ft_putnbr(int nb, int *len)
 {
-	t_envp *tmp;
+	long long int	nbr;
 
-	tmp = envp;
-	while (tmp)
+	nbr = nb;
+	if (nbr == INT_MIN)
 	{
-		if (tmp->value)
-			printf("%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
+		ft_putstr("-2147483648", len);
+		return ;
 	}
+	if (nb < 0)
+	{
+		nb = nb * -1;
+		ft_putchar('-', len);
+	}
+	if (nb > 9)
+	{
+		ft_putnbr(nb / 10, len);
+	}
+	ft_putchar((nb % 10) + '0', len);
 }

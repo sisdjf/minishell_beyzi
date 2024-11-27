@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/20 19:46:06 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:12:33 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	loop_pipe(char *str, int *i, int nb_pipe, int word)
 		}
 		if (nb_pipe > 1 || (nb_pipe == 1 && word == 0 && str[(*i)] == '\0'))
 			return (printf(ERROR_PIPE_MSG), 1);
-		while (str[(*i)] && str[(*i)] == ' ')
+		while (str[(*i)] && (str[(*i)] == ' ' || str[(*i)] == '\t'))
 			(*i)++;
 		while (str[(*i)] && str[(*i)] != '|')
 		{
@@ -47,7 +47,7 @@ int	ft_pipe(char *str)
 	i = 0;
 	word = 0;
 	nb_pipe = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (str[i] == '|')
 		return (printf(ERROR_PIPE_MSG), 1);
@@ -79,7 +79,7 @@ void	ft_negatif(char *input)
 	}
 }
 
-void	ft_positif(char *input)
+char	*ft_positif(char *input)
 {
 	int	i;
 
@@ -87,9 +87,10 @@ void	ft_positif(char *input)
 	while (input[i])
 	{
 		if (input[i] < 0)
-			input[i] = -input[i];
+			input[i] *= -1;
 		i++;
 	}
+	return (input);
 }
 
 int	syntax_error(char *input)
@@ -100,13 +101,21 @@ int	syntax_error(char *input)
 	if (ft_pipe(input))
 		return (1);
 	if (ft_greater_right(input))
+	{
 		return (1);
-	if (ft_greater_left(input))
+	}
+	else if (ft_greater_left(input))
+	{
 		return (1);
+	}
 	if (ft_double_greater_right(input))
+	{
 		return (1);
+	}
 	if (ft_double_greater_left(input))
+	{
 		return (1);
+	}
 	ft_positif(input);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   double_greater.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lybey <lybey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:13 by sizitout          #+#    #+#             */
-/*   Updated: 2024/10/17 00:20:47 by lybey            ###   ########.fr       */
+/*   Updated: 2024/11/22 21:13:33 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	d_loop_right(char *str, int *i, int nb_greater, int word)
 		}
 		if (str[*i])
 			(*i)++;
-		while (str[(*i)] && str[(*i)] == ' ')
+		while (str[(*i)] && (str[(*i)] == ' ' || str[(*i)] == '\t'))
 			(*i)++;
 		while (str[(*i)] && (str[(*i)] != '>' && str[(*i)] != '<'
 				&& str[(*i)] != '|'))
@@ -35,7 +35,7 @@ int	d_loop_right(char *str, int *i, int nb_greater, int word)
 			word++;
 			(*i)++;
 		}
-		if (nb_greater == 1 && word == 0)
+		if (nb_greater == 2 && word == 0)
 			return (printf(ERROR_NL), 1);
 	}
 	return (0);
@@ -50,13 +50,12 @@ int	ft_double_greater_right(char *str)
 	i = 0;
 	word = 0;
 	nb_greater = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (d_loop_right(str, &i, nb_greater, word))
 		return (1);
 	if (i > 2 && (str[i - 1] == '>' && str[i - 2] != '>'))
 	{
-		printf("E\n");
 		return (printf(ERROR_NL), 1);
 	}
 	return (0);
@@ -77,7 +76,7 @@ int	d_loop_left(char *str, int *i, int nb_greater, int word)
 		}
 		if (str[*i])
 			(*i)++;
-		while (str[(*i)] && str[(*i)] == ' ')
+		while (str[(*i)] && (str[(*i)] == ' ' || str[(*i)] == '\t'))
 			(*i)++;
 		while (str[(*i)] && (str[(*i)] != '>' && str[(*i)] != '<'
 				&& str[(*i)] != '|'))
@@ -85,7 +84,7 @@ int	d_loop_left(char *str, int *i, int nb_greater, int word)
 			word++;
 			(*i)++;
 		}
-		if (nb_greater == 1 && word == 0)
+		if (nb_greater == 2 && word == 0)
 			return (printf(ERROR_NL), 1);
 	}
 	return (0);
@@ -100,13 +99,12 @@ int	ft_double_greater_left(char *str)
 	i = 0;
 	word = 0;
 	nb_greater = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (d_loop_left(str, &i, nb_greater, word))
 		return (1);
 	if (i > 2 && (str[i - 1] == '<' && str[i - 2] != '<'))
 	{
-		printf("F\n");
 		return (printf(ERROR_NL), 1);
 	}
 	return (0);

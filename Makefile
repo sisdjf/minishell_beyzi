@@ -15,10 +15,11 @@ DIR_SRCS		=	srcs
 DIR_OBJS		=	objs
 
 SRCS_NAMES		=	minishell.c parsing/utils.c parsing/operator.c parsing/single_greater.c \
-                    parsing/double_greater.c parsing/token.c parsing/utils_token.c parsing/utils.lst.c parsing/cmd.c \
+                    parsing/double_greater.c parsing/token.c parsing/utils_token.c parsing/utils.lst.c \
                     parsing/expand.c parsing/utils_expand.c parsing/utils_env.c parsing/quotes.c parsing/free.c \
                     builtins/builtins.c builtins/cd.c builtins/echo.c builtins/env.c builtins/exit.c builtins/export.c \
-                    builtins/pwd.c builtins/unset.c builtins/utils_exit.c parsing/parse.c parsing/in_out_files.c parsing/append_heredoc.c exec/exec.c exec/free.c
+                    builtins/pwd.c builtins/unset.c builtins/utils_exit.c parsing/parse.c parsing/in_out_files.c parsing/append_heredoc.c \
+					exec/exec.c exec/exec_free.c exec/files_redir.c exec/heredoc_utils.c parsing/parse2.c
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 
 DEPS			=	${SRCS_NAMES:.c=.d}
@@ -44,11 +45,23 @@ $(DIR_OBJS):
 	mkdir -p objs/parsing
 	mkdir -p objs/builtins
 	mkdir -p objs/exec
-	mkdir -p objs/builtins
 
 
-leaks : all
-	valgrind --leak-check=full --track-fds=yes --suppressions=ignore.txt ./minishell
+leaks : fclean all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt --quiet ./minishell
+
+# leaks : all 
+# 	 valgrind --leak-check=full \
+#          --show-leak-kinds=all \
+#          --track-fds=yes \
+#          --track-origins=yes \
+#          --suppressions=ignore.txt \
+#          --quiet \
+#          --verbose \
+#          --malloc-fill=0xAA \
+#          --free-fill=0xBB \
+#          ./minishell
+
 
 clean :
 	${RM} ${OBJS} 

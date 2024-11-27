@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 00:29:49 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/01 16:35:37 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/13 18:06:14 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	chr_equal(char *str)
 			return (i);
 		i++;
 	}
-	return (1);
+	return (-1);
 }
 
 t_envp	*ft_lstnew_envp(char *env_str)
@@ -36,7 +36,7 @@ t_envp	*ft_lstnew_envp(char *env_str)
 	if (!new)
 		return (NULL);
 	equal = chr_equal(env_str);
-	if (equal == 1)
+	if (equal == -1)
 	{
 		free(new);
 		return (NULL);
@@ -61,7 +61,9 @@ void	ft_lstadd_back_envp(t_envp **token, t_envp *new)
 		last->next = new;
 	}
 	else
+	{
 		*token = new;
+	}
 }
 
 void	stock_env_lst(char **env, t_stock *stock)
