@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:11 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/26 20:31:17 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 02:58:55 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,31 @@ int	check_builtins(char **cmd)
 	else if (!ft_strcmp(cmd[0], "env"))
 		return (1);
 	else if (!ft_strcmp(cmd[0], "exit"))
+	{
 		return (1);
+	}
 	return (0);
+}
+
+int	builtins_fork(t_stock *stock, char **cmd, t_envp **envp)
+{
+	if (!cmd || !cmd[0])
+		return (stock->exit_status = 1);
+	if (!ft_strcmp(cmd[0], "echo"))
+		return (stock->exit_status = echo(stock, cmd), 1);
+	else if (!ft_strcmp(cmd[0], "cd"))
+		return (stock->exit_status = ft_cd(cmd, envp), 1);
+	else if (!ft_strcmp(cmd[0], "pwd"))
+		return (stock->exit_status = pwd(cmd), 1);
+	else if (!ft_strcmp(cmd[0], "export"))
+		return (stock->exit_status = export(cmd, envp), 1);
+	else if (!ft_strcmp(cmd[0], "unset"))
+		return (stock->exit_status = ft_unset(cmd, *envp), 1);
+	else if (!ft_strcmp(cmd[0], "env"))
+		return (env(*envp), 1);
+	else if (!ft_strcmp(cmd[0], "exit"))
+		return (stock->exit_status = ft_exit_fork(stock, cmd), 1);
+	return (stock->exit_status = 0);
 }
 
 int	builtins(t_stock *stock, char **cmd, t_envp **envp)
@@ -71,7 +94,9 @@ int	get_nb_words(t_token *token)
 	}
 	return (word);
 }
-// pourquoi on segfault quand on verifie si stock->token (token) est vide? (c'est pas vide)
+// pourquoi on segfault quand on verifie
+// si stock->token (token) est vide? (c'est pas vide)
+
 char	**tok_to_tab(t_token *token)
 {
 	int		i;
@@ -80,27 +105,20 @@ char	**tok_to_tab(t_token *token)
 	char	**res;
 
 	if (!token)
-	{
-		printf("Error: NULL token\n");
-		return (NULL);
-	}
+		return (printf("Error: NULL token\n"), NULL);
 	token_tmp = token;
 	i = get_nb_words(token_tmp);
 	res = malloc(sizeof(char *) * (i + 1));
 	if (!res)
-	{
-		printf("Error: tab malloc failed\n");
-		return (NULL);
-	}
+		return (printf("Error: tab malloc failed\n"), NULL);
 	j = 0;
 	while (token_tmp)
 	{
 		if (token_tmp->name && token_tmp->type == WORD)
 		{
-			res[j] = ft_strdup(token_tmp->name);
+			res[j++] = ft_strdup(token_tmp->name);
 			if (!res[j])
 				return (NULL);
-			j++;
 		}
 		token_tmp = token_tmp->next;
 	}

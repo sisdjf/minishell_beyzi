@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/23 19:10:08 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 01:21:53 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ char	*bool_expand(t_stock *stock, char *str)
 		}
 		if (i > ft_strlen_check(str))
 			break ;
-
 	}
 	free(str);
 	test = delete_quote(str_env);

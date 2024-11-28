@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:27:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/27 19:03:30 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 02:41:49 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ t_redir	*new_func_with_bilel(t_token *tok, int i)
 			compteur++;
 		tmp = tmp->next;
 	}
-	// tmp = tok;
 	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == D_REDIR_R || tmp->type == HERDOC
@@ -98,6 +97,21 @@ t_redir	*new_func_with_bilel(t_token *tok, int i)
 		tmp = tmp->next;
 	}
 	return (head);
+}
+t_token	*index_token(t_token *token, int pipe)
+{
+	int compteur;
+	t_token *tmp;
+
+	tmp = token;
+	compteur = 0;
+	while (compteur < pipe)
+	{
+		if (tmp->type == PIPE)
+			compteur++;
+		tmp = tmp->next;
+	}
+	return(tmp);
 }
 
 int nbr_malloc_word_cmd(t_token *token, int i)
@@ -136,17 +150,11 @@ int	stock_args_cmd(t_stock *stock, int pipe, t_cmd *new)
 	int		compteur;
 	int		i;
 
-	tmp = stock->token;
 	compteur = 0;
 	i = 0;
 	nb_malloc = nbr_malloc_word_cmd(stock->token, pipe);
 	new->args = ft_calloc(sizeof(char *), nb_malloc + 1);
-	while (compteur < pipe)
-	{
-		if (tmp->type == PIPE)
-			compteur++;
-		tmp = tmp->next;
-	}
+	tmp = index_token(stock->token, pipe);
 	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == WORD)

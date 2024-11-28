@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/27 01:12:39 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 02:59:59 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ int					print_echo(t_stock *stock, char **cmd, int start);
 int					arg_len(char **array);
 int					pwd(char **cmd);
 int					builtins(t_stock *stock, char **cmd, t_envp **envp);
+int					builtins_fork(t_stock *stock, char **cmd, t_envp **envp);
 int					ft_cd(char **cmd, t_envp **envp);
 char				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
@@ -203,6 +204,7 @@ void				unset_loop(char **cmd, t_envp *envp);
 int					add_to_env(char *key, char *value, t_envp **envp);
 int					export(char **cmd, t_envp **envp);
 int					ft_exit(t_stock *stock, char **cmd);
+int					ft_exit_fork(t_stock *stock, char **cmd);
 int					check_atoi_exit(t_stock *stock, char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);

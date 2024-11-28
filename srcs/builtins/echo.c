@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:03:28 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/18 01:41:41 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:10:42 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,11 @@ int	check_n_option(char **cmd)
 	}
 	return (i);
 }
+
 int	echo(t_stock *stock, char **cmd)
 {
-	int i;
-	int nb_arg;
+	int	i;
+	int	nb_arg;
 
 	i = 0;
 	nb_arg = arg_len(cmd);

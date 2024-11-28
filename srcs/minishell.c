@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/27 18:16:11 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 21:41:22 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ static int	ft_prompt(t_stock *stock, char *input)
 		free_cmd(&stock->cmd);
 		// free_exec(stock);
 	}
+		ft_free_envp_list(&stock->envp);
 	return (0);
 }
 t_stock	*starton(void)

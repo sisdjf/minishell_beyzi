@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/27 02:18:11 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 03:18:36 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,10 @@ char	**ft_find_tab(t_stock *stock, int i)
 	{
 		if (compteur == i)
 		{
-			if (tmp->args[1])
+			if (tmp->args[0])
+			{
 				return (tmp->args);
+			}
 		}
 		compteur++;
 		tmp = tmp->next;
@@ -155,6 +157,8 @@ char	**ft_find_tab(t_stock *stock, int i)
 
 void	pipe_redir(t_stock *stock, int i)
 {
+	// (void)i;
+	// (void)stock;
 	if (i != 0)
 	{
 		dup2(stock->exec.fd_tmp, 0);
@@ -226,7 +230,7 @@ int	ft_child(t_stock *stock, int i)
 	}
 	if (check_builtins(stock->exec.cmd_tab))
 	{
-		builtins(stock, stock->exec.cmd_tab, &stock->envp);
+		builtins_fork(stock, stock->exec.cmd_tab, &stock->envp);
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);

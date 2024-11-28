@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 22:50:41 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/15 20:36:10 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:23:29 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@
 // 	return (0);
 // }
 
+void	free_nodenv(t_envp *env)
+{
+	free(env->env_str);
+	free(env->key);
+	free(env->value);
+	free(env);
+}
+
 t_envp	*search_envp(t_envp *envp, char *key)
 {
 	t_envp	*tmp;
@@ -100,16 +108,13 @@ void	unset_loop(char **cmd, t_envp *envp)
 		if (!to_unset)
 			continue ;
 		if (tmp == to_unset)
-			*envp = *envp->next;
+			envp = envp->next;
 		while (tmp && tmp != to_unset)
 		{
 			if (tmp->next && tmp->next == to_unset)
 			{
 				tmp->next = to_unset->next;
-				free(to_unset->env_str);
-				free(to_unset->key);
-				free(to_unset->value);
-				free(to_unset);
+				free_nodenv(to_unset);
 				break ;
 			}
 			tmp = tmp->next;

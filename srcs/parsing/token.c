@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:34:50 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/23 20:05:52 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 00:22:18 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	stock_word(t_token *token, char *input, int *i)
 		cmpt++;
 	}
 	str = ft_calloc(sizeof(char), (cmpt + 1));
-	if (!str)  
-		return;
+	if (!str)
+		return ;
 	while (index_str < cmpt)
 	{
 		str[index_str] = input[(*i)];

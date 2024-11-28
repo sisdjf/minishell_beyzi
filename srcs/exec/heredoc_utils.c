@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 23:09:18 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/27 18:17:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 03:19:26 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,24 @@ void	close_pipes_and_exit(t_stock *stock, int *i)
 
 void	exec_heredoc(t_stock *stock, int *i)
 {
-    signal(SIGINT, &ft_gestion_heredoc);
-    while (*i < stock->nb_hd)
-    {
-        close(stock->heredoc[*i].fd_heredoc[0]);
-        if (prompt_heredoc(stock, stock->heredoc[*i].lim,
-                stock->heredoc[*i].fd_heredoc[1]) == 1)
-        {
-            free_heredoc(stock->heredoc);
-            exit(1);
-        }
-        (*i)++;
-    }
-    free_heredoc(stock->heredoc);
-    free_exec(stock);
-    free_tokens(&stock->token);
-    ft_free_envp_list(&stock->envp);
-    free_cmd(&stock->cmd);
-    exit(0);
+	signal(SIGINT, &ft_gestion_heredoc);
+	while (*i < stock->nb_hd)
+	{
+		close(stock->heredoc[*i].fd_heredoc[0]);
+		if (prompt_heredoc(stock, stock->heredoc[*i].lim,
+				stock->heredoc[*i].fd_heredoc[1]) == 1)
+		{
+			free_heredoc(stock->heredoc);
+			exit(1);
+		}
+		(*i)++;
+	}
+	free_heredoc(stock->heredoc);
+	free_exec(stock);
+	free_tokens(&stock->token);
+	ft_free_envp_list(&stock->envp);
+	free_cmd(&stock->cmd);
+	exit(0);
 }
 
 int	prompt_heredoc(t_stock *stock, char *lim, int pipe)
@@ -163,7 +163,6 @@ void	close_heredoc_child(t_stock *stock)
 	}
 	if (stock->nb_hd)
 		free_heredoc(stock->heredoc);
-		// free(stock->heredoc);
 }
 
 int	ft_heredoc(t_stock *stock)

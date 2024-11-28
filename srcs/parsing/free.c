@@ -6,12 +6,11 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/27 00:40:22 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 00:21:57 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 void	ft_free_envp_list(t_envp **envp)
 {
@@ -43,14 +42,14 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void free_redir(t_redir **redir)
+void	free_redir(t_redir **redir)
 {
-	t_redir *tmp;
+	t_redir	*tmp;
 
-	while(*redir)
+	while (*redir)
 	{
 		tmp = (*redir)->next;
-		if((*redir)->filename)
+		if ((*redir)->filename)
 		{
 			free((*redir)->filename);
 		}

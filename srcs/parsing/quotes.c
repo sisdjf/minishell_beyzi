@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 23:05:27 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/23 20:06:09 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 01:22:07 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ char	*delete_quote(char *str)
 
 int	ft_quotes(char *str)
 {
-	int single_quote;
-	int double_quote;
+	int	single_quote;
+	int	double_quote;
 
 	single_quote = 0;
 	double_quote = 0;

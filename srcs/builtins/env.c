@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:55:07 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/15 20:15:27 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:11:23 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	env(t_envp *envp)
 {
-	t_envp *tmp;
+	t_envp	*tmp;
 
 	tmp = envp;
 	while (tmp)

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:49:26 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/25 20:13:40 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 20:30:44 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@
 // 	while (tmp && tmp->type != PIPE)
 // 	{
 // 		if (tmp->type == HERDOC)
-// 		{
+// 		{if (str[*i] == '<' && str[*i + 1] == '>')
+			// 	return (printf(ERROR_NL), 1);
 // 			tmp = tmp->next;
 // 			nb_malloc++;
 // 		}
@@ -122,7 +123,8 @@
 // 	}
 // 	new->heredoc = malloc(sizeof(char *) * (nb_malloc + 1));
 // 	if (!new->heredoc)
-// 		return (0);
+// 		returnif (str[*i] == '<' && str[*i + 1] == '>')
+			// 	return (printf(ERROR_NL), 1); (0);
 // 	while (compteur < pipe)
 // 	{
 // 		if (tmp->type == PIPE)

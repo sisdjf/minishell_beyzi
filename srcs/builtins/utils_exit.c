@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:40:06 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/18 01:32:42 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:25:01 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,18 @@ int	ft_atoi_exit(char *str)
 	else
 		return (0);
 }
+
 int	check_atoi_exit(t_stock *stock, char **cmd)
 {
 	int	i;
 
 	i = 0;
-	// printf("%s", cmd[1]);
 	while (cmd[1][i])
 	{
 		if ((cmd[1][i] == '-' || cmd[1][i] == '+') && i == 0)
 			i++;
 		if (!ft_isdigit(cmd[1][i]))
 		{
-			// printf("{%c}\n i = {%d}\n", cmd[1][i], i);
-			// printf("exit : %s :  numeric argument required\n", cmd[1]);
 			ft_printf(" numeric argument required\n");
 			return (stock->exit_status = 2);
 		}
@@ -61,7 +59,7 @@ int	check_atoi_exit(t_stock *stock, char **cmd)
 	if (ft_atoi_exit(cmd[1]) == 0)
 	{
 		ft_printf("exit : %s : numeric argument required------------\n",
-				cmd[1]);
+			cmd[1]);
 		return (stock->exit_status = 1);
 	}
 	return (0);
