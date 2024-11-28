@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/27 22:10:11 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:10:11 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ int	ft_cd(char **cmd, t_envp **envp)
 {
 	int		ret;
 	char	*path;
-	char	**for_export;
+	char	*ro;
+	char 	*for_export[3];
 
+	for_export[0] = "";
+	for_export[2] = NULL;
 	if (!check_args_cd(cmd))
 		return (0);
 	if (!cmd[1])
@@ -59,15 +62,16 @@ int	ft_cd(char **cmd, t_envp **envp)
 	}
 	else
 		path = cmd[1];
+	ro = getcwd(NULL, 0);
 	ret = chdir(path);
 	if (ret == -1)
 		return (printf("cd : [%s]: No such file or directory\n", cmd[1]), 1);
-	for_export = malloc(sizeof(char *) * (3));
-	for_export[0] = ft_strjoin("toto", "tata");
-	for_export[1] = ft_strjoin("PWD=", getcwd(NULL, 0));
-	for_export[2] = NULL;
-	printf("printf pwd %s\n", for_export[0]);
+	for_export[1] = ft_strjoin("OLDPWD=", ro);
 	export(for_export, envp);
-	free_tab(for_export);
+	free(ro);
+	ro = getcwd(NULL, 0);
+	for_export[1] = ft_strjoin("PWD=", ro);
+	export(for_export, envp);
+	free(for_export[1]);
 	return (0);
 }

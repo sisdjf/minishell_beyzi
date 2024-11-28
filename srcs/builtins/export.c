@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/28 03:40:25 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:28:53 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	add_to_env(char *key, char *value, t_envp **envp)
 
 	i = 0;
 	if (check_export(key))
-		return (1);
+		return (free(value), 1);
 	to_replace = search_envp(*envp, key);
 	if (to_replace && value)
 	{
