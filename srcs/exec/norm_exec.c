@@ -1,33 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_free.c                                        :+:      :+:    :+:   */
+/*   norm_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 15:48:30 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 17:10:30 by sizitout         ###   ########.fr       */
+/*   Created: 2024/11/29 23:39:58 by sizitout          #+#    #+#             */
+/*   Updated: 2024/11/29 23:43:32 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	free_split(char **split)
+void	pipe_redir(t_stock *stock, int i)
 {
-	int	i;
-
-	i = 0;
-	if (!split)
-		return ;
-	while (split[i])
-		free(split[i++]);
-	free(split);
+	if (i != 0)
+	{
+		dup2(stock->exec.fd_tmp, 0);
+		close(stock->exec.fd_tmp);
+	}
+	if (i != stock->exec.nb_cmd - 1)
+		dup2(stock->exec.fd_pipe[1], 1);
+	close(stock->exec.fd_pipe[0]);
+	close(stock->exec.fd_pipe[1]);
 }
 
-void	free_all(t_stock *stock)
+int	is_directory(const char *path)
 {
-	free_exec(stock);
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+	{
+		perror("stat");
+		return (0);
+	}
+	return (S_ISDIR(path_stat.st_mode));
+}
+
+void	free_init_child(t_stock *stock)
+{
 	free_tokens(&stock->token);
 	ft_free_envp_list(&stock->envp);
 	free_cmd(&stock->cmd);
+	free_heredoc(stock->heredoc, stock);
 }

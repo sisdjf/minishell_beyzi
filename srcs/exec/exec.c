@@ -6,90 +6,139 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 03:03:55 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 00:03:42 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	pipe_redir(t_stock *stock, int i)
+void	init_child(t_stock *stock, int i)
 {
-	if (i != 0)
+	if (init_struct_exec(stock, i))
 	{
-		dup2(stock->exec.fd_tmp, 0);
-		close(stock->exec.fd_tmp);
+		do_redir(stock->cmd, i, stock->heredoc);
+		free_init_child(stock);
+		close(stock->exec.fd_pipe[0]);
+		close(stock->exec.fd_pipe[1]);
+		exit(0);
 	}
-	if (i != stock->exec.nb_cmd - 1)
-		dup2(stock->exec.fd_pipe[1], 1);
-	close(stock->exec.fd_pipe[0]);
-	close(stock->exec.fd_pipe[1]);
+	pipe_redir(stock, i);
+	if (do_redir(stock->cmd, i, stock->heredoc) == 1)
+	{
+		free_child(stock);
+		free_heredoc(stock->heredoc, stock);
+		exit(EXIT_FAILURE);
+	}
+	if (check_builtins(stock->exec.cmd_tab))
+	{
+		builtins(stock, stock->exec.cmd_tab, &stock->envp);
+		free_child(stock);
+		close(stock->exec.fd_pipe[0]);
+		close(stock->exec.fd_pipe[1]);
+		stock->exit_status = 127;
+		exit(127);
+	}
 }
 
-int	is_directory(const char *path)
+void	exec_child(t_stock *stock, const int i)
 {
-	struct stat	path_stat;
-
-	if (stat(path, &path_stat) != 0)
+	if (stock->exec.path)
 	{
-		perror("stat");
-		return (0);
+		close(stock->exec.fd_pipe[0]);
+		if (i > 0)
+			close(stock->exec.fd_tmp);
+		execve(stock->exec.path, stock->exec.cmd_tab, stock->exec.env);
+		if (is_directory(stock->exec.cmd))
+		{
+			printf("bash: %s: Is a directory\n", stock->exec.cmd);
+			stock->exit_status = 126;
+		}
+		else
+		{
+			ft_printf("bash: %s: : No such file or directory\n",
+				stock->exec.cmd);
+			stock->exit_status = 127;
+		}
+		free_child(stock);
+		exit(stock->exit_status);
 	}
-	return (S_ISDIR(path_stat.st_mode));
+}
+
+void	ft_child(t_stock *stock, int i)
+{
+	default_signals();
+	init_child(stock, i);
+	if (stock->exec.path)
+		exec_child(stock, i);
+	else
+	{
+		if (stock->exec.cmd)
+		{
+			if (ft_strcmp(stock->exec.cmd, "$?") == 0)
+				ft_printf("bash: %d: command not found\n", stock->exit_status);
+			else
+				ft_printf("bash: %s: command not found\n", stock->exec.cmd);
+			stock->exit_status = 127;
+			// free_child(stock);
+			free_cmd(&stock->cmd);
+			close(stock->exec.fd_pipe[0]);
+			close(stock->exec.fd_pipe[1]);
+			exit(127);
+		}
+		stock->exit_status = 0;
+		free_child(stock);
+		free_heredoc(stock->heredoc, stock);
+		close(stock->exec.fd_pipe[0]);
+		close(stock->exec.fd_pipe[1]);
+		exit(0);
+	}
+}
+
+int	handle_child(t_stock *stock, int *i)
+{
+	if (pipe(stock->exec.fd_pipe) == -1)
+	{
+		printf("Error avec la fonction pipe\n");
+		return (EXIT_FAILURE);
+	}
+	stock->exec.pid[*i] = fork();
+	if (stock->exec.pid[*i] < 0)
+	{
+		printf("ERROR FORK\n");
+		return (EXIT_FAILURE);
+	}
+	if (stock->exec.pid[*i] == 0)
+	{
+		default_signals();
+		ft_child(stock, *i);
+		return (127);
+	}
+	close(stock->exec.fd_pipe[1]);
+	if (*i > 0)
+		close(stock->exec.fd_tmp);
+	stock->exec.fd_tmp = stock->exec.fd_pipe[0];
+	return (EXIT_SUCCESS);
 }
 
 int	ft_exec(t_stock *stock)
 {
+	int	ret_value;
 	int	i;
 
 	i = 0;
 	while (i < stock->exec.nb_cmd)
 	{
-		if (pipe(stock->exec.fd_pipe) == -1)
-			return (printf("Error avec la fonction pipe\n"), EXIT_FAILURE);
-		stock->exec.pid[i] = fork();
-		if (stock->exec.pid[i] < 0)
-			return (printf("ERROR FORK\n"), EXIT_FAILURE);
-		if (stock->exec.pid[i] == 0)
-		{
-			default_signals();
-			stock->exit_status = ft_child(stock, i);
-			return (127);
-		}
-		close(stock->exec.fd_pipe[1]);
-		if (i > 0)
-			close(stock->exec.fd_tmp);
-		stock->exec.fd_tmp = stock->exec.fd_pipe[0];
+		ret_value = handle_child(stock, &i);
+		if (ret_value)
+			return (ret_value);
 		i++;
 	}
-	finish_exec(stock, i);
-	return (stock->exit_status);
-}
-
-void	finish_exec(t_stock *stock, int i)
-{
 	if (stock->exec.nb_cmd)
 	{
 		close(stock->exec.fd_pipe[1]);
 		close(stock->exec.fd_pipe[0]);
 	}
-	i = 0;
-	analys_finish_process(stock, &i);
+	analys_finish_process(stock);
 	close_heredoc_child(stock);
-}
-
-void	analys_finish_process(t_stock *stock, int *i)
-{
-	while ((*i) < stock->exec.nb_cmd)
-	{
-		waitpid(stock->exec.pid[*i++], &stock->exit_status, 0);
-		if (WIFEXITED(stock->exit_status))
-			stock->exit_status = WEXITSTATUS(stock->exit_status);
-		else if (WIFSIGNALED(stock->exit_status))
-		{
-			stock->exit_status = 128 + WTERMSIG(stock->exit_status);
-			stock->signal = stock->exit_status;
-		}
-		else if (WIFSTOPPED(stock->exit_status))
-			stock->exit_status = 128 + WSTOPSIG(stock->exit_status);
-	}
+	return (stock->exit_status);
 }

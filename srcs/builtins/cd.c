@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 22:58:40 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/29 03:05:15 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 19:31:27 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	update_env_vars(char **for_export, t_envp **envp)
 	for_export[1] = ft_strjoin("PWD=", ro);
 	export(for_export, envp);
 	free(for_export[1]);
+	free(ro);
 	return (0);
 }
 

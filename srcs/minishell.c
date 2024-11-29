@@ -6,55 +6,73 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 01:01:13 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 23:57:24 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int			g_globale;
-
-void	ft_gestion(int signum)
+int	one_builtins(t_stock *stock, char **input)
 {
-	t_stock	*stock;
-
-	stock = starton();
-	if (signum == SIGINT)
+	stock->fd_std[0] = dup(STDIN_FILENO);
+	stock->fd_std[1] = dup(STDOUT_FILENO);
+	init_struct_exec(stock, 0);
+	if (do_redir(stock->cmd, 0, stock->heredoc))
 	{
-		g_globale = 130;
-		rl_done = 1;
-	}
-	else if (signum == SIGQUIT)
-	{
-		g_globale = 131;
-		rl_done = 1;
 		free_exec(stock);
 		free_tokens(&stock->token);
-		ft_free_envp_list(&stock->envp);
+		free(input);
 		free_cmd(&stock->cmd);
-		free_heredoc(stock->heredoc, stock);
+		close(stock->fd_std[0]);
+		close(stock->fd_std[1]);
+		return (1);
 	}
+	builtins(stock, stock->cmd->args, &stock->envp);
+	dup2(stock->fd_std[0], STDIN_FILENO);
+	dup2(stock->fd_std[1], STDOUT_FILENO);
+	close(stock->fd_std[0]);
+	close(stock->fd_std[1]);
+	free_exec(stock);
+	return (0);
 }
 
+int	handle_heredoc(t_stock *stock)
+{
+	if (stock->nb_hd > 0)
+	{
+		if (ft_heredoc(stock) == 1)
+		{
+			free_tokens(&stock->token);
+			return (1);
+		}
+		free_tokens(&stock->token);
+	}
+	return (0);
+}
 
-int	event_hook(void)
+int	finish_prompt(t_stock *stock, char *input)
 {
-	return (EXIT_SUCCESS);
+	input = ft_positif(input);
+	ft_expand(stock, stock->token);
+	stock_cmd_lst(stock);
+	if (handle_heredoc(stock))
+		return (1);
+	disable_signals();
+	if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
+	{
+		if (one_builtins(stock, &input))
+			return (1);
+	}
+	else
+		stock->exit_status = ft_exec(stock);
+	return (0);
 }
-void	init_stock(t_stock *stock)
-{
-	g_globale = 0;
-	stock->signal = 0;
-	stock->nb_hd = 0;
-	stock->token = NULL;
-	stock->cmd = NULL;
-}
+
 static int	ft_prompt(t_stock *stock, char *input)
 {
 	while (1)
 	{
-		signal(SIGINT, &ft_gestion);
-		signal(SIGQUIT, SIG_IGN);
+		handle_signal();
 		init_stock(stock);
 		input = readline("minishell$ ");
 		if (!input)
@@ -62,11 +80,8 @@ static int	ft_prompt(t_stock *stock, char *input)
 		if (!*input)
 			continue ;
 		add_history(input);
-		if (syntax_error(stock, input))
-		{
-			free(input);
+		if (handle_syntax_error_and_continue(stock, input))
 			continue ;
-		}
 		ft_negatif(input);
 		if (ft_token(stock, input) != 0)
 		{
@@ -74,74 +89,23 @@ static int	ft_prompt(t_stock *stock, char *input)
 			free(stock);
 			return (1);
 		}
-		input = ft_positif(input);
-		ft_expand(stock, stock->token);
-		// print_tab(stock->token);
-		stock_cmd_lst(stock);
-		if (stock->nb_hd > 0)
-		{
-			if (ft_heredoc(stock) == 1)
-			{
-				free_tokens(&stock->token);
-				continue ;
-			}
-			free_tokens(&stock->token);
-		}
-		disable_signals();
-		if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
-		{
-			stock->fd_std[0] = dup(STDIN_FILENO);
-			stock->fd_std[1] = dup(STDOUT_FILENO);
-			init_struct_exec(stock, 0);
-			if (do_redir(stock->cmd, 0, stock->heredoc))
-			{
-				free_exec(stock);
-				free_tokens(&stock->token);
-				free(input);
-				free_cmd(&stock->cmd);
-				close(stock->fd_std[0]);
-				close(stock->fd_std[1]);
-				continue ;
-			}
-			builtins(stock, stock->cmd->args, &stock->envp);
-			dup2(stock->fd_std[0], STDIN_FILENO);
-			dup2(stock->fd_std[1], STDOUT_FILENO);
-			close(stock->fd_std[0]);
-			close(stock->fd_std[1]);
-			free_exec(stock);
-		}
-		else
-			stock->exit_status = ft_exec(stock);
-		if (stock->signal == 128 + SIGINT)
-			ft_putstr_fd("\n", STDERR_FILENO);
-		else if (stock->signal == 128 + SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-		free_tokens(&stock->token);
-		free(input);
-		free_cmd(&stock->cmd);
-		// free_exec(stock);
+		finish_prompt(stock, input);
+		cleanup_execution(stock, &input);
 	}
 	return (0);
-}
-t_stock	*starton(void)
-{
-	static t_stock	stock = {0};
-	return (&stock);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	t_stock *stock;
+	t_stock	*stock;
 
 	stock = starton();
 	stock->exit_status = 0;
 	(void)argc;
-	// (void)argv;
 	rl_event_hook = event_hook;
 	stock_env_lst(env, stock);
 	ft_prompt(stock, *argv);
 	ft_free_envp_list(&stock->envp);
 	free_cmd(&stock->cmd);
-	// free_tokens(stock.token);
 	return (0);
 }

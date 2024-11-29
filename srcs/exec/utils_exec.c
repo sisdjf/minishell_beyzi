@@ -6,11 +6,51 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 02:17:43 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 02:59:19 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 23:53:28 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	free_child(t_stock *stock)
+{
+	free_exec(stock);
+	free_tokens(&stock->token);
+	ft_free_envp_list(&stock->envp);
+	free_cmd(&stock->cmd);
+}
+
+void	analys_finish_process(t_stock *stock)
+{
+	int	i;
+
+	i = 0;
+	while (i < stock->exec.nb_cmd)
+	{
+		waitpid(stock->exec.pid[i++], &stock->exit_status, 0);
+		if (WIFEXITED(stock->exit_status))
+			stock->exit_status = WEXITSTATUS(stock->exit_status);
+		else if (WIFSIGNALED(stock->exit_status))
+		{
+			stock->exit_status = 128 + WTERMSIG(stock->exit_status);
+			stock->signal = stock->exit_status;
+		}
+		else if (WIFSTOPPED(stock->exit_status))
+			stock->exit_status = 128 + WSTOPSIG(stock->exit_status);
+	}
+}
+
+char	*path_from_cmd(t_exec *exec)
+{
+	if (ft_strchr(exec->cmd, '/'))
+	{
+		if (access(exec->cmd, F_OK | X_OK) != 0)
+			return (ft_printf("bash: %s: Command not found\n", exec->cmd),
+				ft_strdup(exec->cmd));
+		return (ft_strdup(exec->cmd));
+	}
+	return (NULL);
+}
 
 char	*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp)
 {
@@ -18,20 +58,11 @@ char	*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp)
 	char	*cmd_path;
 	char	*tmp;
 
-	if (ft_strchr(exec->cmd, '/'))
-	{
-		if (access(exec->cmd, F_OK | X_OK) != 0)
-			return (fprintf(stderr, "ERROR KHALID YOUHOU\n"),
-					ft_strdup(exec->cmd));
-		return (ft_strdup(exec->cmd));
-	}
+	cmd_path = path_from_cmd(exec);
 	exec->path = chr_path(stock, envp);
 	i = -1;
 	if (!exec->path)
-	{
-		stock->exit_status = 127;
-		return (NULL);
-	}
+		return (stock->exit_status = 127, NULL);
 	exec->split_path = ft_split(exec->path, ':');
 	i = 0;
 	while (exec->split_path[i])
@@ -39,48 +70,25 @@ char	*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp)
 		tmp = ft_strjoin(exec->split_path[i], "/");
 		cmd_path = ft_strjoin(tmp, exec->cmd);
 		if (!cmd_path)
-		{
-			free(exec->split_path);
-			free(cmd_path);
-			free(tmp);
-			return (NULL);
-		}
+			return (free(exec->split_path), free(cmd_path), free(tmp), (NULL));
 		free(tmp);
 		if (access(cmd_path, X_OK) == 0)
-		{
-			free_split(exec->split_path);
-			return (cmd_path);
-		}
+			return (free_split(exec->split_path), cmd_path);
 		free(cmd_path);
 		i++;
 	}
-	free_split(exec->split_path);
-	return (NULL);
+	return (free_split(exec->split_path), NULL);
 }
-
-// void	print_vraitab(char **tab)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (tab[i])
-// 	{
-// 		printf("%s\n", tab[i]);
-// 		i++;
-// 	}
-// }
 
 char	**tab_env(t_exec *exec, t_envp *envp)
 {
-	int		i;
-	int		size;
 	char	**env;
 	t_envp	*tmp;
 
+	int (i) = 0;
+	int (size) = 0;
 	(void)exec;
 	tmp = envp;
-	i = 0;
-	size = 0;
 	while (tmp)
 	{
 		tmp = tmp->next;

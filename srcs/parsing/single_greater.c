@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:07 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 02:53:30 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 19:19:04 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ int	s_loop_right(t_stock *stock, char *str, int *i, int word)
 		while (str[(*i)])
 		{
 			if ((str[*i] == '>' && str[*i + 1] == '<'))
-				return (printf_exit(stock, ERROR_NL, 1));
-			if ((*i) > 0 && str[(*i)] == '>' && str[(*i) + 1] != '>'
-				&& str[(*i) - 1] != '>')
+				return (printf_exit(stock, ERROR_SGR, 1));
+			if ((str[(*i)] == '>' && str[(*i) + 1] != '>') || (str[(*i)] == '>'
+					&& str[(*i) + 1] != '>'
+					&& ((*i) > 0 && (str[(*i) - 1] != '>'))))
 			{
 				stock->nb_g++;
 				(*i)++;
@@ -45,7 +46,7 @@ int	s_loop_right(t_stock *stock, char *str, int *i, int word)
 			(*i)++;
 		norm_great(str, &word, i);
 		if (stock->nb_g == 1 && word == 0)
-			return (printf_exit(stock, ERROR_NL, 1));
+			return (printf_exit(stock, ERROR_SGR, 1));
 	}
 	return (0);
 }
@@ -64,7 +65,7 @@ int	ft_greater_right(t_stock *stock, char *str)
 	if (s_loop_right(stock, str, &i, word))
 		return (1);
 	if (i > 0 && str[i - 1] == '>')
-		return (printf_exit(stock, ERROR_NL, 1));
+		return (printf_exit(stock, ERROR_SGR, 1));
 	return (0);
 }
 
@@ -77,9 +78,10 @@ int	s_loop_left(t_stock *stock, char *str, int *i, int word)
 		while (str[(*i)])
 		{
 			if (str[*i] == '<' && str[*i + 1] == '>')
-				return (printf_exit(stock, ERROR_NL, 1));
-			if ((*i) > 0 && str[(*i)] == '<' && str[(*i) + 1] != '<'
-				&& str[(*i) - 1] != '<')
+				return (printf_exit(stock, ERROR_SGL, 1));
+			if ((str[(*i)] == '<' && str[(*i) + 1] != '<') || (str[(*i)] == '<'
+					&& str[(*i) + 1] != '<'
+					&& ((*i) > 0 && (str[(*i) - 1] != '<'))))
 			{
 				stock->nb_g++;
 				(*i)++;
@@ -91,7 +93,7 @@ int	s_loop_left(t_stock *stock, char *str, int *i, int word)
 			(*i)++;
 		norm_great(str, &word, i);
 		if (stock->nb_g == 1 && word == 0)
-			return (printf_exit(stock, ERROR_NL, 1));
+			return (printf_exit(stock, ERROR_SGL, 1));
 	}
 	return (0);
 }
@@ -110,6 +112,6 @@ int	ft_greater_left(t_stock *stock, char *str)
 	if (s_loop_left(stock, str, &i, word))
 		return (1);
 	if (i > 0 && str[i - 1] == '<')
-		return (printf_exit(stock, ERROR_NL, 1));
+		return (printf_exit(stock, ERROR_SGL, 1));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:40:08 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 01:33:20 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 23:26:57 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ char	*bool_expand(t_stock *stock, char *str)
 	{
 		if (str[i] == '\'')
 			str_env = ft_joinstr(str_env, ft_quotes_expand(stock, str, &i));
+		else if (str[i] == '"')
+			str_env = ft_joinstr(str_env, double_quote(str, &i, stock));
 		else if (str[i] && str[i] == '$')
 			str_env = ft_joinstr(str_env, after_env_str(stock, str, &i));
 		else

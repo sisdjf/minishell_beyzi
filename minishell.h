@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 03:06:40 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 23:53:59 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define MINISHELL_H
 # define ERROR_NL "bash: syntax error near unexpected token 'newline'\n"
 # define ERROR_PIPE_MSG "bash: syntax error near unexpected token `|'\n"
+# define ERROR_SGR "bash: syntax error near unexpected token '>'\n"
+# define ERROR_SGL "bash: syntax error near unexpected token '<'\n"
+# define ERROR_DGR "bash: syntax error near unexpected token '>>'\n"
+# define ERROR_DGL "bash: syntax error near unexpected token '<<'\n"
 
 # include "libft/libft.h"
 # include <fcntl.h>
@@ -127,7 +131,6 @@ void				print_args(t_cmd *cmd);
 int					ft_quotes(char *str);
 char				*delete_quote(char *str);
 //GUILLEMETS
-// int					ft_double_quotes(char str);
 int					syntax_error(t_stock *stock, char *input);
 //GREATER
 int					ft_greater_right(t_stock *stock, char *str);
@@ -165,6 +168,7 @@ char				*ft_positif(char *input);
 int					ft_strcmp(char *s1, char *s2);
 int					ft_len_mini(char *str);
 void				print_tab(t_token *token);
+void				init_stock(t_stock *stock);
 //EXPAND
 void				ft_expand(t_stock *stock, t_token *token);
 char				*ft_joinstr(char *s1, char *s2);
@@ -176,6 +180,7 @@ char				*ft_quotes_expand(t_stock *stock, char *str, int *i);
 char				*bool_not_expand(char *str);
 int					ft_strlen_check(char *str);
 int					norm_quote(char *str, int i);
+char				*double_quote(char *str, int *i, t_stock *data);
 
 //ENV
 int					chr_equal(char *str);
@@ -188,6 +193,7 @@ void				free_envp(t_envp **env);
 void				ft_free_envp_list(t_envp **envp);
 void				free_tab(char **tab);
 void				free_heredoc(t_heredoc *heredoc, t_stock *stock);
+void				free_init_child(t_stock *stock);
 //BUILTINS
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
@@ -246,17 +252,21 @@ int					redir_infile(t_stock *stock, int nb_cmd);
 int					redir_outfile(t_stock *stock, int nb_cmd);
 int					redir_appendfile(t_stock *stock, int nb_cmd);
 void				close_fds(t_stock *stock);
-void				analys_finish_process(t_stock *stock, int *i);
+void				analys_finish_process(t_stock *stock);
 void				finish_exec(t_stock *stock, int i);
-int					ft_child(t_stock *stock, int i);
+void				ft_child(t_stock *stock, int i);
 void				free_all(t_stock *stock);
 int					is_directory(const char *path);
+void				half_child(t_stock *stock, int *i);
+void				end_child(t_stock *stock);
+void				free_child(t_stock *stock);
 //SIGNAUX
 t_stock				*starton(void);
 void				ft_gestion(int signum);
 void				ft_gestion_heredoc(int signum);
 void				disable_signals(void);
 void				default_signals(void);
+int					event_hook(void);
 //HEREDOC
 int					find_nb_hdoc(t_token *tok);
 int					ft_error(int fd, char *str);
@@ -268,6 +278,12 @@ int					prompt_heredoc(t_stock *stock, char *lim, int pipe);
 void				close_heredoc_child(t_stock *stock);
 int					ft_exit_fork(t_stock *stock, char **cmd);
 int					builtins_fork(t_stock *stock, char **cmd, t_envp **envp);
+//PROMPT
+int					one_builtins(t_stock *stock, char **input);
+void				cleanup_execution(t_stock *stock, char **input);
+void				handle_signal(void);
+int					handle_syntax_error_and_continue(t_stock *stock,
+						char *input);
 
 #endif
 

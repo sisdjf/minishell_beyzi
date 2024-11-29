@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 01:00:38 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 22:50:39 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ void	free_tab(char **tab)
 	if (!tab)
 		return ;
 	while (tab[i])
+	{
 		free(tab[i++]);
+	}
 	free(tab);
 }
 

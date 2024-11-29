@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 01:07:48 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 02:17:02 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 23:00:28 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	prompt_heredoc(t_stock *stock, char *lim, int pipe)
 		if (!line)
 		{
 			ft_printf("warning: here-document at line\n",
-				"%d delimited by end-of-file (wanted '%s')\n", lim);
+				"%d delimited by end-of-file (wanted '%s')\n",
+				lim);
 			break ;
 		}
 		if (!ft_strcmp(line, lim))
@@ -93,6 +94,7 @@ void	init_heredoc(t_stock *stock, t_heredoc *heredoc)
 			heredoc[i].lim = ft_strdup(tmp->next->name);
 			pipe(heredoc[i].fd_heredoc);
 			i++;
+			printf("[%s]\n", heredoc[i].lim);
 		}
 		tmp = tmp->next;
 	}
@@ -111,18 +113,17 @@ int	ft_heredoc(t_stock *stock)
 	stock->heredoc = heredoc;
 	if (!heredoc)
 		return (ft_printf("!!! erreur malloc t_heredoc !!!\n"), 1);
-	stock->heredoc = heredoc;
 	init_heredoc(stock, heredoc);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
-	{
 		exec_heredoc(stock, &i);
-	}
 	else if (pid > 0)
 	{
 		while (i < stock->nb_hd)
 			close(heredoc[i++].fd_heredoc[1]);
 	}
+	signal(SIGINT, &ft_gestion);
 	waitpid(pid, &i, 0);
 	return (WEXITSTATUS(i));
 }

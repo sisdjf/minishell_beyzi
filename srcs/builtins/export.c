@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/29 02:12:23 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 00:02:58 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	export(char **cmd, t_envp **envp)
 		}
 		key = get_key_export(cmd[i]);
 		value = get_value_export(cmd[i]);
-		printf("key = %s value = %s\n", key, value);
 		add_to_env(key, value, envp);
 		free(key);
 		i++;
