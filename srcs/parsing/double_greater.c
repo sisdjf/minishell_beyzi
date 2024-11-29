@@ -6,23 +6,23 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:43:13 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/27 20:19:58 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 01:43:45 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	d_loop_right(char *str, int *i, int nb_greater, int word)
+int	d_loop_right(t_stock *stock, char *str, int *i, int word)
 {
 	while (str[(*i)])
 	{
-		nb_greater = 0;
+		stock->nb_g = 0;
 		word = 0;
 		while (str[(*i)] && str[(*i)] == '>')
 		{
-			nb_greater++;
-			if (nb_greater >= 3)
-				return (printf(ERROR_NL), 1);
+			stock->nb_g++;
+			if (stock->nb_g >= 3)
+				return (printf_exit(stock, ERROR_NL, 1));
 			(*i)++;
 		}
 		if (str[*i])
@@ -35,13 +35,13 @@ int	d_loop_right(char *str, int *i, int nb_greater, int word)
 			word++;
 			(*i)++;
 		}
-		if (nb_greater == 2 && word == 0)
-			return (printf(ERROR_NL), 1);
+		if (stock->nb_g == 2 && word == 0)
+			return (printf_exit(stock, ERROR_NL, 1));
 	}
 	return (0);
 }
 
-int	ft_double_greater_right(char *str)
+int	ft_double_greater_right(t_stock *stock, char *str)
 {
 	int	i;
 	int	nb_greater;
@@ -52,26 +52,24 @@ int	ft_double_greater_right(char *str)
 	nb_greater = 0;
 	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
-	if (d_loop_right(str, &i, nb_greater, word))
+	if (d_loop_right(stock, str, &i, word))
 		return (1);
 	if (i > 2 && (str[i - 1] == '>' && str[i - 2] != '>'))
-	{
-		return (printf(ERROR_NL), 1);
-	}
+		return (printf_exit(stock, ERROR_NL, 1));
 	return (0);
 }
 
-int	d_loop_left(char *str, int *i, int nb_greater, int word)
+int	d_loop_left(t_stock *stock, char *str, int *i, int word)
 {
 	while (str[(*i)])
 	{
-		nb_greater = 0;
+		stock->nb_g = 0;
 		word = 0;
 		while (str[(*i)] && str[(*i)] == '<')
 		{
-			nb_greater++;
-			if (nb_greater >= 3)
-				return (printf(ERROR_NL), 1);
+			stock->nb_g++;
+			if (stock->nb_g >= 3)
+				return (printf_exit(stock, ERROR_NL, 1));
 			(*i)++;
 		}
 		if (str[*i])
@@ -84,15 +82,13 @@ int	d_loop_left(char *str, int *i, int nb_greater, int word)
 			word++;
 			(*i)++;
 		}
-		if (nb_greater == 2 && word == 0)
-		{
-			return (printf(ERROR_NL), 1);
-		}
+		if (stock->nb_g == 2 && word == 0)
+			return (printf_exit(stock, ERROR_NL, 1));
 	}
 	return (0);
 }
 
-int	ft_double_greater_left(char *str)
+int	ft_double_greater_left(t_stock *stock, char *str)
 {
 	int	i;
 	int	nb_greater;
@@ -103,11 +99,9 @@ int	ft_double_greater_left(char *str)
 	nb_greater = 0;
 	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
-	if (d_loop_left(str, &i, nb_greater, word))
+	if (d_loop_left(stock, str, &i, word))
 		return (1);
 	if (i > 2 && (str[i - 1] == '<' && str[i - 2] != '<'))
-	{
-		return (printf(ERROR_NL), 1);
-	}
+		return (printf_exit(stock, ERROR_NL, 1));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/28 00:21:57 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 01:00:38 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,11 @@ void	free_cmd(t_cmd **cmd)
 		free(*cmd);
 		*cmd = tmp;
 	}
+}
+
+void	free_exec(t_stock *stock)
+{
+	if (stock->exec.env)
+		free_tab(stock->exec.env);
+	free(stock->exec.path);
 }

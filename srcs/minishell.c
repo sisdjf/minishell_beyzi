@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/27 21:41:22 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 01:01:13 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,46 +32,37 @@ void	ft_gestion(int signum)
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
-		free_heredoc(stock->heredoc);
-		// g_globale = 131;
-		// exit (131);
+		free_heredoc(stock->heredoc, stock);
 	}
 }
 
-void	free_exec(t_stock *stock)
-{
-	// if (stock->exec.cmd_tab)
-	// 	free_tab(stock->exec.cmd_tab);
-	if (stock->exec.env)
-		free_tab(stock->exec.env);
-	free(stock->exec.path);
-}
 
 int	event_hook(void)
 {
 	return (EXIT_SUCCESS);
 }
-
+void	init_stock(t_stock *stock)
+{
+	g_globale = 0;
+	stock->signal = 0;
+	stock->nb_hd = 0;
+	stock->token = NULL;
+	stock->cmd = NULL;
+}
 static int	ft_prompt(t_stock *stock, char *input)
 {
 	while (1)
 	{
 		signal(SIGINT, &ft_gestion);
 		signal(SIGQUIT, SIG_IGN);
-		g_globale = 0;
-		stock->signal = 0;
-		stock->nb_hd = 0;
-		stock->token = NULL;
-		stock->cmd = NULL;
+		init_stock(stock);
 		input = readline("minishell$ ");
 		if (!input)
-		{
 			return (1);
-		}
 		if (!*input)
 			continue ;
 		add_history(input);
-		if (syntax_error(input))
+		if (syntax_error(stock, input))
 		{
 			free(input);
 			continue ;
@@ -92,7 +83,6 @@ static int	ft_prompt(t_stock *stock, char *input)
 			if (ft_heredoc(stock) == 1)
 			{
 				free_tokens(&stock->token);
-				// free_heredoc(stock->heredoc);
 				continue ;
 			}
 			free_tokens(&stock->token);
@@ -102,9 +92,17 @@ static int	ft_prompt(t_stock *stock, char *input)
 		{
 			stock->fd_std[0] = dup(STDIN_FILENO);
 			stock->fd_std[1] = dup(STDOUT_FILENO);
-			// stock->heredoc->flag_heredoc = 1;
 			init_struct_exec(stock, 0);
-			do_redir(stock->cmd, 0, stock->heredoc); // a changer
+			if (do_redir(stock->cmd, 0, stock->heredoc))
+			{
+				free_exec(stock);
+				free_tokens(&stock->token);
+				free(input);
+				free_cmd(&stock->cmd);
+				close(stock->fd_std[0]);
+				close(stock->fd_std[1]);
+				continue ;
+			}
 			builtins(stock, stock->cmd->args, &stock->envp);
 			dup2(stock->fd_std[0], STDIN_FILENO);
 			dup2(stock->fd_std[1], STDOUT_FILENO);
@@ -112,7 +110,6 @@ static int	ft_prompt(t_stock *stock, char *input)
 			close(stock->fd_std[1]);
 			free_exec(stock);
 		}
-		// REVENIR SUR LE DUP2
 		else
 			stock->exit_status = ft_exec(stock);
 		if (stock->signal == 128 + SIGINT)
@@ -124,7 +121,6 @@ static int	ft_prompt(t_stock *stock, char *input)
 		free_cmd(&stock->cmd);
 		// free_exec(stock);
 	}
-		ft_free_envp_list(&stock->envp);
 	return (0);
 }
 t_stock	*starton(void)

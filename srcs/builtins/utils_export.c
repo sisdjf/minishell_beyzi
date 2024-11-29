@@ -1,33 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_free.c                                        :+:      :+:    :+:   */
+/*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 15:48:30 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 03:04:01 by sizitout         ###   ########.fr       */
+/*   Created: 2024/11/29 02:11:54 by sizitout          #+#    #+#             */
+/*   Updated: 2024/11/29 02:13:17 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	free_split(char **split)
+void	print_export(t_envp *envp)
+{
+	t_envp	*tmp;
+
+	tmp = envp;
+	while (tmp)
+	{
+		if (!(tmp->value))
+		{
+			printf("export %s\n", tmp->key);
+		}
+		else
+		{
+			printf("export %s=\"%s\"\n", tmp->key, tmp->value);
+		}
+		tmp = tmp->next;
+	}
+}
+
+char	*get_key_export(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (!split)
-		return ;
-	while (split[i])
-		free(split[i++]);
-	free(split);
-}
-
-void	free_all(t_stock *stock)
-{
-	free_exec(stock);
-	free_tokens(&stock->token);
-	ft_free_envp_list(&stock->envp);
-	free_cmd(&stock->cmd);
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (ft_substr(str, 0, i));
+		i++;
+	}
+	return (ft_strdup(str));
 }

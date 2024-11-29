@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/28 02:59:59 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 03:06:40 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@
 
 # define DQUOTE '"'
 # define SQUOTE '\''
-
-extern int			g_globale;
 
 typedef enum s_sign
 {
@@ -73,7 +71,7 @@ typedef struct s_exec
 	char			**env;
 	int				fd_tmp;
 	int				fd_pipe[2];
-	int pid[1024]; // reverifie si c'est ok 1024 en brut ou pas
+	int				pid[1024];
 	int				nb_cmd;
 	enum s_sign		type;
 }					t_exec;
@@ -104,6 +102,8 @@ typedef struct s_heredoc
 
 typedef struct s_stock
 {
+	int				nb_pipe;
+	int				nb_g;
 	int				nb_hd;
 	int				exit_status;
 	int				fd_std[2];
@@ -119,27 +119,29 @@ typedef struct s_stock
 	t_heredoc		*heredoc;
 }					t_stock;
 
+extern int			g_globale;
+
 int					do_redir(t_cmd *cmd, int i, t_heredoc *here);
 void				print_args(t_cmd *cmd);
-void				stock_cmd_lst(t_stock *stock);
 //QUOTES
 int					ft_quotes(char *str);
 char				*delete_quote(char *str);
 //GUILLEMETS
 // int					ft_double_quotes(char str);
-int					syntax_error(char *input);
+int					syntax_error(t_stock *stock, char *input);
 //GREATER
-int					ft_greater_right(char *str);
-int					s_loop_right(char *str, int *i, int nb_greater, int word);
-int					ft_greater_left(char *str);
-int					s_loop_left(char *str, int *i, int nb_greater, int word);
-int					ft_double_greater_right(char *str);
-int					d_loop_right(char *str, int *i, int nb_greater, int word);
-int					ft_double_greater_left(char *str);
-int					d_loop_left(char *str, int *i, int nb_greater, int word);
+int					ft_greater_right(t_stock *stock, char *str);
+int					s_loop_right(t_stock *stock, char *str, int *i, int word);
+int					ft_greater_left(t_stock *stock, char *str);
+int					s_loop_left(t_stock *stock, char *str, int *i, int word);
+int					ft_double_greater_right(t_stock *stock, char *str);
+int					d_loop_right(t_stock *stock, char *str, int *i, int word);
+int					ft_double_greater_left(t_stock *stock, char *str);
+int					d_loop_left(t_stock *stock, char *str, int *i, int word);
+int					special_technick(t_stock *stock, char *str);
 //PIPE
-int					loop_pipe(char *str, int *i, int nb_pipe, int word);
-int					ft_pipe(char *str);
+int					loop_pipe(t_stock *stock, char *str, int *i, int word);
+int					ft_pipe(t_stock *stock, char *str);
 //LST_UTILS
 int					ft_lstsize(t_list *list);
 t_list				*ft_lstnew(int value);
@@ -185,7 +187,7 @@ void				print_lst_envp(t_stock *stock);
 void				free_envp(t_envp **env);
 void				ft_free_envp_list(t_envp **envp);
 void				free_tab(char **tab);
-void				free_heredoc(t_heredoc *heredoc);
+void				free_heredoc(t_heredoc *heredoc, t_stock *stock);
 //BUILTINS
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
@@ -194,7 +196,6 @@ int					print_echo(t_stock *stock, char **cmd, int start);
 int					arg_len(char **array);
 int					pwd(char **cmd);
 int					builtins(t_stock *stock, char **cmd, t_envp **envp);
-int					builtins_fork(t_stock *stock, char **cmd, t_envp **envp);
 int					ft_cd(char **cmd, t_envp **envp);
 char				*find_env_var(t_envp *envp);
 int					check_args_cd(char **cmd);
@@ -204,12 +205,13 @@ void				unset_loop(char **cmd, t_envp *envp);
 int					add_to_env(char *key, char *value, t_envp **envp);
 int					export(char **cmd, t_envp **envp);
 int					ft_exit(t_stock *stock, char **cmd);
-int					ft_exit_fork(t_stock *stock, char **cmd);
 int					check_atoi_exit(t_stock *stock, char **cmd);
 int					ft_atoi_exit(char *str);
 int					nb_args_exit(char **cmd);
 int					check_builtins(char **cmd);
 char				**tok_to_tab(t_token *token);
+char				*get_key_export(char *str);
+int					printf_exit(t_stock *stock, char *str, int code);
 // PARSE
 int					nbr_malloc_word_cmd(t_token *token, int pipe);
 int					stock_args_cmd(t_stock *stock, int pipe, t_cmd *new);
@@ -218,14 +220,17 @@ void				ft_lstadd_back_cmd(t_cmd **cmd, t_cmd *new);
 int					nb_cmd(t_token *token);
 void				print_args(t_cmd *cmd);
 void				stock_cmd_lst(t_stock *stock);
-// int					stock_heredoc_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_heredoc_cmd(t_stock *stock, int pipe, t_cmd *new);
 int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
+t_token				*index_token(t_token *token, int pipe);
 void				free_cmd(t_cmd **cmd);
+t_redir				*new_func_with_bilel(t_token *tok, int i);
+t_redir				*ft_lstnew_redir(char *str, int type);
+void				ft_lstadd_back_redir(t_redir **redir, t_redir *new);
+int					bon_heredoc(t_heredoc *here, char *file);
 //EXEC
-// void				env(t_envp *envp);
 char				*chr_path(t_stock *stock, t_envp *envp);
 char				*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp);
 int					ft_exec(t_stock *stock);
@@ -241,6 +246,11 @@ int					redir_infile(t_stock *stock, int nb_cmd);
 int					redir_outfile(t_stock *stock, int nb_cmd);
 int					redir_appendfile(t_stock *stock, int nb_cmd);
 void				close_fds(t_stock *stock);
+void				analys_finish_process(t_stock *stock, int *i);
+void				finish_exec(t_stock *stock, int i);
+int					ft_child(t_stock *stock, int i);
+void				free_all(t_stock *stock);
+int					is_directory(const char *path);
 //SIGNAUX
 t_stock				*starton(void);
 void				ft_gestion(int signum);
@@ -256,19 +266,21 @@ int					ft_heredoc(t_stock *stock);
 void				exec_heredoc(t_stock *stock, int *i);
 int					prompt_heredoc(t_stock *stock, char *lim, int pipe);
 void				close_heredoc_child(t_stock *stock);
+int					ft_exit_fork(t_stock *stock, char **cmd);
+int					builtins_fork(t_stock *stock, char **cmd, t_envp **envp);
 
 #endif
 
-#define RESET "\033[0m"
+// #define RESET "\033[0m"
 
-#define BLACK "\033[30m"
-#define RED "\033[31m"
-#define GREEN "\033[32m"
-#define YELLOW "\033[33m"
-#define BLUE "\033[34m"
-#define MAGENTA "\033[35m"
-#define CYAN "\033[36m"
-#define WHITE "\033[37m"
+// #define BLACK "\033[30m"
+// #define RED "\033[31m"
+// #define GREEN "\033[32m"
+// #define YELLOW "\033[33m"
+// #define BLUE "\033[34m"
+// #define MAGENTA "\033[35m"
+// #define CYAN "\033[36m"
+// #define WHITE "\033[37m"
 
 // #define BBLACK "\033[40m"
 // #define BRED "\033[41m"

@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:34:19 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/28 02:59:02 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 02:14:10 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,18 @@ int	ft_exit_fork(t_stock *stock, char **cmd)
 
 	nb_args = nb_args_exit(cmd);
 	if (nb_args == 0)
-	{	
+	{
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
-		//free_cmd(&stock->cmd);
-		//close_fds(stock);
 	}
 	if (nb_args == 1)
 	{
 		stock->exit_status = ft_atoi_exit(cmd[1]);
-		// printf("avant exit %d\n", stock->exit_status);
 		check_atoi_exit(stock, cmd);
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
-		// free_cmd(&stock->cmd);
-		// free_tab(stock->cmd->args);
-		// close_fds(stock);
 		exit(stock->exit_status);
 	}
 	if (nb_args >= 2)
@@ -64,24 +58,18 @@ int	ft_exit(t_stock *stock, char **cmd)
 
 	nb_args = nb_args_exit(cmd);
 	if (nb_args == 0)
-	{	
+	{
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
-		//free_cmd(&stock->cmd);
-		//close_fds(stock);
 	}
 	if (nb_args == 1)
 	{
 		stock->exit_status = ft_atoi_exit(cmd[1]);
-		// printf("avant exit %d\n", stock->exit_status);
 		check_atoi_exit(stock, cmd);
 		free_exec(stock);
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
-		// free_cmd(&stock->cmd);
-		// free_tab(stock->cmd->args);
-		// close_fds(stock);
 		exit(stock->exit_status);
 	}
 	if (nb_args >= 2)
@@ -92,4 +80,10 @@ int	ft_exit(t_stock *stock, char **cmd)
 	printf("exit\n");
 	exit(0);
 }
-// int exit_fork(t_stock)
+
+int	printf_exit(t_stock *stock, char *str, int code)
+{
+	printf("%s", str);
+	stock->exit_status = code;
+	return (1);
+}

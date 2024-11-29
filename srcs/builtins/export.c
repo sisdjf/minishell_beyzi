@@ -6,44 +6,11 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:58:44 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/28 16:28:53 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 02:12:23 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	print_export(t_envp *envp)
-{
-	t_envp	*tmp;
-
-	tmp = envp;
-	while (tmp)
-	{
-		if (!(tmp->value))
-		{
-			printf("export %s\n", tmp->key);
-		}
-		else
-		{
-			printf("export %s=\"%s\"\n", tmp->key, tmp->value);
-		}
-		tmp = tmp->next;
-	}
-}
-
-char	*get_key_export(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (ft_substr(str, 0, i));
-		i++;
-	}
-	return (ft_strdup(str));
-}
 
 char	*get_value_export(char *str)
 {
@@ -72,9 +39,10 @@ int	check_export(char *key)
 		if (ft_isalnum(key[i]) || key[i] == '_')
 			i++;
 		else
-			return (ft_printf("bash: export:`%s': not a valid idetifier\n",
-					key),
-				1);
+		{
+			ft_printf("bash: export:`%s': not a valid idetifier\n", key);
+			return (1);
+		}
 	}
 	return (0);
 }

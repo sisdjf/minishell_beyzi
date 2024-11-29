@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/28 03:31:10 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/29 02:00:05 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,22 +80,6 @@ int	find_real_nb_cmd(t_token *tok)
 			tmp = tmp->next;
 	}
 	return (nb_malloc);
-}
-
-int	find_nb_hdoc(t_token *tok)
-{
-	t_token	*tmp;
-	int		nb_hdoc;
-
-	tmp = tok;
-	nb_hdoc = 0;
-	while (tmp)
-	{
-		if (tmp->type == HERDOC)
-			nb_hdoc++;
-		tmp = tmp->next;
-	}
-	return (nb_hdoc);
 }
 
 void	stock_cmd_lst(t_stock *stock)
