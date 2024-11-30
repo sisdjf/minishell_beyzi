@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/30 01:38:02 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 20:42:09 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@ void	init_child(t_stock *stock, int i)
 {
 	if (init_struct_exec(stock, i))
 	{
-		do_redir(stock->cmd, i, stock->heredoc);
+		do_redir(stock->cmd, i);
 		free_init_child(stock);
 		close(stock->exec.fd_pipe[0]);
 		close(stock->exec.fd_pipe[1]);
 		exit(0);
 	}
 	pipe_redir(stock, i);
-	if (do_redir(stock->cmd, i, stock->heredoc) == 1)
+	if (do_redir(stock->cmd, i) == 1)
 	{
 		free_child(stock);
-		free_heredoc(stock->heredoc, stock);
 		exit(EXIT_FAILURE);
 	}
 	if (check_builtins(stock->exec.cmd_tab))
@@ -86,7 +85,6 @@ void	ft_child(t_stock *stock, int i)
 		}
 		stock->exit_status = 0;
 		free_child(stock);
-		free_heredoc(stock->heredoc, stock);
 		close(stock->exec.fd_pipe[0]);
 		close(stock->exec.fd_pipe[1]);
 		exit(0);
@@ -138,6 +136,5 @@ int	ft_exec(t_stock *stock)
 		close(stock->exec.fd_pipe[0]);
 	}
 	analys_finish_process(stock);
-	close_heredoc_child(stock);
 	return (stock->exit_status);
 }

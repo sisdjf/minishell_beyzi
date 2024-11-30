@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/30 02:03:58 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 21:46:32 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	one_builtins(t_stock *stock, char **input)
 	stock->fd_std[0] = dup(STDIN_FILENO);
 	stock->fd_std[1] = dup(STDOUT_FILENO);
 	init_struct_exec(stock, 0);
-	if (do_redir(stock->cmd, 0, stock->heredoc))
+	if (do_redir(stock->cmd, 0))
 	{
 		free_exec(stock);
 		free_tokens(&stock->token);
@@ -36,27 +36,19 @@ int	one_builtins(t_stock *stock, char **input)
 	return (0);
 }
 
-int	handle_heredoc(t_stock *stock)
-{
-	if (stock->nb_hd > 0)
-	{
-		if (ft_heredoc(stock) == 1)
-		{
-			free_tokens(&stock->token);
-			return (1);
-		}
-		free_tokens(&stock->token);
-	}
-	return (0);
-}
-
 int	finish_prompt(t_stock *stock, char *input)
 {
 	input = ft_positif(input);
 	ft_expand(stock, stock->token);
-	stock_cmd_lst(stock);
-	if (handle_heredoc(stock))
+	if (stock_cmd_lst(stock) == 1)
+	{
+		if (g_globale != 0)
+		{
+			stock->exit_status = g_globale;
+			g_globale = 0;
+		}
 		return (1);
+	}
 	disable_signals();
 	if (stock->exec.nb_cmd == 1 && check_builtins(stock->cmd->args) == 1)
 	{
@@ -68,6 +60,18 @@ int	finish_prompt(t_stock *stock, char *input)
 	return (0);
 }
 
+int	ft_globale(t_stock *stock, char *input)
+{
+	if (g_globale != 0)
+	{
+		stock->exit_status = g_globale;
+		g_globale = 0;
+		free(input);
+		return (1);
+	}
+	return (0);
+}
+
 static int	ft_prompt(t_stock *stock, char *input)
 {
 	while (1)
@@ -75,10 +79,10 @@ static int	ft_prompt(t_stock *stock, char *input)
 		handle_signal();
 		init_stock(stock);
 		input = readline("minishell$ ");
+		if (ft_globale(stock, input))
+			continue ;
 		if (!input)
-		{
-			return (1);
-		}
+			return (ft_putendl_fd("exit", 2), 1);
 		if (!*input)
 			continue ;
 		add_history(input);
@@ -86,11 +90,9 @@ static int	ft_prompt(t_stock *stock, char *input)
 			continue ;
 		ft_negatif(input);
 		if (ft_token(stock, input) != 0)
-		{
-			free(input);
-			free(stock);
-			return (1);
-		}
+			return (free(input), free(stock), (1));
+		if (stock == NULL)
+			continue ;
 		finish_prompt(stock, input);
 		cleanup_execution(stock, &input);
 	}
@@ -101,6 +103,10 @@ int	main(int argc, char **argv, char **env)
 {
 	t_stock	*stock;
 
+	if (isatty(STDIN_FILENO) == 0)
+	{
+		return (1);
+	}
 	stock = starton();
 	stock->exit_status = 0;
 	(void)argc;

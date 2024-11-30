@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 01:46:33 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 02:05:56 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 22:10:23 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*index_token(t_token *token, int pipe)
 	return (tmp);
 }
 
-t_redir	*new_func_with_bilel(t_token *tok, int i)
+int	new_func_with_bilel(t_token *tok, int i, t_cmd *new)
 {
 	int		compteur;
 	t_redir	*head;
@@ -44,47 +44,12 @@ t_redir	*new_func_with_bilel(t_token *tok, int i)
 			|| tmp->type == REDIR_R || tmp->type == REDIR_L)
 		{
 			new_node = ft_lstnew_redir(tmp->next->name, tmp->type);
-			if (new_node)
-				ft_lstadd_back_redir(&head, new_node);
+			if (new_node == NULL)
+				return (1);
+			ft_lstadd_back_redir(&head, new_node);
 		}
 		tmp = tmp->next;
 	}
-	return (head);
-}
-
-int	bon_heredoc(t_heredoc *here, char *file)
-{
-	int	i;
-
-	i = 0;
-	while (i < here->totalsize)
-	{
-		if (ft_strcmp(file, here[i].lim) == 0)
-			return (here[i].fd_heredoc[0]);
-		i++;
-	}
-	return (-1);
-}
-
-int	fd_filename(t_cmd *cmd, t_heredoc *here)
-{
-	int		fd;
-	t_redir	*tmp;
-
-	tmp = cmd->redir;
-	while (tmp)
-	{
-		if (tmp->type == REDIR_R)
-			fd = open(tmp->filename, O_CREAT | O_RDWR | O_TRUNC, 0666);
-		else if (tmp->type == D_REDIR_R)
-			fd = open(tmp->filename, O_CREAT | O_RDWR | O_APPEND, 0666);
-		else if (tmp->type == REDIR_L)
-			fd = open(tmp->filename, O_RDONLY);
-		else if (tmp->type == HERDOC)
-			fd = bon_heredoc(here, tmp->filename);
-		if (fd == -1)
-			return (-1);
-		tmp = tmp->next;
-	}
-	return (fd);
+	new->redir = head;
+	return (0);
 }

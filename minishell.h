@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:17:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 23:53:59 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 22:05:13 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_redir
 {
 	char			*filename;
 	t_sign			type;
+	char			**heredoc_content;
 	int				heredoc_fd[2];
 	struct s_redir	*next;
 }					t_redir;
@@ -108,7 +109,6 @@ typedef struct s_stock
 {
 	int				nb_pipe;
 	int				nb_g;
-	int				nb_hd;
 	int				exit_status;
 	int				fd_std[2];
 	int				fd_out;
@@ -120,12 +120,11 @@ typedef struct s_stock
 	t_envp			*envp;
 	t_exec			exec;
 	t_cmd			*cmd;
-	t_heredoc		*heredoc;
 }					t_stock;
 
 extern int			g_globale;
 
-int					do_redir(t_cmd *cmd, int i, t_heredoc *here);
+int					do_redir(t_cmd *cmd, int i);
 void				print_args(t_cmd *cmd);
 //QUOTES
 int					ft_quotes(char *str);
@@ -194,6 +193,7 @@ void				ft_free_envp_list(t_envp **envp);
 void				free_tab(char **tab);
 void				free_heredoc(t_heredoc *heredoc, t_stock *stock);
 void				free_init_child(t_stock *stock);
+void				free_redir(t_redir **redir);
 //BUILTINS
 int					check_n_option(char **cmd);
 void				env(t_envp *envp);
@@ -225,14 +225,14 @@ t_cmd				*ft_lstnew_cmd(t_stock *stock, int pipe);
 void				ft_lstadd_back_cmd(t_cmd **cmd, t_cmd *new);
 int					nb_cmd(t_token *token);
 void				print_args(t_cmd *cmd);
-void				stock_cmd_lst(t_stock *stock);
+int					stock_cmd_lst(t_stock *stock);
 int					stock_heredoc_cmd(t_stock *stock, int pipe, t_cmd *new);
 int					stock_outfile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_infile_cmd(t_token *token, int pipe, t_cmd *new);
 int					stock_appendfile_cmd(t_token *token, int pipe, t_cmd *new);
 t_token				*index_token(t_token *token, int pipe);
 void				free_cmd(t_cmd **cmd);
-t_redir				*new_func_with_bilel(t_token *tok, int i);
+int					new_func_with_bilel(t_token *tok, int i, t_cmd *new);
 t_redir				*ft_lstnew_redir(char *str, int type);
 void				ft_lstadd_back_redir(t_redir **redir, t_redir *new);
 int					bon_heredoc(t_heredoc *here, char *file);
@@ -274,7 +274,7 @@ int					ft_error(int fd, char *str);
 void				init_heredoc(t_stock *stock, t_heredoc *heredoc);
 int					ft_heredoc(t_stock *stock);
 void				exec_heredoc(t_stock *stock, int *i);
-int					prompt_heredoc(t_stock *stock, char *lim, int pipe);
+int					prompt_heredoc1(t_redir *new);
 void				close_heredoc_child(t_stock *stock);
 int					ft_exit_fork(t_stock *stock, char **cmd);
 int					builtins_fork(t_stock *stock, char **cmd, t_envp **envp);

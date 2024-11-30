@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 23:05:27 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/30 01:16:52 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 21:46:09 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*delete_quote(char *str)
 	int		c;
 
 	new = ft_calloc(sizeof(char), (ft_strlen(str) + 1));
-	if(!new)
+	if (!new)
 		return (NULL);
 	i = 0;
 	n = 0;

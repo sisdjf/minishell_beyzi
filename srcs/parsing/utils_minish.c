@@ -6,13 +6,13 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:55:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/30 02:01:35 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 22:14:35 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		g_globale;
+int	g_globale;
 
 t_stock	*starton(void)
 {
@@ -39,7 +39,6 @@ void	ft_gestion(int signum)
 		free_tokens(&stock->token);
 		ft_free_envp_list(&stock->envp);
 		free_cmd(&stock->cmd);
-		free_heredoc(stock->heredoc, stock);
 	}
 }
 

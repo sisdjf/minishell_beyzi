@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:10:10 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 22:50:39 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 19:19:47 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	free_redir(t_redir **redir)
 	while (*redir)
 	{
 		tmp = (*redir)->next;
+		if ((*redir)->type == HERDOC)
+			free_tab((*redir)->heredoc_content);
 		if ((*redir)->filename)
 		{
 			free((*redir)->filename);

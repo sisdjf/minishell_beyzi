@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:27:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 02:23:52 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 21:58:07 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ t_redir	*ft_lstnew_redir(char *str, int type)
 		return (NULL);
 	new->filename = ft_strdup(str);
 	new->type = type;
+	new->heredoc_content = NULL;
+	if (type == HERDOC)
+	{
+		if (prompt_heredoc1(new) == 1)
+			return (free(new->filename), free(new), NULL);
+	}
 	new->next = NULL;
 	return (new);
 }
@@ -122,6 +128,7 @@ int	stock_args_cmd(t_stock *stock, int pipe, t_cmd *new)
 		tmp = tmp->next;
 	}
 	new->args[i] = NULL;
-	new->redir = new_func_with_bilel(stock->token, pipe);
+	if (new_func_with_bilel(stock->token, pipe, new) == 1)
+		return (free_tab(new->args), 1);
 	return (0);
 }

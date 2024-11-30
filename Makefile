@@ -4,7 +4,7 @@ CC      = cc
 
 CFLAGS  = -Wall -Wextra -Werror -g3 
 
-RM      = rm -f
+RM      = rm -rf
 
 LIBFT          = libft
 
@@ -48,22 +48,6 @@ $(DIR_OBJS):
 	mkdir -p objs/parsing
 	mkdir -p objs/builtins
 	mkdir -p objs/exec
-
-
-leaks : fclean all
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt --quiet ./minishell
-
-# leaks : all 
-# 	 valgrind --leak-check=full \
-#          --show-leak-kinds=all \
-#          --track-fds=yes \
-#          --track-origins=yes \
-#          --suppressions=ignore.txt \
-#          --quiet \
-#          --verbose \
-#          --malloc-fill=0xAA \
-#          --free-fill=0xBB \
-#          ./minishell
 
 
 clean :

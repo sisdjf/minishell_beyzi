@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 00:03:13 by lybey             #+#    #+#             */
-/*   Updated: 2024/11/29 02:00:05 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 20:48:14 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ t_cmd	*ft_lstnew_cmd(t_stock *stock, int pipe)
 	if (!new)
 		return (NULL);
 	new->redir = NULL;
-	stock_args_cmd(stock, pipe, new);
+	if (stock_args_cmd(stock, pipe, new) == 1)
+	{
+		return (free(new), NULL);
+	}
 	new->next = NULL;
 	return (new);
 }
@@ -82,7 +85,7 @@ int	find_real_nb_cmd(t_token *tok)
 	return (nb_malloc);
 }
 
-void	stock_cmd_lst(t_stock *stock)
+int	stock_cmd_lst(t_stock *stock)
 {
 	t_stock	*tmp;
 	t_cmd	*new_node;
@@ -95,12 +98,14 @@ void	stock_cmd_lst(t_stock *stock)
 	while (compteur < cmds)
 	{
 		new_node = ft_lstnew_cmd(tmp, compteur);
-		if (new_node)
+		if (new_node == NULL)
 		{
-			ft_lstadd_back_cmd(&stock->cmd, new_node);
+			free_cmd(&stock->cmd);
+			return (1);
 		}
+		ft_lstadd_back_cmd(&stock->cmd, new_node);
 		compteur++;
 	}
 	stock->exec.nb_cmd = nb_cmd(stock->token);
-	stock->nb_hd = find_nb_hdoc(stock->token);
+	return (0);
 }

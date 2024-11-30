@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:39:58 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 23:43:32 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 22:20:41 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,4 @@ void	free_init_child(t_stock *stock)
 	free_tokens(&stock->token);
 	ft_free_envp_list(&stock->envp);
 	free_cmd(&stock->cmd);
-	free_heredoc(stock->heredoc, stock);
 }

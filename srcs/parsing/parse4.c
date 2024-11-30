@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 01:55:56 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 23:29:20 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 22:10:52 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,24 @@ int	find_nb_hdoc(t_token *tok)
 	return (nb_hdoc);
 }
 
-int	fd_redir(t_redir *tmp, t_heredoc *here)
+int	bon_heredoc1(t_redir *tmp)
+{
+	int	fd[2];
+	int	i;
+
+	i = 0;
+	if (pipe(fd) == -1)
+		return (-1);
+	while (tmp->heredoc_content && tmp->heredoc_content[i])
+	{
+		ft_putendl_fd(tmp->heredoc_content[i], fd[1]);
+		i++;
+	}
+	close(fd[1]);
+	return (fd[0]);
+}
+
+int	fd_redir(t_redir *tmp)
 {
 	int	fd;
 
@@ -39,7 +56,7 @@ int	fd_redir(t_redir *tmp, t_heredoc *here)
 	else if (tmp->type == REDIR_L)
 		fd = open(tmp->filename, O_RDONLY);
 	else if (tmp->type == HERDOC)
-		fd = bon_heredoc(here, tmp->filename);
+		fd = bon_heredoc1(tmp);
 	else
 		return (-1);
 	if (fd == -1)
@@ -48,12 +65,11 @@ int	fd_redir(t_redir *tmp, t_heredoc *here)
 		dup2(fd, STDOUT_FILENO);
 	else if (tmp->type == HERDOC || tmp->type == REDIR_L)
 		dup2(fd, STDIN_FILENO);
-	if (tmp->type != HERDOC)
-		close(fd);
+	close(fd);
 	return (0);
 }
 
-int	do_redir(t_cmd *cmd, int i, t_heredoc *here)
+int	do_redir(t_cmd *cmd, int i)
 {
 	t_redir	*tmp;
 	t_cmd	*tmp_cmd;
@@ -71,7 +87,7 @@ int	do_redir(t_cmd *cmd, int i, t_heredoc *here)
 		return (0);
 	while (tmp)
 	{
-		if (fd_redir(tmp, here) == -1)
+		if (fd_redir(tmp) == -1)
 		{
 			ft_error(-1, tmp->filename);
 			return (1);
