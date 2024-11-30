@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 02:17:43 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 23:53:28 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 16:08:32 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,10 @@ char	*path_from_cmd(t_exec *exec)
 {
 	if (ft_strchr(exec->cmd, '/'))
 	{
-		if (access(exec->cmd, F_OK | X_OK) != 0)
-			return (ft_printf("bash: %s: Command not found\n", exec->cmd),
-				ft_strdup(exec->cmd));
-		return (ft_strdup(exec->cmd));
+		if (access(exec->cmd, F_OK | X_OK) == 0)
+			return(ft_strdup(exec->cmd));
 	}
+	// ft_printf("bash: %s: Command not found\n", exec->cmd);
 	return (NULL);
 }
 
@@ -59,6 +58,8 @@ char	*path_to_cmd(t_stock *stock, t_exec *exec, t_envp *envp)
 	char	*tmp;
 
 	cmd_path = path_from_cmd(exec);
+	if(cmd_path)
+		return(cmd_path);
 	exec->path = chr_path(stock, envp);
 	i = -1;
 	if (!exec->path)
