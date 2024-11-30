@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:55:17 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 23:54:29 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 02:01:35 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int		g_globale;
 
 t_stock	*starton(void)
 {
-	static t_stock	stock;
+	static t_stock	stock = {0};
 
-	ft_bzero(&stock, sizeof(t_stock));
 	return (&stock);
 }
 

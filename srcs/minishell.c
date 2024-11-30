@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:20:22 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 23:57:24 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 02:03:58 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ static int	ft_prompt(t_stock *stock, char *input)
 		init_stock(stock);
 		input = readline("minishell$ ");
 		if (!input)
+		{
 			return (1);
+		}
 		if (!*input)
 			continue ;
 		add_history(input);

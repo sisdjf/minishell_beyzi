@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:56:16 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/30 00:03:42 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 01:38:02 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ void	ft_child(t_stock *stock, int i)
 			else
 				ft_printf("bash: %s: command not found\n", stock->exec.cmd);
 			stock->exit_status = 127;
-			// free_child(stock);
-			free_cmd(&stock->cmd);
+			free_child(stock);
 			close(stock->exec.fd_pipe[0]);
 			close(stock->exec.fd_pipe[1]);
 			exit(127);

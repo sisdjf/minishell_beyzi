@@ -6,7 +6,7 @@
 /*   By: sizitout <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 01:07:48 by sizitout          #+#    #+#             */
-/*   Updated: 2024/11/29 23:00:28 by sizitout         ###   ########.fr       */
+/*   Updated: 2024/11/30 02:05:57 by sizitout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	init_heredoc(t_stock *stock, t_heredoc *heredoc)
 			heredoc[i].lim = ft_strdup(tmp->next->name);
 			pipe(heredoc[i].fd_heredoc);
 			i++;
-			printf("[%s]\n", heredoc[i].lim);
 		}
 		tmp = tmp->next;
 	}
